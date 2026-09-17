@@ -110,18 +110,25 @@ export function App(): JSX.Element {
         <main className="column column--center">
           <Header title={title} subtitle={subtitle} />
 
-          {view === 'home' ? <FeedScreen mode="home" /> : null}
-          {view === 'breaking' ? <FeedScreen mode="breaking" /> : null}
-          {view === 'bookmarks' ? <FeedScreen mode="bookmarks" /> : null}
-          {view === 'radar' ? <RadarScreen /> : null}
-          {view === 'following' ? <FollowingScreen /> : null}
-          {view === 'explore' ? <ExploreScreen /> : null}
-          {view === 'search' ? <SearchScreen /> : null}
-          {view === 'alerts' ? <AlertsScreen /> : null}
-          {view === 'lists' ? <ListsScreen /> : null}
-          {view === 'sources' ? <SourcesScreen /> : null}
-          {view === 'settings' ? <SettingsScreen /> : null}
-          {view === 'item' ? <ItemScreen /> : null}
+          {/*
+            La vista es lo unico que se desplaza. La cabecera y el pie del
+            archivo se quedan fijos arriba y abajo de la columna, asi que nada
+            queda tapado y la rueda siempre hace lo que se espera.
+          */}
+          <div className="view">
+            {view === 'home' ? <FeedScreen mode="home" /> : null}
+            {view === 'breaking' ? <FeedScreen mode="breaking" /> : null}
+            {view === 'bookmarks' ? <FeedScreen mode="bookmarks" /> : null}
+            {view === 'radar' ? <RadarScreen /> : null}
+            {view === 'following' ? <FollowingScreen /> : null}
+            {view === 'explore' ? <ExploreScreen /> : null}
+            {view === 'search' ? <SearchScreen /> : null}
+            {view === 'alerts' ? <AlertsScreen /> : null}
+            {view === 'lists' ? <ListsScreen /> : null}
+            {view === 'sources' ? <SourcesScreen /> : null}
+            {view === 'settings' ? <SettingsScreen /> : null}
+            {view === 'item' ? <ItemScreen /> : null}
+          </div>
 
           <footer className="column__foot">
             <span>
