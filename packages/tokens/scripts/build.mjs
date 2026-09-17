@@ -136,10 +136,19 @@ for (const [name, platform] of Object.entries(tokens.platforms)) {
 
 // Sin elección explícita de tema, seguimos al sistema también con plataforma
 // fijada: así la primera pintura no destella en blanco.
+//
+// Hacen falta las dos ramas (clara y oscura): si solo se emitiera la clara, en
+// un sistema en modo oscuro el tema de plataforma se quedaría sin sus colores y
+// la app caería en silencio al tema base, que no es el de ese sistema.
 for (const [name, platform] of Object.entries(tokens.platforms)) {
-  const pairs = flatten(platform.light ?? {}, 'color')
-  if (pairs.length === 0) continue
-  css += `\n@media (prefers-color-scheme: light) {\n  [data-platform='${name}']:not([data-theme]) {\n${block(pairs, '    ')}\n  }\n}\n`
+  const claros = flatten(platform.light ?? {}, 'color')
+  if (claros.length > 0) {
+    css += `\n@media (prefers-color-scheme: light) {\n  [data-platform='${name}']:not([data-theme]) {\n${block(claros, '    ')}\n  }\n}\n`
+  }
+  const oscuros = flatten(platform.dark ?? {}, 'color')
+  if (oscuros.length > 0) {
+    css += `\n@media (prefers-color-scheme: dark) {\n  [data-platform='${name}']:not([data-theme]) {\n${block(oscuros, '    ')}\n  }\n}\n`
+  }
 }
 
 function bodyColors(name) {
