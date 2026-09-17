@@ -218,6 +218,7 @@ strong,
   top: 0;
   max-height: 100dvh;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: var(--space-4) var(--space-5) var(--space-10);
   display: flex;
   flex-direction: column;
@@ -316,7 +317,16 @@ strong,
   gap: var(--space-4);
   padding: var(--space-4) var(--space-3) var(--space-6);
   min-height: 100dvh;
+  max-height: 100dvh;
+  overflow-y: auto;
+  overflow-x: hidden;
   border-right: var(--border-hairline) solid var(--color-border);
+}
+
+/* Igual que en el rail: en un flex en columna con altura máxima los hijos se
+   aplastan en vez de desplazarse, y el pie (Salud del archivo) desaparecía. */
+.sidebar > * {
+  flex: 0 0 auto;
 }
 
 .brand {
@@ -356,6 +366,14 @@ strong,
   color: var(--color-text-faint);
   letter-spacing: var(--tracking-wide);
   text-transform: lowercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Sin esto el lema fuerza el ancho del lateral y aparece scroll horizontal. */
+.brand > .stack {
+  min-width: 0;
 }
 
 .nav {
@@ -380,7 +398,7 @@ strong,
   gap: var(--space-3);
   width: 100%;
   padding: var(--space-3) var(--space-3);
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-md);
   color: var(--color-text-muted);
   font-size: var(--text-md);
   font-weight: var(--weight-medium);
@@ -812,7 +830,7 @@ strong,
 .post__body {
   font-size: var(--text-base);
   color: var(--color-text-muted);
-  line-height: var(--leading-relaxed);
+  line-height: var(--leading-normal);
   overflow-wrap: anywhere;
 }
 
@@ -1169,6 +1187,13 @@ strong,
 
 .rail-trend__spark {
   grid-column: 1 / -1;
+}
+
+/* Cuando la fila lleva avatar (la lista de Guardados) la rejilla del rail no
+   sirve: el avatar se quedaba en la columna del título y el texto encima. */
+.rail-trend:has(.avatar) {
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
 }
 
 .rail-foot {
@@ -2153,6 +2178,62 @@ canvas {
 /* Aviso en texto (errores de proveedores, por ejemplo). */
 .warn-text {
   color: var(--color-warning);
+}
+
+/* ── las maneras de cada sistema ──────────────────────────────────────── */
+/* El color del tema ya venía de los tokens; aquí van las formas: Windows
+   aprieta las filas y corta las esquinas, macOS las redondea y respira, Linux
+   se queda en medio con filos marcados. Así el tema no solo cambia de color. */
+
+.header > .live,
+.header .icon-btn,
+.header > .btn {
+  flex: none;
+}
+
+.header .search-field {
+  flex: 1 1 auto;
+  min-width: 7rem;
+  max-width: 13rem;
+}
+
+[data-platform='windows'] .nav__item {
+  padding: calc(var(--space-2) + 2px) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  gap: var(--space-2);
+}
+
+[data-platform='macos'] .nav__item {
+  padding: calc(var(--space-3) * 1.05) var(--space-3);
+  font-size: var(--text-sm);
+}
+
+[data-platform='linux'] .nav__item {
+  padding: calc(var(--space-3) * 0.9) var(--space-3);
+  font-size: var(--text-sm);
+}
+
+[data-platform='windows'] .sidebar {
+  gap: var(--space-3);
+}
+
+[data-platform='windows'] .btn,
+[data-platform='windows'] .chip,
+[data-platform='windows'] .tag,
+[data-platform='windows'] .search-field,
+[data-platform='windows'] .theme-card {
+  border-radius: var(--radius-sm);
+}
+
+[data-platform='windows'] .post__title,
+[data-platform='windows'] .trend__title {
+  font-size: var(--text-base);
+}
+
+[data-platform='macos'] .post__title,
+[data-platform='macos'] .trend__title {
+  letter-spacing: -0.015em;
 }
 
 /* ── adaptación a pantallas ───────────────────────────────────────────── */

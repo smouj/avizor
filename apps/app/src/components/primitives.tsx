@@ -198,7 +198,10 @@ export function Sparkline({
       aria-label={`Serie de ${values.length} intervalos`}
     >
       {values.map((value, index) => {
-        const barHeight = max <= 0 ? 1 : Math.max(1, (value / max) * height)
+        // Una serie plana (todo unos) no debe pintarse como un bloque macizo: se
+        // dibuja una línea base baja para que se lea "sin movimiento".
+        const flat = max <= 1
+        const barHeight = flat ? Math.max(1.5, height * 0.18) : Math.max(1, (value / max) * height)
         const tone = value >= average * 1.6 ? 'hot' : value >= average ? 'warm' : ''
         return (
           <rect

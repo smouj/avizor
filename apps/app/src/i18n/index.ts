@@ -62,7 +62,7 @@ export const es = {
   'nav.yours': 'Tuyo',
 
   'feed.title': 'Inicio',
-  'feed.subtitle': 'Lo que están diciendo las redes que sigues',
+  'feed.subtitle': 'Lo que dicen las redes',
   'feed.empty': 'Todavía no hay nada',
   'feed.emptyHint': 'Sondea las fuentes o revisa Fuentes para añadir más.',
   'feed.emptyReal': 'Las fuentes aún no han devuelto nada',
@@ -351,7 +351,7 @@ export const en: Record<MessageKey, string> = {
   'nav.yours': 'Yours',
 
   'feed.title': 'Home',
-  'feed.subtitle': 'What the networks you follow are saying',
+  'feed.subtitle': 'What your networks say',
   'feed.empty': 'Nothing here yet',
   'feed.emptyHint': 'Poll your sources or add more in Sources.',
   'feed.emptyReal': 'Your sources have not returned anything yet',
