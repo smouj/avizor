@@ -91,9 +91,15 @@ export type UiScaleChoice = 'auto' | number
 
 /** Sistema anfitrión, para acertar con el tema la primera vez. */
 function detectPlatform(): PlatformChoice {
-  const ua = (navigator.userAgent || '').toLowerCase()
-  if (ua.includes('mac os') || ua.includes('macintosh')) return 'macos'
-  if (ua.includes('windows')) return 'windows'
+  // `navigator.platform` y `userAgentData` son más fiables que el user agent
+  // completo, que algunos motores embebidos no rellenan igual.
+  const datos = (navigator as unknown as { userAgentData?: { platform?: string } }).userAgentData
+  const pistas = [datos?.platform, navigator.platform, navigator.userAgent]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase()
+  if (pistas.includes('mac')) return 'macos'
+  if (pistas.includes('win')) return 'windows'
   return 'linux'
 }
 
@@ -207,6 +213,8 @@ interface PersistedShape {
   session: SessionState
   theme: ThemeChoice
   platform: PlatformChoice
+  /** Si la plataforma la eligió el usuario a mano, no se redetecta al abrir. */
+  platformAuto?: boolean
   translation: TranslationSettings
   uiScale: UiScaleChoice
   lang: Language
@@ -257,6 +265,7 @@ interface LatidoState {
   view: ViewKey
   theme: ThemeChoice
   platform: PlatformChoice
+  platformAuto: boolean
   uiScale: UiScaleChoice
   lang: Language
   filters: Filters
@@ -358,6 +367,7 @@ export const useLatido = create<LatidoState>((set, get) => ({
   uiScale: 'auto',
   theme: 'system',
   platform: detectPlatform(),
+  platformAuto: true,
   lang: 'es',
   filters: defaultFilters,
   query: '',
@@ -592,7 +602,7 @@ export const useLatido = create<LatidoState>((set, get) => ({
   },
   setPlatform: (platform) => {
     applyPlatform(platform)
-    set({ platform })
+    set({ platform, platformAuto: false })
     scheduleSave(get)
   },
 
@@ -896,7 +906,12 @@ function buildQuery(filters: Filters, query: string): ItemQuery {
 function applyPersisted(parsed: Partial<PersistedShape>): void {
   const state = useLatido.getState()
   if (parsed.theme) state.theme = parsed.theme
-  if (parsed.platform) state.platform = parsed.platform
+  // La plataforma detectada no se queda pegada: si el usuario no la eligió a
+  // mano, se vuelve a mirar el sistema. Antes un arranque raro la dejaba fija
+  // en 'linux' y un PC con Windows acababa con el tema de GNOME.
+  state.platform =
+    parsed.platformAuto === false && parsed.platform ? parsed.platform : detectPlatform()
+  state.platformAuto = parsed.platformAuto === false
   if (parsed.uiScale !== undefined) state.uiScale = parsed.uiScale
   if (parsed.translation) state.translation = { ...state.translation, ...parsed.translation }
   if (parsed.lang) state.lang = parsed.lang
@@ -915,6 +930,7 @@ function applyPersisted(parsed: Partial<PersistedShape>): void {
   useLatido.setState({
     theme: state.theme,
     platform: state.platform,
+    platformAuto: state.platformAuto,
     uiScale: state.uiScale,
     translation: state.translation,
     lang: state.lang,
@@ -945,6 +961,7 @@ function buildPersisted(state: LatidoState): PersistedShape {
     session,
     theme: state.theme,
     platform: state.platform,
+    platformAuto: state.platformAuto,
     uiScale: state.uiScale,
     translation: state.translation,
     lang: state.lang,
