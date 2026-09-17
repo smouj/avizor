@@ -349,8 +349,10 @@ strong,
   width: 2.25rem;
   height: 2.25rem;
   border-radius: var(--radius-md);
-  background: var(--color-accent);
-  color: var(--color-accent-fg);
+  /* La marca se queda con el ascua aunque el acento del tema sea el del
+     sistema (azul de Windows, azul de macOS, azul de GNOME). */
+  background: var(--color-brand);
+  color: #ffffff;
   box-shadow: var(--shadow1);
   flex: none;
 }
@@ -590,7 +592,11 @@ strong,
   align-items: center;
   gap: var(--space-2);
   overflow-x: auto;
-  padding: var(--space-2) var(--space-4);
+  /* Los filtros comparten ancho y margenes con la lista, para que todo quede
+     encuadrado en la misma columna. Antes iban a sangre y su borde derecho
+     llegaba hasta la barra de scroll: se veia descuadrado. */
+  padding-block: var(--space-2);
+  padding-inline: max(var(--space-4), calc((100% - var(--layout-content)) / 2));
   border-bottom: var(--border-hairline) solid var(--color-border);
   scrollbar-width: none;
 }
@@ -2282,6 +2288,7 @@ body {
 
 .column--center {
   min-height: 0;
+  overflow: hidden;
 }
 
 .sidebar,
