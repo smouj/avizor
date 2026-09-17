@@ -151,7 +151,16 @@ export const TrendRailRow = memo(function TrendRailRow({
         )}
       </span>
       <span className="rail-trend__meta">
-        {compactNumber(trend.volume, lang)} · {trend.coverage} {lang === 'es' ? 'redes' : 'nets'}
+        {compactNumber(trend.volume, lang)}{' '}
+        {lang === 'es'
+          ? trend.volume === 1
+            ? 'publicación'
+            : 'publicaciones'
+          : trend.volume === 1
+            ? 'post'
+            : 'posts'}{' '}
+        · {trend.coverage}{' '}
+        {lang === 'es' ? (trend.coverage === 1 ? 'red' : 'redes') : trend.coverage === 1 ? 'net' : 'nets'}
       </span>
       <span className="rail-trend__spark">
         <Sparkline values={trend.sparkline} className="sparkline--rail" height={18} />

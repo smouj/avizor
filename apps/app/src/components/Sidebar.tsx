@@ -28,6 +28,8 @@ const YOURS: NavEntry[] = [
 export function Sidebar(): JSX.Element {
   const { t, view, setView, counts, openPalette } = useLatido()
 
+  const platform = useLatido((state) => state.platform)
+  const saved = useLatido((state) => state.bookmarkedIds.length)
   const unread = useLatido((state) => state.alerts.filter((event) => !event.read).length)
 
   return (
@@ -50,7 +52,7 @@ export function Sidebar(): JSX.Element {
       >
         <Icon name="command" size="sm" />
         {t('app.commandPalette')}
-        <span className="mono micro faint grow text-right">⌘K</span>
+        <span className="mono micro faint grow text-right">{platform === 'macos' ? '⌘K' : 'Ctrl K'}</span>
       </button>
 
       <div className="nav">
@@ -68,7 +70,7 @@ export function Sidebar(): JSX.Element {
             current={view}
             onSelect={setView}
             label={t(entry.labelKey)}
-            badge={entry.key === 'alerts' ? unread : entry.key === 'bookmarks' ? counts.items : undefined}
+            badge={entry.key === 'alerts' ? unread : entry.key === 'bookmarks' ? saved : undefined}
             badgeLabel={entry.key === 'alerts' ? String(unread) : undefined}
           />
         ))}
