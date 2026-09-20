@@ -39,6 +39,8 @@ jobs:
         run: pnpm -r typecheck
       - name: Tests del motor
         run: pnpm --filter @latido/engine test
+      - name: Tests de la capa social
+        run: pnpm --filter @latido/social test
       - name: Compilar la interfaz
         run: pnpm --filter @latido/app build
 
@@ -60,6 +62,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter @latido/tokens build
       - run: pnpm --filter @latido/engine test
+      - run: pnpm --filter @latido/social test
 
   desktop:
     name: Escritorio (Rust)
