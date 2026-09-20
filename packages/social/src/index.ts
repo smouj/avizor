@@ -33,7 +33,7 @@ export type {
   SocialTier,
   TargetStatus,
   TypedActionRequest,
-} from "./types";
+} from './types'
 
 export {
   NETWORKS,
@@ -42,7 +42,7 @@ export {
   networksByTier,
   socialSourcesWithAdapter,
   type NetworkDescriptor,
-} from "./networks";
+} from './networks'
 
 export {
   NO_INTERACTION,
@@ -55,7 +55,7 @@ export {
   readOnlyCapabilities,
   supports,
   unsupportedOperations,
-} from "./capabilities";
+} from './capabilities'
 
 export {
   canInteract,
@@ -70,7 +70,15 @@ export {
   sessionBlocksInteraction,
   sessionMessageKey,
   unavailableSession,
-} from "./session";
+} from './session'
+
+export {
+  sessionFromProbe,
+  summarizeProbe,
+  type ForgetReport,
+  type HostProbe,
+  type SessionProbe,
+} from './probe'
 
 export {
   allowedHostsFor,
@@ -79,7 +87,7 @@ export {
   hostMatchesDomain,
   isSafeExternalUrl,
   parseSafeUrl,
-} from "./urls";
+} from './urls'
 
 export {
   COMPOSE_CONSTRAINTS,
@@ -96,16 +104,16 @@ export {
   type ComposeReadiness,
   type ComposeReadinessStatus,
   type ComposeTarget,
-} from "./composer";
+} from './composer'
 
 export {
   ActionQueue,
   type ActionQueueOptions,
   type ActionSummary,
   type EnqueueInput,
-} from "./actions";
+} from './actions'
 
-export { ProviderRegistry, type InteractionProvider, type ProviderContext } from "./provider";
+export { ProviderRegistry, type InteractionProvider, type ProviderContext } from './provider'
 
 export {
   browserProfileIdFor,
@@ -115,4 +123,4 @@ export {
   type BrowserProfileRef,
   type OpenSessionRequest,
   type SessionCheckRequest,
-} from "./bridge";
+} from './bridge'

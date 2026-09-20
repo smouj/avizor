@@ -60,17 +60,45 @@ en las fuentes de las dependencias que ya están instaladas:
 Consecuencia de diseño: **un perfil por cuenta**, no un perfil compartido por
 red ni, mucho menos, el perfil del navegador del usuario.
 
-## Qué falta por implementar
+## Qué está implementado
 
-Este contrato está declarado y probado en su parte pura (hosts, URLs seguras,
-perfiles, estados de sesión), pero **todavía no hay implementación en el
-escritorio**. Lo que falta, en orden:
+**En el shell de escritorio** (`apps/desktop/src-tauri/src/browser.rs`):
 
-1. Comandos en el shell Tauri: abrir la ventana de una cuenta con su
-   `data_directory`, comprobar sesión, leer identidad pública, olvidar perfil.
-2. Adaptador real para una red (Nivel A) con sus selectores centralizados,
-   prueba de salud y *fixtures* de DOM saneados.
-3. Pantallas de cuentas y compositor en la interfaz.
+| Comando | Qué hace |
+| --- | --- |
+| `social_open_session` | Abre la web oficial en una ventana visible con el perfil de esa cuenta (o enfoca la que ya está abierta). Comprueba que la dirección sea `http(s)` y que pertenezca a los dominios de la cuenta. |
+| `social_check_session` | Recuento de cookies por dominio declarado. **Nunca devuelve valores.** |
+| `social_read_identity` | Identidad pública desde los metadatos OpenGraph de la propia página. Es el **único** script que se evalúa. |
+| `social_forget_session` | Cierra la ventana y borra el perfil entero de esa cuenta. |
+| `social_open_profiles` / `social_is_open` | Qué cuentas tienen ventana abierta. |
 
-Hasta que eso exista, la matriz de capacidades dice la verdad: no hay ninguna red
-con interacción disponible y la interfaz ofrece abrir la publicación en su web.
+**En la interfaz** (`apps/app/src/platform/social.ts`): la única frontera con el
+escritorio para las cuentas. En el navegador devuelve `null` en vez de fingir
+soporte.
+
+**En la capa social** (`@latido/social`): `sessionFromProbe()` traduce lo que vio
+el escritorio a estado de sesión, con sus pruebas. Es deliberado que el shell
+devuelva hechos (ventana abierta, recuentos, fecha) y que la política viva aquí.
+
+## Qué falta
+
+1. **Ningún adaptador de interacción.** El contrato existe y `perform()` responde
+   «sin soporte»: no se publica, no se da «me gusta» y no se responde todavía.
+2. **Pantalla de Cuentas** para conectar, ver el estado y olvidar sesiones.
+3. **Prueba de extremo a extremo en un escritorio real.** Aquí se ha comprobado
+   que compila y que sus partes puras pasan 19 pruebas; el comportamiento de la
+   ventana (inicio de sesión, cookies del perfil, identidad leída) necesita un
+   escritorio con WebView y una cuenta de verdad.
+
+## Detalles que no se cambian sin pensar
+
+- **Un perfil por cuenta**, no uno por red ni mucho menos el perfil del navegador
+  del usuario. El aislamiento es la razón de que existan las ventanas propias.
+- **Solo se navega a `http(s)`**: `file:`, `javascript:`, `data:` y los esquemas
+  que lanzan aplicaciones ajenas se rechazan en la propia ventana.
+- **Las cookies no salen del shell**: a la interfaz solo llega cuántas hay.
+- **El script de identidad es una constante**: no se acepta JavaScript que venga
+  de la interfaz ni, por supuesto, de un modelo.
+- **Las ventanas de cuenta no tienen permisos de Tauri**: la capacidad `default`
+  solo se aplica a la ventana `main`, así que el contenido remoto no puede llamar
+  a los comandos de la aplicación.

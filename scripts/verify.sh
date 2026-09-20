@@ -50,6 +50,9 @@ pnpm --filter @latido/engine test
 step "Tests de la capa social"
 pnpm --filter @latido/social test
 
+step "Tests de la interfaz"
+pnpm --filter @latido/app test
+
 step "Compilar la interfaz"
 pnpm --filter @latido/app build
 

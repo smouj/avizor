@@ -7,38 +7,38 @@
  * motivo en `detail`.
  */
 
-import type { ActionError, HealthStatus, SessionState } from "./types";
+import type { ActionError, HealthStatus, SessionState } from './types'
 
 /** Estados en los que la sesión está viva. */
-const LIVE: readonly HealthStatus[] = ["CONNECTED", "INTERACTION_AVAILABLE", "READ_ONLY"];
+const LIVE: readonly HealthStatus[] = ['CONNECTED', 'INTERACTION_AVAILABLE', 'READ_ONLY']
 
 export function disconnectedSession(): SessionState {
-  return { connection: "DISCONNECTED", health: "LOGIN_REQUIRED", checkedAt: null, since: null };
+  return { connection: 'DISCONNECTED', health: 'LOGIN_REQUIRED', checkedAt: null, since: null }
 }
 
 export function loginRequired(now: number, detail?: string): SessionState {
   return {
-    connection: "DISCONNECTED",
-    health: "LOGIN_REQUIRED",
+    connection: 'DISCONNECTED',
+    health: 'LOGIN_REQUIRED',
     checkedAt: now,
     since: null,
     ...(detail ? { detail } : {}),
-  };
+  }
 }
 
 /** Sesión recién establecida, pendiente de la primera prueba de interacción. */
 export function connectedSession(now: number, since: number = now): SessionState {
-  return { connection: "CONNECTED", health: "CONNECTED", checkedAt: now, since };
+  return { connection: 'CONNECTED', health: 'CONNECTED', checkedAt: now, since }
 }
 
 /** La prueba de salud confirmó que el camino de interacción funciona. */
 export function interactiveSession(previous: SessionState, now: number): SessionState {
   return {
-    connection: "CONNECTED",
-    health: "INTERACTION_AVAILABLE",
+    connection: 'CONNECTED',
+    health: 'INTERACTION_AVAILABLE',
     checkedAt: now,
     since: previous.since ?? now,
-  };
+  }
 }
 
 /**
@@ -52,22 +52,22 @@ export function readOnlySession(
   detail?: string,
 ): SessionState {
   return {
-    connection: "CONNECTED",
-    health: "READ_ONLY",
+    connection: 'CONNECTED',
+    health: 'READ_ONLY',
     checkedAt: now,
     since: previous.since,
     ...(detail ? { detail } : {}),
-  };
+  }
 }
 
 export function expiredSession(previous: SessionState, now: number, detail?: string): SessionState {
   return {
-    connection: "DISCONNECTED",
-    health: "SESSION_EXPIRED",
+    connection: 'DISCONNECTED',
+    health: 'SESSION_EXPIRED',
     checkedAt: now,
     since: previous.since,
     ...(detail ? { detail } : {}),
-  };
+  }
 }
 
 /**
@@ -80,32 +80,32 @@ export function selectorsOutdated(
   detail?: string,
 ): SessionState {
   return {
-    connection: "CONNECTED",
-    health: "SELECTORS_OUTDATED",
+    connection: 'CONNECTED',
+    health: 'SELECTORS_OUTDATED',
     checkedAt: now,
     since: previous.since,
     ...(detail ? { detail } : {}),
-  };
+  }
 }
 
 export function unavailableSession(now: number, detail?: string): SessionState {
   return {
-    connection: "DISCONNECTED",
-    health: "UNAVAILABLE",
+    connection: 'DISCONNECTED',
+    health: 'UNAVAILABLE',
     checkedAt: now,
     since: null,
     ...(detail ? { detail } : {}),
-  };
+  }
 }
 
 /** ¿Hay sesión viva? (leer sí; escribir depende de `canInteract`). */
 export function isSessionLive(session: SessionState): boolean {
-  return session.connection === "CONNECTED";
+  return session.connection === 'CONNECTED'
 }
 
 /** ¿Se puede escribir en la red ahora mismo? */
 export function canInteract(session: SessionState): boolean {
-  return session.connection === "CONNECTED" && session.health === "INTERACTION_AVAILABLE";
+  return session.connection === 'CONNECTED' && session.health === 'INTERACTION_AVAILABLE'
 }
 
 /**
@@ -113,16 +113,16 @@ export function canInteract(session: SessionState): boolean {
  * idiomas; aquí no se escribe texto de interfaz.
  */
 export function sessionMessageKey(state: SessionState): string {
-  if (state.health === "SESSION_EXPIRED") return "session.expired";
-  if (state.health === "SELECTORS_OUTDATED") return "session.selectorsOutdated";
-  if (state.health === "LOGIN_REQUIRED")
-    return state.connection === "DISCONNECTED" && state.checkedAt === null
-      ? "session.notConnected"
-      : "session.loginRequired";
-  if (state.health === "UNAVAILABLE") return "session.unavailable";
-  if (state.health === "READ_ONLY") return "session.readOnly";
-  if (state.health === "INTERACTION_AVAILABLE") return "session.interactive";
-  return "session.connected";
+  if (state.health === 'SESSION_EXPIRED') return 'session.expired'
+  if (state.health === 'SELECTORS_OUTDATED') return 'session.selectorsOutdated'
+  if (state.health === 'LOGIN_REQUIRED')
+    return state.connection === 'DISCONNECTED' && state.checkedAt === null
+      ? 'session.notConnected'
+      : 'session.loginRequired'
+  if (state.health === 'UNAVAILABLE') return 'session.unavailable'
+  if (state.health === 'READ_ONLY') return 'session.readOnly'
+  if (state.health === 'INTERACTION_AVAILABLE') return 'session.interactive'
+  return 'session.connected'
 }
 
 /**
@@ -130,21 +130,21 @@ export function sessionMessageKey(state: SessionState): string {
  * `null` si la sesión está lista para escribir.
  */
 export function sessionBlocksInteraction(state: SessionState): ActionError | null {
-  if (canInteract(state)) return null;
-  return { code: errorCodeFor(state.health), message: state.detail ?? "" };
+  if (canInteract(state)) return null
+  return { code: errorCodeFor(state.health), message: state.detail ?? '' }
 }
 
-function errorCodeFor(health: HealthStatus): ActionError["code"] {
+function errorCodeFor(health: HealthStatus): ActionError['code'] {
   switch (health) {
-    case "SESSION_EXPIRED":
-      return "SESSION_EXPIRED";
-    case "SELECTORS_OUTDATED":
-      return "SELECTORS_OUTDATED";
-    case "LOGIN_REQUIRED":
-      return "LOGIN_REQUIRED";
-    case "UNAVAILABLE":
-      return "UNAVAILABLE";
+    case 'SESSION_EXPIRED':
+      return 'SESSION_EXPIRED'
+    case 'SELECTORS_OUTDATED':
+      return 'SELECTORS_OUTDATED'
+    case 'LOGIN_REQUIRED':
+      return 'LOGIN_REQUIRED'
+    case 'UNAVAILABLE':
+      return 'UNAVAILABLE'
     default:
-      return "UNSUPPORTED";
+      return 'UNSUPPORTED'
   }
 }

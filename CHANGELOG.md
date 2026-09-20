@@ -3,6 +3,56 @@
 Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 Versionado [semántico](https://semver.org/lang/es/).
 
+## [Sin publicar]
+
+### Añadido
+- **Capa social: cimientos.** Paquete nuevo `@latido/social` (TypeScript puro, 69
+  pruebas) que separa *leer* de *participar*: el motor sigue siendo el lector y
+  esta capa se encarga de cuentas, sesiones web, capacidades, compositor y
+  acciones.
+  - Matriz de capacidades por red que **empieza entera en `false`**; escribir
+    exige que la prueba de salud confirme `INTERACTION_AVAILABLE`, no basta con
+    tener sesión. Una prueba falla el día que alguien marque un adaptador sin
+    actualizarla.
+  - `ActionQueue` con confirmación obligatoria del usuario y verificación
+    obligatoria del resultado: un `success` sin verificar se registra como
+    `FAILED`. Multirred con resultado por destino, nunca «todo o nada».
+  - Composición por cuenta (`ready` / `blocked` / `unknown`): los límites no
+    documentados de una red se marcan como desconocidos en vez de inventarlos.
+  - Aislamiento entre redes: lista blanca de dominios por cuenta y URLs solo
+    `http`/`https`.
+- **Ventanas de cuenta en el escritorio** (`browser.rs`): un perfil de navegador
+  propio por cuenta (`data_directory` de Tauri; `data_store_identifier` en
+  macOS), ventana visible para iniciar sesión en la web oficial, comprobación de
+  sesión por recuento de cookies **sin devolver ningún valor**, lectura de la
+  identidad pública desde los metadatos OpenGraph de la página y borrado
+  completo del perfil con «olvidar sesión». 18 pruebas de Rust cubren las partes
+  puras: validación del perfil, recorrido de rutas, etiquetas de ventana sin
+  colisiones, navegación solo `http(s)`, aislamiento de dominios y lectura de
+  identidad.
+- **Puente en la interfaz** (`apps/app/src/platform/social.ts`): única frontera
+  con el escritorio para las cuentas. En el navegador devuelve `null` en vez de
+  fingir soporte, y `perform()` responde «sin soporte» mientras no exista ningún
+  adaptador de interacción.
+- Documentación: `docs/INTERACTIONS.md`, `docs/SOCIAL-ACCOUNTS.md` y
+  `docs/BROWSER-BRIDGE.md`.
+- `.prettierrc.json`: el estilo que el repositorio ya usaba (comillas simples,
+  sin punto y coma, 100 columnas) queda declarado. Los ficheros nuevos lo
+  cumplen; el resto del árbol converge cuando se toca.
+
+### Notas
+- **Ninguna red tiene todavía adaptador de interacción.** No se publica, no se
+  da «me gusta» y no se responde desde Latido: la interfaz sigue comportándose
+  como un lector y la matriz de capacidades lo dice. Lo que hay probado es el
+  contrato, la cola, la composición, el aislamiento y las ventanas de cuenta.
+- **Cero claves API.** La autenticación es la del sitio, en su propia página,
+  dentro de un perfil de Latido. No hay ningún campo para contraseñas en el
+  modelo de datos y los valores de cookies no salen del shell.
+- Lo que se puede verificar en esta máquina es que **compila y pasa las
+  pruebas**; el comportamiento real de la ventana de una cuenta (inicio de
+  sesión, cookies del perfil, identidad leída) solo se puede comprobar en un
+  escritorio con WebView, y queda pendiente de esa prueba.
+
 ## [0.2.2] — 2026-09-17
 
 ### Añadido

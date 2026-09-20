@@ -35,6 +35,9 @@ importers:
       '@latido/engine':
         specifier: workspace:*
         version: link:../../packages/engine
+      '@latido/social':
+        specifier: workspace:*
+        version: link:../../packages/social
       '@latido/tokens':
         specifier: workspace:*
         version: link:../../packages/tokens

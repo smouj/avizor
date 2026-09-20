@@ -41,6 +41,8 @@ jobs:
         run: pnpm --filter @latido/engine test
       - name: Tests de la capa social
         run: pnpm --filter @latido/social test
+      - name: Tests de la interfaz
+        run: pnpm --filter @latido/app test
       - name: Compilar la interfaz
         run: pnpm --filter @latido/app build
 
@@ -63,6 +65,7 @@ jobs:
       - run: pnpm --filter @latido/tokens build
       - run: pnpm --filter @latido/engine test
       - run: pnpm --filter @latido/social test
+      - run: pnpm --filter @latido/app test
 
   desktop:
     name: Escritorio (Rust)
@@ -86,6 +89,10 @@ jobs:
         with:
           workspaces: apps/desktop/src-tauri
       - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @latido/tokens build
       - name: Comprobar el shell sin empaquetar
         working-directory: apps/desktop/src-tauri
         run: cargo check --locked
+      - name: Pruebas del shell (lógica pura)
+        working-directory: apps/desktop/src-tauri
+        run: cargo test --lib --locked

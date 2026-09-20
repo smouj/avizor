@@ -124,12 +124,15 @@ La fiabilidad importa más que fingir soporte.
 
 | Pieza | Estado |
 | --- | --- |
-| Modelo de cuentas, sesiones y acciones (`@latido/social`) | hecho, 61 pruebas |
+| Modelo de cuentas, sesiones y acciones (`@latido/social`) | hecho, 70 pruebas |
 | Capacidades efectivas y matriz por red | hecho |
 | Cola de acciones con verificación obligatoria | hecho |
 | Validación del compositor por cuenta | hecho |
 | Aislamiento de dominios y URLs seguras | hecho |
-| Contrato `BrowserBridge` | declarado, sin implementación |
-| Perfiles de navegador y ventana de inicio de sesión | **pendiente** (escritorio, Tauri) |
+| Contrato `BrowserBridge` | declarado y usado por el shell |
+| Ventanas y perfiles por cuenta (escritorio, Rust) | hecho, 19 pruebas de la parte pura |
+| Puente de la interfaz con el escritorio | hecho, 8 pruebas |
+| Traducción de lo que ve el escritorio a estado de sesión | hecho, con pruebas |
+| Prueba de extremo a extremo en un escritorio real | **pendiente** (hace falta WebView y una cuenta) |
 | Primer adaptador real | **pendiente** |
 | Pantallas de cuentas, compositor y oportunidades | **pendiente** |
