@@ -34,6 +34,14 @@ Versionado [semántico](https://semver.org/lang/es/).
   con el escritorio para las cuentas. En el navegador devuelve `null` en vez de
   fingir soporte, y `perform()` responde «sin soporte» mientras no exista ningún
   adaptador de interacción.
+- **El pulso, siempre a la vista.** `buildActivity()` en el motor y
+  `ActivityStrip` en la cabecera: ritmo real de entrada (último minuto, cinco
+  minutos y hora), fuentes que responden ahora mismo, palabras que más se repiten
+  con su recuento y temas destacados. Todo se **cuenta** sobre los items del
+  almacén y se puede reproducir a mano; si no hay datos, el pulso lo dice en vez
+  de latir de mentira. El motor devuelve códigos (no frases) y la interfaz los
+  traduce en español y en inglés. 19 pruebas nuevas en el motor y 8 en la
+  interfaz.
 - Documentación: `docs/INTERACTIONS.md`, `docs/SOCIAL-ACCOUNTS.md` y
   `docs/BROWSER-BRIDGE.md`.
 - `.prettierrc.json`: el estilo que el repositorio ya usaba (comillas simples,

@@ -7,6 +7,11 @@
  * ejecutar en Node (tests), en el navegador (modo web) o dentro de Tauri.
  */
 import { evaluateAlerts, pruneFired, type AlertEvaluation } from './alerts'
+import {
+  ACTIVITY_WINDOWS,
+  buildActivity,
+  type ActivitySnapshot,
+} from './activity'
 import { Clusterer, type ClusterOptions } from './cluster'
 import { ENTITY_SEED, normalizeItem, type RawItem } from './normalize'
 import { CONNECTORS, defaultSourceConfigs } from './sources'
@@ -56,6 +61,8 @@ export class LatidoEngine {
   private readonly retentionMs: number
   private readonly log: (message: string) => void
   private lastPollAt = new Map<SourceKind, number>()
+  /** Última vez que entró algo al almacén, para poder decir «en vivo» sin mentir. */
+  private lastIngestAt: number | null = null
   private listener: ((trends: Trend[], alerts: AlertEvent[]) => void) | null = null
 
   constructor(options: EngineOptions = {}) {
@@ -126,6 +133,7 @@ export class LatidoEngine {
    * item. Solo se agrupa de cero lo que no está, o lo que perdió su tema.
    */
   ingest(rawItems: RawItem[], now = this.clock()): IngestResult {
+    this.lastIngestAt = now
     const errors: IngestResult['errors'] = []
     const touched = new Set<string>()
 
@@ -198,6 +206,7 @@ export class LatidoEngine {
       }),
     )
 
+    this.lastIngestAt = now
     const merged: IngestResult = {
       fetched: 0,
       inserted: 0,
@@ -338,6 +347,30 @@ export class LatidoEngine {
 
   stats(): ReturnType<MemoryStore['stats']> {
     return this.store.stats()
+  }
+
+  /**
+   * La foto de lo que está pasando ahora mismo: ritmo de entrada, de dónde
+   * viene, sobre qué se habla y qué temas destacan. Todo contado sobre los
+   * datos que ya están en el almacén: se puede reproducir a mano.
+   */
+  activity(now = this.clock()): ActivitySnapshot {
+    const items = this.store.queryItems({
+      since: now - ACTIVITY_WINDOWS.scan,
+      limit: 800,
+      order: 'recent',
+    })
+    return buildActivity(
+      {
+        items,
+        trends: this.store.queryTrends({ limit: 200 }),
+        clusters: this.store.allClusters(),
+        sources: [...this.sourceConfigs.values()],
+        lastIngestAt: this.lastIngestAt,
+        alerts: this.store.stats().alerts,
+      },
+      now,
+    )
   }
 
   /** Carga los datos de ejemplo. Es lo que hace usable la app sin conexión. */

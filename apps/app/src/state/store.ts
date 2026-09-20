@@ -16,6 +16,7 @@ import {
   CONNECTORS,
   createSessionState,
   defaultSourceConfigs,
+  type ActivitySnapshot,
   type AlertEvent,
   type AlertRule,
   type Entity,
@@ -292,6 +293,8 @@ interface LatidoState {
   sessionError: string | null
   bookmarkedIds: string[]
   counts: { items: number; trends: number; alerts: number; clusters: number }
+  /** El pulso: ritmo de entrada, fuentes que responden y palabras de moda. */
+  activity: ActivitySnapshot | null
   toasts: Toast[]
 
   init: () => Promise<void>
@@ -389,6 +392,7 @@ export const useLatido = create<LatidoState>((set, get) => ({
   sessionError: null,
   bookmarkedIds: [],
   counts: { items: 0, trends: 0, alerts: 0, clusters: 0 },
+  activity: null,
   toasts: [],
 
   t: (key, params) => translate(get().lang, key, params),
@@ -535,6 +539,9 @@ export const useLatido = create<LatidoState>((set, get) => ({
         alerts: stats.alerts,
         clusters: stats.clusters,
       },
+      // El pulso se recalcula en cada sincronización: son cuentas sobre los
+      // items que ya están en el almacén, no una estimación.
+      activity: engineInstance.activity(),
     })
 
     // La traducción va después de pintar: primero el dato real, luego la capa.
@@ -875,6 +882,7 @@ export const useLatido = create<LatidoState>((set, get) => ({
       trends: [],
       alerts: [],
       counts: { items: 0, trends: 0, alerts: 0, clusters: 0 },
+      activity: null,
     })
     await get().init()
   },

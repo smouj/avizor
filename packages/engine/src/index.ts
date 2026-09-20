@@ -19,6 +19,20 @@ export {
   topKeywords,
 } from './text'
 export { ENTITY_SEED, canonicalUrl, detectLanguage, extractEntities, normalizeItem, type RawItem } from './normalize'
+export {
+  ACTIVITY_WINDOWS,
+  HIGHLIGHT_LIMIT,
+  KEYWORD_LIMIT,
+  buildActivity,
+  type ActivityHighlight,
+  type ActivityInput,
+  type ActivityKeyword,
+  type ActivityLevel,
+  type ActivityNote,
+  type ActivityRate,
+  type ActivitySnapshot,
+  type ActivitySourceLiveness,
+} from './activity'
 export { Clusterer, type ClusterOptions } from './cluster'
 export {
   TrendEngine,

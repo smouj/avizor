@@ -720,6 +720,96 @@ strong,
   }
 }
 
+/* Pulso: actividad contada, siempre a la vista. */
+.activity {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  border: var(--border-hairline) solid var(--color-border);
+  background: var(--color-surface);
+  font-size: var(--text-2xs);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  flex: none;
+  max-width: 46ch;
+  overflow: hidden;
+}
+
+.activity__dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-text-faint);
+  flex: none;
+}
+
+.activity__label {
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-text);
+}
+
+.activity__since,
+.activity__unit {
+  color: var(--color-text-faint);
+}
+
+.activity__metric {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 2px;
+  font-variant-numeric: tabular-nums;
+}
+
+.activity__metric b {
+  color: var(--color-text);
+  font-weight: var(--weight-semibold);
+}
+
+.activity__words {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  overflow: hidden;
+  mask-image: linear-gradient(to right, #000 85%, transparent);
+}
+
+.activity__word {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 2px;
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-sm);
+  background: var(--color-elevated);
+  color: var(--color-text-muted);
+}
+
+.activity__word b {
+  color: var(--color-accent);
+  font-weight: var(--weight-semibold);
+  font-variant-numeric: tabular-nums;
+}
+
+.activity--live {
+  border-color: var(--color-accent-line);
+}
+
+.activity--live .activity__dot {
+  background: var(--color-accent);
+  animation: pulse var(--duration-pulse) var(--ease-standard) infinite;
+}
+
+.activity--recent .activity__dot {
+  background: var(--color-positive);
+}
+
+.activity--stale .activity__dot {
+  background: var(--color-warning);
+}
+
 .state {
   display: inline-flex;
   align-items: center;
