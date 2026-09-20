@@ -106,6 +106,7 @@ TypeScript puro, sin I/O implícito:
 | Paquete | Ruta | Responsabilidad | Publicación |
 | --- | --- | --- | --- |
 | `@latido/engine` | `packages/engine` | Conectores, normalización, agrupación, tendencias, avisos y almacén en memoria. TypeScript puro, sin I/O implícito. | `private`, se consume desde fuente (`main`/`types` apuntan a `src/index.ts`) |
+| `@latido/social` | `packages/social` | La capa social: cuentas, sesiones web, capacidades efectivas, compositor por red, cola de acciones y el contrato del puente de navegador. TypeScript puro, sin claves API. | `private`, se consume desde fuente |
 | `@latido/tokens` | `packages/tokens` | Fuente única del sistema de diseño. `src/tokens.mjs` → `dist/tokens.css` y `dist/tokens.json` con `scripts/build.mjs`. | `private`; se consume `dist/` |
 | `@latido/app` | `apps/app` | Interfaz React 19 + Zustand 5 + Vite 6. La misma base para escritorio y navegador. | `private` |
 | `@latido/desktop` | `apps/desktop` | Shell Tauri 2: ventana, llavero, notificaciones, enlaces y archivo SQLite. | `private` |
@@ -135,7 +136,17 @@ ningún componente comprueba "¿estoy en Tauri?". Decide con `isDesktop()`
 Comandos que expone el shell: `state::state_load`, `state::state_save`,
 `state::state_clear`, `archive::archive_sync`, `archive::archive_stats`,
 `archive::archive_export`, `secrets::secret_set`, `secrets::secret_get`,
-`secrets::secret_delete`, `notify` y `open_external`.
+`secrets::secret_delete`, `session::session_browsers`, `session::session_import`,
+`session::session_peek`, `session::session_forget`, los de las cuentas sociales
+(`social_open_session`, `social_check_session`, `social_read_identity`,
+`social_forget_session`, `social_open_profiles`, `social_is_open`), `notify` y
+`open_external`.
+
+Las dos capas del producto están separadas a propósito: `Connector` **lee** y
+`InteractionProvider` **participa** (`packages/social`). Añadir una red a la
+lectura no toca la capa social y al revés; ver
+[`INTERACTIONS.md`](INTERACTIONS.md), [`SOCIAL-ACCOUNTS.md`](SOCIAL-ACCOUNTS.md) y
+[`BROWSER-BRIDGE.md`](BROWSER-BRIDGE.md).
 
 ## Decisiones y alternativas descartadas
 
