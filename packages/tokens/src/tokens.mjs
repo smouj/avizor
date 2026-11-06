@@ -228,6 +228,9 @@ export const layout = {
   wide: '60rem',
   tabbar: '3.5rem',
   sidebarFilter: 'none',
+  /** Zona sensible del tirador que separa dos columnas. La línea visible es de
+   *  un filo; el resto son píxeles para agarrarlo sin apuntar con puntería. */
+  splitter: '0.5rem',
 }
 
 export const z = {

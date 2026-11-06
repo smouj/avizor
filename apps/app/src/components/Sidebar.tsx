@@ -5,7 +5,18 @@ import { useLatido, type ViewKey } from '@/state/store'
 interface NavEntry {
   key: ViewKey
   icon: IconName
-  labelKey: 'nav.home' | 'nav.breaking' | 'nav.radar' | 'nav.following' | 'nav.explore' | 'nav.bookmarks' | 'nav.alerts' | 'nav.lists' | 'nav.sources' | 'nav.settings'
+  labelKey:
+    | 'nav.home'
+    | 'nav.breaking'
+    | 'nav.radar'
+    | 'nav.following'
+    | 'nav.explore'
+    | 'nav.bookmarks'
+    | 'nav.alerts'
+    | 'nav.lists'
+    | 'nav.accounts'
+    | 'nav.sources'
+    | 'nav.settings'
 }
 
 const PRIMARY: NavEntry[] = [
@@ -17,6 +28,7 @@ const PRIMARY: NavEntry[] = [
 ]
 
 const YOURS: NavEntry[] = [
+  { key: 'accounts', icon: 'at', labelKey: 'nav.accounts' },
   { key: 'bookmarks', icon: 'bookmark', labelKey: 'nav.bookmarks' },
   { key: 'alerts', icon: 'bell', labelKey: 'nav.alerts' },
   { key: 'lists', icon: 'layers', labelKey: 'nav.lists' },
@@ -52,12 +64,20 @@ export function Sidebar(): JSX.Element {
       >
         <Icon name="command" size="sm" />
         {t('app.commandPalette')}
-        <span className="mono micro faint grow text-right">{platform === 'macos' ? '⌘K' : 'Ctrl K'}</span>
+        <span className="mono micro faint grow text-right">
+          {platform === 'macos' ? '⌘K' : 'Ctrl K'}
+        </span>
       </button>
 
       <div className="nav">
         {PRIMARY.map((entry) => (
-          <NavItem key={entry.key} entry={entry} current={view} onSelect={setView} label={t(entry.labelKey)} />
+          <NavItem
+            key={entry.key}
+            entry={entry}
+            current={view}
+            onSelect={setView}
+            label={t(entry.labelKey)}
+          />
         ))}
       </div>
 
@@ -145,7 +165,9 @@ export function TabBar(): JSX.Element {
         >
           <Icon name={entry.icon} />
           <span>{t(entry.labelKey)}</span>
-          {entry.key === 'alerts' && unread > 0 ? <span className="nav__badge">{unread}</span> : null}
+          {entry.key === 'alerts' && unread > 0 ? (
+            <span className="nav__badge">{unread}</span>
+          ) : null}
         </button>
       ))}
     </nav>

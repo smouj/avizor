@@ -15,6 +15,7 @@ import type {
   ActionResult,
   BrowserBridge,
   ForgetReport,
+  MatrixSource,
   OpenSessionRequest,
   PublicIdentity,
   SessionCheckRequest,
@@ -22,16 +23,32 @@ import type {
   SocialSource,
   TypedActionRequest,
 } from '@latido/social'
-import { browserProfileIdFor, loginUrlFor, sessionHostsFor } from '@latido/social'
+import { browserProfileIdFor, loginUrlFor, networkOf, sessionHostsFor } from '@latido/social'
 
 import { isDesktop } from './bridge'
 
 /** Una cuenta como la maneja la interfaz: red, handle e instancia si es federada. */
 export interface AccountTarget {
-  source: SocialSource
+  /**
+   * Entrada del catálogo. Se admite toda la matriz: una fuente de solo lectura
+   * con página de inicio de sesión (GitHub) también puede tener su cuenta.
+   */
+  source: MatrixSource
   handle: string
   /** Solo en redes federadas (Mastodon, Lemmy): el dominio de la instancia. */
   instanceHost?: string
+}
+
+/** ¿Esta red es federada? (Su instancia la pone la cuenta, no el catálogo.) */
+export function isFederated(source: MatrixSource): boolean {
+  const descriptor = networkOf(source)
+  if (!descriptor) return false
+  return descriptor.tier !== 'feed' && descriptor.defaultDomains.length === 0
+}
+
+/** ¿Se le puede abrir sesión a esta red? (Las de solo lectura, sin login, no.) */
+export function canOpenAccount(source: MatrixSource): boolean {
+  return loginUrlFor(source) !== null || isFederated(source)
 }
 
 async function invoke<T>(command: string, args?: Record<string, unknown>): Promise<T> {
@@ -70,8 +87,9 @@ export async function openSession(
   if (!loginUrl) {
     return {
       ok: false,
-      error:
-        'esta red es federada: hace falta el dominio de tu instancia para abrir su inicio de sesión',
+      error: isFederated(target.source)
+        ? 'esta red es federada: hace falta el dominio de tu instancia para abrir su inicio de sesión'
+        : 'esta fuente solo se lee: no tiene una página de inicio de sesión',
     }
   }
   if (!isDesktop()) return { ok: false, error: NO_DESKTOP }

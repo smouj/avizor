@@ -19,7 +19,8 @@ export const es = {
   'realtime.connecting': 'Conectando al flujo…',
   'realtime.live': 'En directo',
   'realtime.reconnecting': 'Reconectando…',
-  'realtime.hintOff': 'Sin términos que vigilar: añade búsquedas en Fuentes y el flujo de Bluesky se conectará solo.',
+  'realtime.hintOff':
+    'Sin términos que vigilar: añade búsquedas en Fuentes y el flujo de Bluesky se conectará solo.',
 
   // Pulso: actividad contada, nunca decorativa.
   'activity.note.live': 'En vivo',
@@ -72,6 +73,7 @@ export const es = {
   'nav.bookmarks': 'Guardados',
   'nav.alerts': 'Avisos',
   'nav.lists': 'Listas',
+  'nav.accounts': 'Cuentas',
   'nav.sources': 'Fuentes',
   'nav.settings': 'Ajustes',
   'nav.primary': 'Principal',
@@ -118,7 +120,8 @@ export const es = {
   'radar.now': 'Ahora',
 
   'reason.velocity_spike': 'Las menciones se multiplicaron por {velocity} en la última media hora.',
-  'reason.multi_source': 'Aparece en {sources} redes distintas al mismo tiempo, con {volume} publicaciones.',
+  'reason.multi_source':
+    'Aparece en {sources} redes distintas al mismo tiempo, con {volume} publicaciones.',
   'reason.new_topic': 'Tema nuevo: {volume} publicaciones en menos de 20 minutos.',
   'reason.sustained': 'Se mantiene con {volume} publicaciones y {sources} redes.',
   'reason.project_velocity': 'El proyecto crece un {growth} % en la última ventana.',
@@ -171,7 +174,8 @@ export const es = {
   'translate.hint':
     'Traduce el contenido al idioma que estás leyendo. El original nunca se pierde: cada publicación trae un botón para verlo. Nada sale de tu equipo salvo el texto que se traduce, y la clave se guarda en el llavero del sistema.',
   'translate.enabled': 'Traducir automáticamente',
-  'translate.enabledHint': 'Idioma de lectura: {lang}. Todo lo que aparezca se pide traducido a ese idioma.',
+  'translate.enabledHint':
+    'Idioma de lectura: {lang}. Todo lo que aparezca se pide traducido a ese idioma.',
   'translate.provider': 'Proveedor',
   'translate.none': 'Sin traductor',
   'translate.ready': 'Configurado y listo',
@@ -191,7 +195,8 @@ export const es = {
     'Si lo ves todo demasiado grande —Windows al 125-150 % lo provoca—, baja la escala. En automático se ajusta sola según el sistema.',
   'scale.auto': 'Automática',
   'settings.demoDev': 'Cargar datos de prueba (solo desarrollo)',
-  'settings.keyNotSaved': 'No he podido guardar la clave en el llavero: seguirá solo en esta sesión',
+  'settings.keyNotSaved':
+    'No he podido guardar la clave en el llavero: seguirá solo en esta sesión',
 
   'session.title': 'Sesión del navegador',
   'session.hint':
@@ -215,6 +220,81 @@ export const es = {
   'session.cookiesOnly':
     'Se envían solo cookies. Si la API pide un token en lugar de cookies, esto no basta por sí solo: es lo que pasa con la búsqueda de Bluesky.',
   'session.needsImport': 'Para leer datos reales necesita una sesión importada.',
+
+  // Estado de la sesión de una cuenta, con los nombres que devuelve
+  // `sessionMessageKey`. Ni uno más: los estados son los del modelo.
+  'session.notConnected': 'Sin conectar',
+  'session.loginRequired': 'Inicio de sesión pendiente',
+  'session.connected': 'Sesión abierta',
+  'session.interactive': 'Sesión abierta, con interacción confirmada',
+  'session.readOnly': 'Solo lectura',
+  'session.expired': 'Sesión caducada',
+  'session.selectorsOutdated': 'La interfaz de la red cambió: los selectores no encajan',
+  'session.unavailable': 'Red no disponible',
+
+  'accounts.title': 'Cuentas',
+  'accounts.subtitle': 'Un perfil propio por cuenta, con la sesión del sitio y nada más',
+  'accounts.desktopOnly':
+    'Esto necesita la aplicación de escritorio: abrir la sesión de una red, comprobarla y leer tu identidad pasan por una ventana de Latido, no por una página web.',
+  'accounts.noAdapterNotice':
+    'Ninguna red tiene todavía adaptador de interacción: estas cuentas son de sesión y lectura. Por eso no hay botones de publicar, y no los habrá hasta que exista un adaptador probado.',
+  'accounts.catalog': 'Redes del catálogo',
+  'accounts.catalogHint':
+    'Elige la red, escribe el handle y, si es federada, el dominio de tu instancia.',
+  'accounts.select': 'Red',
+  'accounts.level.A': 'Nivel A',
+  'accounts.level.B': 'Nivel B',
+  'accounts.level.C': 'Nivel C',
+  'accounts.level.feed': 'Solo lectura',
+  'accounts.badge.read': 'Lectura',
+  'accounts.badge.noRead': 'Sin conector',
+  'accounts.badge.noAdapter': 'Sin adaptador',
+  'accounts.handle': 'Handle',
+  'accounts.handlePlaceholder': 'tu-usuario',
+  'accounts.instance': 'Dominio de tu instancia',
+  'accounts.instancePlaceholder': 'mastodon.social',
+  'accounts.add': 'Añadir cuenta',
+  'accounts.added': 'Cuenta añadida: ya puedes abrir su sesión',
+  'accounts.mine': 'Cuentas añadidas',
+  'accounts.count': '{count} cuentas',
+
+  // Armazón: los tiradores que separan las columnas. El texto se lee en el
+  // tooltip y en el lector de pantalla, nunca como etiqueta visible.
+  'layout.splitterNav': 'Ajustar el ancho de la navegación',
+  'layout.splitterRail': 'Ajustar el ancho del panel lateral',
+  'layout.splitterHint':
+    'Arrastra para cambiar el ancho · doble clic para dejarlo como estaba · flechas para ajustarlo',
+  'accounts.empty': 'Todavía no has añadido ninguna cuenta',
+  'accounts.emptyHint': 'Elige una red del catálogo, escribe su handle y añádela.',
+  'accounts.openSession': 'Abrir sesión',
+  'accounts.check': 'Comprobar',
+  'accounts.readIdentity': 'Leer identidad',
+  'accounts.forget': 'Olvidar sesión',
+  'accounts.remove': 'Quitar de la lista',
+  'accounts.forgetConfirm':
+    'Olvidar la sesión cierra su ventana y borra el perfil entero de esta cuenta (cookies y almacenamiento), y además la quita de la lista. No se puede deshacer. ¿Seguir?',
+  'accounts.forgetDone': 'Sesión olvidada: el perfil de esa cuenta se ha borrado',
+  'accounts.forgetFailed': 'No he podido olvidar la sesión, así que no he tocado nada',
+  'accounts.opened': 'He abierto la web oficial en su ventana: inicia sesión ahí',
+  'accounts.openFailed': 'No he podido abrir la sesión',
+  'accounts.checked': 'Sesión comprobada',
+  'accounts.checkFailed': 'No he podido comprobar la sesión',
+  'accounts.identityRead': 'Identidad leída',
+  'accounts.identityFailed':
+    'No he podido leer la identidad: hace falta la ventana abierta y la sesión iniciada',
+  'accounts.identityNone': 'Sin identidad leída todavía',
+  'accounts.identityUrl': 'Perfil',
+  'accounts.neverChecked': 'Sin comprobar todavía',
+  'accounts.checkedAt': 'Comprobada {time}',
+  'accounts.sessionSince': 'Sesión desde {time}',
+  'accounts.addedAt': 'Añadida {time}',
+  'accounts.profile': 'Perfil',
+  'accounts.error.handle': 'Escribe un handle.',
+  'accounts.error.spaces': 'El handle no puede llevar espacios.',
+  'accounts.error.instance':
+    'Esa instancia no parece un dominio: escribe solo el host, por ejemplo mastodon.social.',
+  'accounts.error.noLogin': 'Esta fuente solo se lee: no tiene página de inicio de sesión.',
+  'accounts.error.duplicate': 'Esa cuenta ya está en la lista.',
   'sources.sessionOn': 'Sesión del navegador',
   'sources.sessionOff': 'Sin sesión',
   'alerts.title': 'Avisos',
@@ -273,7 +353,8 @@ export const es = {
   'settings.export': 'Exportar copia',
   'settings.import': 'Restaurar copia',
   'settings.clear': 'Borrar todo lo guardado',
-  'settings.clearConfirm': '¿Borrar publicaciones, temas, avisos y preferencias de este dispositivo?',
+  'settings.clearConfirm':
+    '¿Borrar publicaciones, temas, avisos y preferencias de este dispositivo?',
   'settings.storage': 'Almacenamiento',
   'settings.storageDetail': '{items} publicaciones · {trends} temas · {size}',
   'settings.about': 'Acerca de',
@@ -324,7 +405,8 @@ export const en: Record<MessageKey, string> = {
   'realtime.connecting': 'Connecting to the stream…',
   'realtime.live': 'Live',
   'realtime.reconnecting': 'Reconnecting…',
-  'realtime.hintOff': 'Nothing to watch for: add searches in Sources and the Bluesky stream connects on its own.',
+  'realtime.hintOff':
+    'Nothing to watch for: add searches in Sources and the Bluesky stream connects on its own.',
 
   // Pulse: counted activity, never decorative.
   'activity.note.live': 'Live',
@@ -377,6 +459,7 @@ export const en: Record<MessageKey, string> = {
   'nav.bookmarks': 'Saved',
   'nav.alerts': 'Alerts',
   'nav.lists': 'Lists',
+  'nav.accounts': 'Accounts',
   'nav.sources': 'Sources',
   'nav.settings': 'Settings',
   'nav.primary': 'Primary',
@@ -387,7 +470,8 @@ export const en: Record<MessageKey, string> = {
   'feed.empty': 'Nothing here yet',
   'feed.emptyHint': 'Poll your sources or add more in Sources.',
   'feed.emptyReal': 'Your sources have not returned anything yet',
-  'feed.emptyRealHint': "This is what there is right now: not one filler headline. Try polling again or turn on another source.",
+  'feed.emptyRealHint':
+    'This is what there is right now: not one filler headline. Try polling again or turn on another source.',
   'feed.unread': '{count} unread',
   'feed.filters': 'Filters',
   'feed.onlyWatched': 'Only what I watch',
@@ -422,7 +506,8 @@ export const en: Record<MessageKey, string> = {
   'radar.now': 'Now',
 
   'reason.velocity_spike': 'Mentions grew {velocity}× in the last half hour.',
-  'reason.multi_source': 'It is showing up on {sources} different networks at once, with {volume} posts.',
+  'reason.multi_source':
+    'It is showing up on {sources} different networks at once, with {volume} posts.',
   'reason.new_topic': 'New topic: {volume} posts in under 20 minutes.',
   'reason.sustained': 'Holding steady with {volume} posts across {sources} networks.',
   'reason.project_velocity': 'The project grew {growth}% in the last window.',
@@ -475,7 +560,8 @@ export const en: Record<MessageKey, string> = {
   'translate.hint':
     'Translates content into the language you are reading. The original is never lost: every post has a button to see it. Nothing leaves your machine except the text being translated, and the key is kept in the system keychain.',
   'translate.enabled': 'Translate automatically',
-  'translate.enabledHint': 'Reading language: {lang}. Everything that shows up is requested in that language.',
+  'translate.enabledHint':
+    'Reading language: {lang}. Everything that shows up is requested in that language.',
   'translate.provider': 'Provider',
   'translate.none': 'No translator',
   'translate.ready': 'Configured and ready',
@@ -495,7 +581,8 @@ export const en: Record<MessageKey, string> = {
     'If everything looks too large —Windows at 125-150 % does that— lower the scale. On automatic it adjusts itself to the system.',
   'scale.auto': 'Automatic',
   'settings.demoDev': 'Load sample data (development only)',
-  'settings.keyNotSaved': 'Could not save the key to the system keychain: it will only last this session',
+  'settings.keyNotSaved':
+    'Could not save the key to the system keychain: it will only last this session',
 
   'session.title': 'Browser session',
   'session.hint':
@@ -518,6 +605,80 @@ export const en: Record<MessageKey, string> = {
   'session.cookiesOnly':
     'Only cookies are sent. If the API asks for a token instead of cookies this is not enough on its own: that is what happens with Bluesky search.',
   'session.needsImport': 'Reading real data needs an imported session.',
+
+  // Account session state, with the exact names `sessionMessageKey` returns.
+  'session.notConnected': 'Not connected',
+  'session.loginRequired': 'Sign-in pending',
+  'session.connected': 'Session open',
+  'session.interactive': 'Session open, interaction confirmed',
+  'session.readOnly': 'Read only',
+  'session.expired': 'Session expired',
+  'session.selectorsOutdated': 'The network interface changed: the selectors no longer fit',
+  'session.unavailable': 'Network unavailable',
+
+  'accounts.title': 'Accounts',
+  'accounts.subtitle': 'One profile per account, with the site session and nothing else',
+  'accounts.desktopOnly':
+    'This needs the desktop app: opening a network session, checking it and reading your identity all go through a Latido window, not a web page.',
+  'accounts.noAdapterNotice':
+    'No network has an interaction adapter yet: these accounts are for session and reading. That is why there are no publish buttons, and there will not be any until a tested adapter exists.',
+  'accounts.catalog': 'Networks in the catalog',
+  'accounts.catalogHint':
+    'Pick the network, type the handle and, if it is federated, your instance domain.',
+  'accounts.select': 'Network',
+  'accounts.level.A': 'Tier A',
+  'accounts.level.B': 'Tier B',
+  'accounts.level.C': 'Tier C',
+  'accounts.level.feed': 'Read only',
+  'accounts.badge.read': 'Reading',
+  'accounts.badge.noRead': 'No connector',
+  'accounts.badge.noAdapter': 'No adapter',
+  'accounts.handle': 'Handle',
+  'accounts.handlePlaceholder': 'your-user',
+  'accounts.instance': 'Your instance domain',
+  'accounts.instancePlaceholder': 'mastodon.social',
+  'accounts.add': 'Add account',
+  'accounts.added': 'Account added: you can open its session now',
+  'accounts.mine': 'Accounts added',
+  'accounts.count': '{count} accounts',
+
+  // Shell: the handles that split the columns. Read in the tooltip and by a
+  // screen reader, never as a visible label.
+  'layout.splitterNav': 'Adjust the navigation width',
+  'layout.splitterRail': 'Adjust the side panel width',
+  'layout.splitterHint':
+    'Drag to change the width · double-click to reset · arrow keys to nudge',
+  'accounts.empty': 'You have not added any account yet',
+  'accounts.emptyHint': 'Pick a network from the catalog, type its handle and add it.',
+  'accounts.openSession': 'Open session',
+  'accounts.check': 'Check',
+  'accounts.readIdentity': 'Read identity',
+  'accounts.forget': 'Forget session',
+  'accounts.remove': 'Remove from list',
+  'accounts.forgetConfirm':
+    'Forgetting the session closes its window and deletes this account whole profile (cookies and storage), and also removes it from the list. It cannot be undone. Continue?',
+  'accounts.forgetDone': 'Session forgotten: that account profile has been deleted',
+  'accounts.forgetFailed': 'Could not forget the session, so nothing was touched',
+  'accounts.opened': 'I opened the official site in its window: sign in there',
+  'accounts.openFailed': 'Could not open the session',
+  'accounts.checked': 'Session checked',
+  'accounts.checkFailed': 'Could not check the session',
+  'accounts.identityRead': 'Identity read',
+  'accounts.identityFailed':
+    'Could not read the identity: it needs the window open and you signed in',
+  'accounts.identityNone': 'No identity read yet',
+  'accounts.identityUrl': 'Profile',
+  'accounts.neverChecked': 'Never checked',
+  'accounts.checkedAt': 'Checked {time}',
+  'accounts.sessionSince': 'Session since {time}',
+  'accounts.addedAt': 'Added {time}',
+  'accounts.profile': 'Profile',
+  'accounts.error.handle': 'Type a handle.',
+  'accounts.error.spaces': 'The handle cannot contain spaces.',
+  'accounts.error.instance':
+    'That instance does not look like a domain: write just the host, for example mastodon.social.',
+  'accounts.error.noLogin': 'This source is read only: it has no sign-in page.',
+  'accounts.error.duplicate': 'That account is already in the list.',
   'sources.sessionOn': 'Browser session',
   'sources.sessionOff': 'No session',
   'alerts.title': 'Alerts',
@@ -615,7 +776,11 @@ export const dictionaries = { es, en } as const
 export type Language = keyof typeof dictionaries
 
 /** Sustituye `{clave}` por su valor. Sin dependencias ni formato mágico. */
-export function translate(lang: Language, key: MessageKey, params?: Record<string, string | number>): string {
+export function translate(
+  lang: Language,
+  key: MessageKey,
+  params?: Record<string, string | number>,
+): string {
   const template = dictionaries[lang][key] ?? es[key] ?? key
   if (!params) return template
   return template.replace(/\{(\w+)\}/g, (_match, name: string) => {

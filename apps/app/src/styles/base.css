@@ -189,11 +189,23 @@ strong,
 
 /* ── estructura ────────────────────────────────────────────────────────── */
 
+/* El armazón ocupa el ancho completo de la ventana: sin tope central, para que
+   no queden franjas muertas a los lados. Las dos columnas laterales llevan su
+   medida en un token, y el usuario puede moverla: al arrastrar, la app escribe
+   `--layout-nav-w` / `--layout-rail-w` **en este mismo elemento**, así que el
+   valor en línea manda sin tocar el token ni el resto de la interfaz. Los dos
+   tiradores que separan las tres columnas son hijos del grid, de ahí los cinco
+   tramos. */
 .shell {
   display: grid;
-  grid-template-columns: var(--layout-nav) minmax(0, 1fr) var(--layout-rail);
-  max-width: 82rem;
-  margin: 0 auto;
+  grid-template-columns:
+    var(--layout-nav-w, var(--layout-nav))
+    var(--layout-splitter)
+    minmax(0, 1fr)
+    var(--layout-splitter)
+    var(--layout-rail-w, var(--layout-rail));
+  width: 100%;
+  margin: 0;
   min-height: 100dvh;
   align-items: start;
 }
@@ -201,6 +213,57 @@ strong,
 /* El armazón sin rail solo tiene un hijo: la columna del centro. */
 .shell--wide {
   grid-template-columns: minmax(0, 1fr);
+}
+
+/* ── tiradores de columna ───────────────────────────────────────────── */
+
+/*
+ * Entre dos columnas hay una zona sensible de 8px con una línea de un filo
+ * centrada: el borde no se duplica ni se desplaza al arrastrar, y hay sitio de
+ * sobra para agarrarlo. Arrastrar cambia la medida de la columna de la
+ * izquierda; el doble clic la deja como estaba y las flechas la ajustan de uno
+ * en uno, para que también se pueda hacer con el teclado. */
+.splitter {
+  position: relative;
+  align-self: stretch;
+  display: flex;
+  justify-content: center;
+  width: var(--layout-splitter);
+  padding: 0;
+  background: none;
+  cursor: col-resize;
+  touch-action: none;
+}
+
+.splitter::before {
+  content: '';
+  width: var(--border-hairline);
+  background: var(--color-border);
+  transition:
+    background var(--duration-fast) var(--ease-standard),
+    box-shadow var(--duration-fast) var(--ease-standard);
+}
+
+.splitter:hover::before,
+.splitter:focus-visible::before {
+  background: var(--color-accent);
+}
+
+.splitter[data-dragging='true']::before {
+  background: var(--color-accent);
+  box-shadow: 0 0 0 var(--space-1) var(--color-accent-soft);
+}
+
+.splitter:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+  border-radius: var(--radius-xs);
+}
+
+/* El tirador sustituye al borde de la columna: si no, se verían dos líneas. */
+.shell--resizable .sidebar,
+.shell--resizable .column--center {
+  border-right: none;
 }
 
 .column {
@@ -285,8 +348,11 @@ strong,
 
 .content--narrow {
   width: 100%;
-  max-width: var(--layout-content);
-  margin: 0 auto;
+  /* Sin tope: el contenido llena su columna. La medida de lectura se limita
+     donde toca —en el texto— y no en el contenedor entero, que es lo que
+     dejaba franjas vacías a los lados en las pantallas de panel. */
+  max-width: none;
+  margin: 0;
 }
 
 .section {
@@ -2005,8 +2071,11 @@ body {
 }
 
 @media (min-width: 88rem) {
+  /* En pantallas enormes el armazón sí se centra, pero con un tope alto: a
+     1440p o 1600p la ventana se aprovecha entera y no aparecen franjas. */
   .shell {
-    max-width: 90rem;
+    max-width: 120rem;
+    margin: 0 auto;
   }
 }
 
@@ -2416,6 +2485,11 @@ body {
 @media (max-width: 72rem) {
   .shell {
     grid-template-columns: var(--layout-nav) minmax(0, 1fr);
+  }
+  /* Sin rail no hay nada que separar: el tirador desaparece y con él su
+     tramo del grid, así que las columnas vuelven a encajar sin huecos. */
+  .splitter {
+    display: none;
   }
   .rail {
     display: none;

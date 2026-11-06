@@ -47,6 +47,7 @@ export type IconName =
   | 'upload'
   | 'command'
   | 'pulse'
+  | 'at'
 
 const PATHS: Record<IconName, JSX.Element> = {
   home: <path d="M4 10.5 12 4l8 6.5V19a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z" />,
@@ -86,7 +87,9 @@ const PATHS: Record<IconName, JSX.Element> = {
       <path d="M4.8 17h14.4M10 20h4" />
     </>
   ),
-  layers: <path d="M12 4 3.5 8.2 12 12.4l8.5-4.2zM3.5 12.4 12 16.6l8.5-4.2M3.5 16.4 12 20.6l8.5-4.2" />,
+  layers: (
+    <path d="M12 4 3.5 8.2 12 12.4l8.5-4.2zM3.5 12.4 12 16.6l8.5-4.2M3.5 16.4 12 20.6l8.5-4.2" />
+  ),
   radio: (
     <>
       <circle cx="12" cy="12" r="2.5" />
@@ -100,7 +103,9 @@ const PATHS: Record<IconName, JSX.Element> = {
     </>
   ),
   refresh: <path d="M20 11a8 8 0 1 0-2.3 6.3M20 5v6h-6" />,
-  external: <path d="M14 5h5v5M19 5l-7.5 7.5M18 14v4a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h4" />,
+  external: (
+    <path d="M14 5h5v5M19 5l-7.5 7.5M18 14v4a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h4" />
+  ),
   copy: (
     <>
       <rect x="9" y="9" width="11" height="11" rx="2" />
@@ -123,7 +128,9 @@ const PATHS: Record<IconName, JSX.Element> = {
     </>
   ),
   plus: <path d="M12 5v14M5 12h14" />,
-  sparkles: <path d="M12 4l1.6 4.4L18 10l-4.4 1.6L12 16l-1.6-4.4L6 10l4.4-1.6zM18.5 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z" />,
+  sparkles: (
+    <path d="M12 4l1.6 4.4L18 10l-4.4 1.6L12 16l-1.6-4.4L6 10l4.4-1.6zM18.5 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z" />
+  ),
   clock: (
     <>
       <circle cx="12" cy="12" r="8.5" />
@@ -166,8 +173,17 @@ const PATHS: Record<IconName, JSX.Element> = {
   trash: <path d="M4.5 7h15M9.5 7V4.8h5V7M6.5 7l1 13h9l1-13M10.5 11v6M13.5 11v6" />,
   download: <path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M4.5 19.5h15" />,
   upload: <path d="M12 15V4M7.5 8.5 12 4l4.5 4.5M4.5 19.5h15" />,
-  command: <path d="M8.5 4.5a2.5 2.5 0 1 0 0 5h7a2.5 2.5 0 1 1 0 5h-7a2.5 2.5 0 1 0 2.5 2.5v-11A2.5 2.5 0 0 0 8.5 4.5Z" />,
+  command: (
+    <path d="M8.5 4.5a2.5 2.5 0 1 0 0 5h7a2.5 2.5 0 1 1 0 5h-7a2.5 2.5 0 1 0 2.5 2.5v-11A2.5 2.5 0 0 0 8.5 4.5Z" />
+  ),
   pulse: <path d="M3 12.5h3.5L9 6l3.5 12L15 12.5h6" />,
+  at: (
+    <>
+      <circle cx="11.6" cy="12" r="8.4" />
+      <circle cx="11.6" cy="12" r="2.7" />
+      <path d="M14.3 12v1.5a2.5 2.5 0 0 0 5 0V12" />
+    </>
+  ),
 }
 
 export interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'name'> {
