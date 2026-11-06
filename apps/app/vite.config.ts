@@ -36,8 +36,12 @@ export default defineConfig({
     chunkSizeWarningLimit: 900,
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom', 'zustand'],
+        // Vite 7 tipa manualChunks como función: el objeto ya no es válido.
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return;
+          if (id.includes('/react/') || id.includes('/react-dom/') || id.includes('/zustand/')) {
+            return 'vendor';
+          }
         },
       },
     },

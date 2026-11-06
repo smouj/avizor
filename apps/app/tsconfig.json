@@ -3,11 +3,10 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "types": ["vite/client"],
-    "baseUrl": ".",
     "paths": {
       "@latido/engine": ["../../packages/engine/src/index.ts"],
       "@latido/tokens": ["../../packages/tokens/src/tokens.mjs"],
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "vite.config.ts"]
