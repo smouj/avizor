@@ -7,7 +7,7 @@
  * motivo en `detail`.
  */
 
-import type { ActionError, SessionState } from './types'
+import type { ActionError, HealthStatus, SessionState } from './types'
 
 export function disconnectedSession(): SessionState {
   return { connection: 'DISCONNECTED', health: 'LOGIN_REQUIRED', checkedAt: null, since: null }
