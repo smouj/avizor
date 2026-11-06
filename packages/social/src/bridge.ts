@@ -15,12 +15,17 @@
 
 import { allowedHostsFor } from './urls'
 import type { ForgetReport, SessionProbe } from './probe'
-import type { ActionResult, PublicIdentity, SocialSource, TypedActionRequest } from './types'
+import type { ActionResult, MatrixSource, PublicIdentity, TypedActionRequest } from './types'
 
 export interface BrowserProfileRef {
   /** Identificador del perfil de Latido para esa cuenta (`threads/smouj`). */
   id: string
-  source: SocialSource
+  /**
+   * Entrada del catálogo a la que pertenece la cuenta. Se admite toda la matriz
+   * y no solo las redes sociales: una fuente de solo lectura con página de
+   * inicio de sesión (GitHub) también puede tener su cuenta y su perfil.
+   */
+  source: MatrixSource
 }
 
 export interface OpenSessionRequest extends BrowserProfileRef {
@@ -58,7 +63,7 @@ export interface BrowserBridge {
  * Páginas oficiales de inicio de sesión. Son las del propio sitio; Latido no
  * dibuja ningún formulario propio.
  */
-const LOGIN_URLS: Record<SocialSource, string> = {
+const LOGIN_URLS: Record<MatrixSource, string> = {
   threads: 'https://www.threads.net/login',
   bluesky: 'https://bsky.app/',
   reddit: 'https://www.reddit.com/login/',
@@ -73,13 +78,25 @@ const LOGIN_URLS: Record<SocialSource, string> = {
   // Mastodon y Lemmy son federados: el host lo pone la cuenta.
   mastodon: '',
   lemmy: '',
+  itchio: 'https://itch.io/login',
+  producthunt: 'https://www.producthunt.com/login',
+  discord: 'https://discord.com/login',
+  huggingface: 'https://huggingface.co/login',
+  npm: 'https://www.npmjs.com/login',
+  twitch: 'https://www.twitch.tv/login',
+  // Telegram abre sesión en su cliente web con el móvil delante.
+  telegram: 'https://web.telegram.org/',
+  github: 'https://github.com/login',
+  // Hacker News y RSS se leen, pero no tienen dónde iniciar sesión.
+  hackernews: '',
+  rss: '',
 }
 
 /**
  * URL de inicio de sesión de una red. En las federadas hace falta el host de la
  * instancia, que sale de la propia cuenta.
  */
-export function loginUrlFor(source: SocialSource, instanceHost?: string): string | null {
+export function loginUrlFor(source: MatrixSource, instanceHost?: string): string | null {
   const base = LOGIN_URLS[source]
   if (base) return base
   if (!instanceHost) return null
@@ -92,12 +109,12 @@ export function loginUrlFor(source: SocialSource, instanceHost?: string): string
 }
 
 /** Hosts contra los que se comprueba la sesión de una cuenta. */
-export function sessionHostsFor(source: SocialSource, instanceHost?: string): string[] {
+export function sessionHostsFor(source: MatrixSource, instanceHost?: string): string[] {
   return allowedHostsFor(source, instanceHost ? [instanceHost] : [])
 }
 
 /** Ruta del perfil de Latido para una cuenta: un directorio por red y cuenta. */
-export function browserProfileIdFor(source: SocialSource, handle: string): string {
+export function browserProfileIdFor(source: MatrixSource, handle: string): string {
   const clean = handle
     .trim()
     .replace(/^@/, '')

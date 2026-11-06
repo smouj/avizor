@@ -16,7 +16,13 @@ import {
   supports,
   unsupportedOperations,
 } from '../src/capabilities'
-import { NETWORKS, networkOf, networksByTier, socialSourcesWithAdapter } from '../src/networks'
+import {
+  NETWORKS,
+  isSocialSource,
+  networkOf,
+  networksByTier,
+  socialSourcesWithAdapter,
+} from '../src/networks'
 import { connectedSession, interactiveSession, loginRequired } from '../src/session'
 
 const NOW = 1_760_000_000_000
@@ -103,5 +109,53 @@ describe('catálogo de redes', () => {
     expect(networkOf('bluesky')?.readConnector).toBe(true)
     expect(networkOf('threads')?.readConnector).toBe(false)
     expect(networkOf('hackernews')?.tier).toBe('feed')
+  })
+
+  it('las redes ampliadas entran sin conector y sin adaptador: no se promete nada', () => {
+    const amplified = [
+      'itchio',
+      'producthunt',
+      'discord',
+      'huggingface',
+      'npm',
+      'twitch',
+      'telegram',
+    ] as const
+
+    for (const source of amplified) {
+      const network = networkOf(source)
+      expect(network, `${source} debería estar en el catálogo`).not.toBeNull()
+      expect(network?.readConnector, `${source} no tiene conector`).toBe(false)
+      expect(network?.interactionAdapter, `${source} no tiene adaptador`).toBe(false)
+      // Una cuenta sabe a qué dominios puede viajar su sesión, y son los suyos.
+      expect(network?.defaultDomains.length, `${source} necesita dominios reales`).toBeGreaterThan(
+        0,
+      )
+      expect(isSocialSource(source)).toBe(true)
+    }
+
+    // Nivel: las tres plataformas grandes al B, el resto al C. El A no se toca.
+    expect(networksByTier('B').map((network) => network.source)).toEqual([
+      'x',
+      'instagram',
+      'facebook',
+      'youtube',
+      'twitch',
+      'discord',
+      'telegram',
+    ])
+    expect(networksByTier('C').map((network) => network.source)).toEqual([
+      'tiktok',
+      'linkedin',
+      'pinterest',
+      'tumblr',
+      'lemmy',
+      'itchio',
+      'producthunt',
+      'huggingface',
+      'npm',
+    ])
+    // La unión creció, pero la trampa de capacidades sigue en pie: nadie miente.
+    expect(socialSourcesWithAdapter()).toEqual([])
   })
 })

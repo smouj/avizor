@@ -31,6 +31,16 @@ export type SocialSource =
   | 'pinterest'
   | 'tumblr'
   | 'lemmy'
+  // Ampliación del catálogo: redes donde el owner tiene cuenta y que el diseño
+  // original no listaba. Entran con el mismo contrato que las demás: sin
+  // conector de lectura y sin adaptador de interacción hasta que existan.
+  | 'itchio'
+  | 'producthunt'
+  | 'discord'
+  | 'huggingface'
+  | 'npm'
+  | 'twitch'
+  | 'telegram'
 
 /** Fuentes que solo se leen: no hay sesión que abrir ni acción que confirmar. */
 export type FeedSource = 'hackernews' | 'rss' | 'github'
