@@ -13,7 +13,7 @@
  * - Hablar con una red desde el perfil de otra: cada operación lleva sus hosts.
  */
 
-import { allowedHostsFor } from './urls'
+import { allowedHostsFor, normalizeHost } from './urls'
 import type { ForgetReport, SessionProbe } from './probe'
 import type { ActionResult, MatrixSource, PublicIdentity, TypedActionRequest } from './types'
 
@@ -100,11 +100,8 @@ export function loginUrlFor(source: MatrixSource, instanceHost?: string): string
   const base = LOGIN_URLS[source]
   if (base) return base
   if (!instanceHost) return null
-  const clean = instanceHost
-    .trim()
-    .replace(/^https?:\/\//, '')
-    .replace(/\/.*$/, '')
-  if (!clean.includes('.') || /\s/.test(clean)) return null
+  const clean = normalizeHost(instanceHost)
+  if (clean === null) return null
   return source === 'mastodon' ? `https://${clean}/auth/sign_in` : `https://${clean}/login`
 }
 

@@ -7,10 +7,7 @@
  * motivo en `detail`.
  */
 
-import type { ActionError, HealthStatus, SessionState } from './types'
-
-/** Estados en los que la sesión está viva. */
-const LIVE: readonly HealthStatus[] = ['CONNECTED', 'INTERACTION_AVAILABLE', 'READ_ONLY']
+import type { ActionError, SessionState } from './types'
 
 export function disconnectedSession(): SessionState {
   return { connection: 'DISCONNECTED', health: 'LOGIN_REQUIRED', checkedAt: null, since: null }

@@ -54,16 +54,29 @@ export function hostMatchesDomain(host: string, domain: string): boolean {
  * aporte la propia cuenta (la instancia de Mastodon, el host de Lemmy).
  * Un host sin punto, o con espacios, se descarta.
  */
+export function normalizeHost(input: string): string | null {
+  // Sin expresiones regulares: CodeQL marcaba ReDoS en las que quitaban el
+  // esquema y la ruta sobre entradas que vienen de la propia cuenta.
+  const trimmed = input.trim().toLowerCase()
+  let host = trimmed
+  if (host.startsWith('https://')) host = host.slice(8)
+  else if (host.startsWith('http://')) host = host.slice(7)
+  const slash = host.indexOf('/')
+  if (slash !== -1) host = host.slice(0, slash)
+  if (host === '' || !host.includes('.')) return null
+  for (let i = 0; i < host.length; i++) {
+    const code = host.charCodeAt(i)
+    if (code <= 32 || code === 127) return null
+  }
+  return host
+}
+
 export function allowedHostsFor(source: MatrixSource, extra: readonly string[] = []): string[] {
   const base = networkOf(source)?.defaultDomains ?? []
   const hosts = new Set<string>()
   for (const domain of [...base, ...extra]) {
-    const clean = domain
-      .trim()
-      .toLowerCase()
-      .replace(/^https?:\/\//, '')
-      .replace(/\/.*$/, '')
-    if (clean === '' || !clean.includes('.') || /\s/.test(clean)) continue
+    const clean = normalizeHost(domain)
+    if (clean === null) continue
     hosts.add(clean)
   }
   return [...hosts]
