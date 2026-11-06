@@ -1,22 +1,18 @@
+import { ActivityStrip } from '@/components/ActivityStrip'
 import { Icon } from '@/components/Icon'
 import { useLatido } from '@/state/store'
 
 /**
- * Cabecera del canal central: título de la vista, estado real de la conexión y
+ * Cabecera del canal central: título de la vista, pulso real de la actividad y
  * las acciones de siempre (buscar, tema, idioma, sondear). Se queda pegada
  * arriba.
  *
- * El indicador dice la verdad: si el flujo en directo está conectado lo dice, y
- * si solo hay sondeo también. Nunca un "en vivo" decorativo.
+ * El pulso dice la verdad: si el flujo en directo está conectado lo dice, y si
+ * solo hay sondeo enseña cuándo llegó lo último, cuánto entra por minuto, cuántas
+ * fuentes responden y de qué se está hablando. Nunca un «en vivo» decorativo.
  */
 export function Header({ title, subtitle }: { title: string; subtitle?: string }): JSX.Element {
-  const { t, polling, lastPollAt, lang, theme, setTheme, setLang, poll, query, setQuery, realtime, pollError } =
-    useLatido()
-
-  const realtimeLabel = t(`realtime.${realtime}` as 'realtime.live')
-  const realtimeOn = realtime === 'live'
-  const recentPoll = lastPollAt !== null && Date.now() - lastPollAt < 15 * 60 * 1000
-  const tone = realtimeOn ? 'live--on' : recentPoll ? 'live--ok' : pollError ? 'live--warn' : ''
+  const { t, lang, theme, setTheme, setLang, poll, query, setQuery, polling } = useLatido()
 
   return (
     <>
@@ -43,10 +39,7 @@ export function Header({ title, subtitle }: { title: string; subtitle?: string }
           ) : null}
         </label>
 
-        <span className={`live ${tone}`} title={realtimeOn ? realtimeLabel : t('app.refresh')}>
-          <span className="live__dot" />
-          {polling ? t('app.refreshing') : realtimeLabel}
-        </span>
+        <ActivityStrip />
 
         <button
           type="button"

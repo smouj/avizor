@@ -20,6 +20,7 @@ export default defineConfig({
       // intermedio, el error aparece en el sitio donde se escribe.
       '@': resolve(here, 'src'),
       '@latido/engine': resolve(here, '../../packages/engine/src/index.ts'),
+      '@latido/social': resolve(here, '../../packages/social/src/index.ts'),
       '@latido/tokens/tokens.css': resolve(here, '../../packages/tokens/dist/tokens.css'),
     },
   },

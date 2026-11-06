@@ -5,7 +5,18 @@ import { useLatido, type ViewKey } from '@/state/store'
 interface NavEntry {
   key: ViewKey
   icon: IconName
-  labelKey: 'nav.home' | 'nav.breaking' | 'nav.radar' | 'nav.following' | 'nav.explore' | 'nav.bookmarks' | 'nav.alerts' | 'nav.lists' | 'nav.sources' | 'nav.settings'
+  labelKey:
+    | 'nav.home'
+    | 'nav.breaking'
+    | 'nav.radar'
+    | 'nav.following'
+    | 'nav.explore'
+    | 'nav.bookmarks'
+    | 'nav.alerts'
+    | 'nav.lists'
+    | 'nav.accounts'
+    | 'nav.sources'
+    | 'nav.settings'
 }
 
 const PRIMARY: NavEntry[] = [
@@ -17,6 +28,7 @@ const PRIMARY: NavEntry[] = [
 ]
 
 const YOURS: NavEntry[] = [
+  { key: 'accounts', icon: 'at', labelKey: 'nav.accounts' },
   { key: 'bookmarks', icon: 'bookmark', labelKey: 'nav.bookmarks' },
   { key: 'alerts', icon: 'bell', labelKey: 'nav.alerts' },
   { key: 'lists', icon: 'layers', labelKey: 'nav.lists' },
@@ -28,6 +40,8 @@ const YOURS: NavEntry[] = [
 export function Sidebar(): JSX.Element {
   const { t, view, setView, counts, openPalette } = useLatido()
 
+  const platform = useLatido((state) => state.platform)
+  const saved = useLatido((state) => state.bookmarkedIds.length)
   const unread = useLatido((state) => state.alerts.filter((event) => !event.read).length)
 
   return (
@@ -50,12 +64,20 @@ export function Sidebar(): JSX.Element {
       >
         <Icon name="command" size="sm" />
         {t('app.commandPalette')}
-        <span className="mono micro faint grow text-right">⌘K</span>
+        <span className="mono micro faint grow text-right">
+          {platform === 'macos' ? '⌘K' : 'Ctrl K'}
+        </span>
       </button>
 
       <div className="nav">
         {PRIMARY.map((entry) => (
-          <NavItem key={entry.key} entry={entry} current={view} onSelect={setView} label={t(entry.labelKey)} />
+          <NavItem
+            key={entry.key}
+            entry={entry}
+            current={view}
+            onSelect={setView}
+            label={t(entry.labelKey)}
+          />
         ))}
       </div>
 
@@ -68,7 +90,7 @@ export function Sidebar(): JSX.Element {
             current={view}
             onSelect={setView}
             label={t(entry.labelKey)}
-            badge={entry.key === 'alerts' ? unread : entry.key === 'bookmarks' ? counts.items : undefined}
+            badge={entry.key === 'alerts' ? unread : entry.key === 'bookmarks' ? saved : undefined}
             badgeLabel={entry.key === 'alerts' ? String(unread) : undefined}
           />
         ))}
@@ -143,7 +165,9 @@ export function TabBar(): JSX.Element {
         >
           <Icon name={entry.icon} />
           <span>{t(entry.labelKey)}</span>
-          {entry.key === 'alerts' && unread > 0 ? <span className="nav__badge">{unread}</span> : null}
+          {entry.key === 'alerts' && unread > 0 ? (
+            <span className="nav__badge">{unread}</span>
+          ) : null}
         </button>
       ))}
     </nav>

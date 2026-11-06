@@ -189,17 +189,81 @@ strong,
 
 /* ── estructura ────────────────────────────────────────────────────────── */
 
+/* El armazón ocupa el ancho completo de la ventana: sin tope central, para que
+   no queden franjas muertas a los lados. Las dos columnas laterales llevan su
+   medida en un token, y el usuario puede moverla: al arrastrar, la app escribe
+   `--layout-nav-w` / `--layout-rail-w` **en este mismo elemento**, así que el
+   valor en línea manda sin tocar el token ni el resto de la interfaz. Los dos
+   tiradores que separan las tres columnas son hijos del grid, de ahí los cinco
+   tramos. */
 .shell {
   display: grid;
-  grid-template-columns: var(--layout-nav) minmax(0, 1fr) var(--layout-rail);
-  max-width: 82rem;
-  margin: 0 auto;
+  grid-template-columns:
+    var(--layout-nav-w, var(--layout-nav))
+    var(--layout-splitter)
+    minmax(0, 1fr)
+    var(--layout-splitter)
+    var(--layout-rail-w, var(--layout-rail));
+  width: 100%;
+  margin: 0;
   min-height: 100dvh;
   align-items: start;
 }
 
+/* El armazón sin rail solo tiene un hijo: la columna del centro. */
 .shell--wide {
-  grid-template-columns: var(--layout-nav) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* ── tiradores de columna ───────────────────────────────────────────── */
+
+/*
+ * Entre dos columnas hay una zona sensible de 8px con una línea de un filo
+ * centrada: el borde no se duplica ni se desplaza al arrastrar, y hay sitio de
+ * sobra para agarrarlo. Arrastrar cambia la medida de la columna de la
+ * izquierda; el doble clic la deja como estaba y las flechas la ajustan de uno
+ * en uno, para que también se pueda hacer con el teclado. */
+.splitter {
+  position: relative;
+  align-self: stretch;
+  display: flex;
+  justify-content: center;
+  width: var(--layout-splitter);
+  padding: 0;
+  background: none;
+  cursor: col-resize;
+  touch-action: none;
+}
+
+.splitter::before {
+  content: '';
+  width: var(--border-hairline);
+  background: var(--color-border);
+  transition:
+    background var(--duration-fast) var(--ease-standard),
+    box-shadow var(--duration-fast) var(--ease-standard);
+}
+
+.splitter:hover::before,
+.splitter:focus-visible::before {
+  background: var(--color-accent);
+}
+
+.splitter[data-dragging='true']::before {
+  background: var(--color-accent);
+  box-shadow: 0 0 0 var(--space-1) var(--color-accent-soft);
+}
+
+.splitter:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+  border-radius: var(--radius-xs);
+}
+
+/* El tirador sustituye al borde de la columna: si no, se verían dos líneas. */
+.shell--resizable .sidebar,
+.shell--resizable .column--center {
+  border-right: none;
 }
 
 .column {
@@ -218,6 +282,7 @@ strong,
   top: 0;
   max-height: 100dvh;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: var(--space-4) var(--space-5) var(--space-10);
   display: flex;
   flex-direction: column;
@@ -283,8 +348,11 @@ strong,
 
 .content--narrow {
   width: 100%;
-  max-width: var(--layout-content);
-  margin: 0 auto;
+  /* Sin tope: el contenido llena su columna. La medida de lectura se limita
+     donde toca —en el texto— y no en el contenedor entero, que es lo que
+     dejaba franjas vacías a los lados en las pantallas de panel. */
+  max-width: none;
+  margin: 0;
 }
 
 .section {
@@ -316,7 +384,16 @@ strong,
   gap: var(--space-4);
   padding: var(--space-4) var(--space-3) var(--space-6);
   min-height: 100dvh;
+  max-height: 100dvh;
+  overflow-y: auto;
+  overflow-x: hidden;
   border-right: var(--border-hairline) solid var(--color-border);
+}
+
+/* Igual que en el rail: en un flex en columna con altura máxima los hijos se
+   aplastan en vez de desplazarse, y el pie (Salud del archivo) desaparecía. */
+.sidebar > * {
+  flex: 0 0 auto;
 }
 
 .brand {
@@ -338,8 +415,10 @@ strong,
   width: 2.25rem;
   height: 2.25rem;
   border-radius: var(--radius-md);
-  background: var(--color-accent);
-  color: var(--color-accent-fg);
+  /* La marca se queda con el ascua aunque el acento del tema sea el del
+     sistema (azul de Windows, azul de macOS, azul de GNOME). */
+  background: var(--color-brand);
+  color: #ffffff;
   box-shadow: var(--shadow1);
   flex: none;
 }
@@ -356,6 +435,14 @@ strong,
   color: var(--color-text-faint);
   letter-spacing: var(--tracking-wide);
   text-transform: lowercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Sin esto el lema fuerza el ancho del lateral y aparece scroll horizontal. */
+.brand > .stack {
+  min-width: 0;
 }
 
 .nav {
@@ -380,7 +467,7 @@ strong,
   gap: var(--space-3);
   width: 100%;
   padding: var(--space-3) var(--space-3);
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-md);
   color: var(--color-text-muted);
   font-size: var(--text-md);
   font-weight: var(--weight-medium);
@@ -571,7 +658,11 @@ strong,
   align-items: center;
   gap: var(--space-2);
   overflow-x: auto;
-  padding: var(--space-2) var(--space-4);
+  /* Los filtros comparten ancho y margenes con la lista, para que todo quede
+     encuadrado en la misma columna. Antes iban a sangre y su borde derecho
+     llegaba hasta la barra de scroll: se veia descuadrado. */
+  padding-block: var(--space-2);
+  padding-inline: max(var(--space-4), calc((100% - var(--layout-content)) / 2));
   border-bottom: var(--border-hairline) solid var(--color-border);
   scrollbar-width: none;
 }
@@ -695,6 +786,96 @@ strong,
   }
 }
 
+/* Pulso: actividad contada, siempre a la vista. */
+.activity {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  border: var(--border-hairline) solid var(--color-border);
+  background: var(--color-surface);
+  font-size: var(--text-2xs);
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  flex: none;
+  max-width: 46ch;
+  overflow: hidden;
+}
+
+.activity__dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-text-faint);
+  flex: none;
+}
+
+.activity__label {
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--color-text);
+}
+
+.activity__since,
+.activity__unit {
+  color: var(--color-text-faint);
+}
+
+.activity__metric {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 2px;
+  font-variant-numeric: tabular-nums;
+}
+
+.activity__metric b {
+  color: var(--color-text);
+  font-weight: var(--weight-semibold);
+}
+
+.activity__words {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  overflow: hidden;
+  mask-image: linear-gradient(to right, #000 85%, transparent);
+}
+
+.activity__word {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 2px;
+  padding: 0 var(--space-2);
+  border-radius: var(--radius-sm);
+  background: var(--color-elevated);
+  color: var(--color-text-muted);
+}
+
+.activity__word b {
+  color: var(--color-accent);
+  font-weight: var(--weight-semibold);
+  font-variant-numeric: tabular-nums;
+}
+
+.activity--live {
+  border-color: var(--color-accent-line);
+}
+
+.activity--live .activity__dot {
+  background: var(--color-accent);
+  animation: pulse var(--duration-pulse) var(--ease-standard) infinite;
+}
+
+.activity--recent .activity__dot {
+  background: var(--color-positive);
+}
+
+.activity--stale .activity__dot {
+  background: var(--color-warning);
+}
+
 .state {
   display: inline-flex;
   align-items: center;
@@ -812,7 +993,7 @@ strong,
 .post__body {
   font-size: var(--text-base);
   color: var(--color-text-muted);
-  line-height: var(--leading-relaxed);
+  line-height: var(--leading-normal);
   overflow-wrap: anywhere;
 }
 
@@ -1169,6 +1350,13 @@ strong,
 
 .rail-trend__spark {
   grid-column: 1 / -1;
+}
+
+/* Cuando la fila lleva avatar (la lista de Guardados) la rejilla del rail no
+   sirve: el avatar se quedaba en la columna del título y el texto encima. */
+.rail-trend:has(.avatar) {
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
 }
 
 .rail-foot {
@@ -1883,8 +2071,11 @@ body {
 }
 
 @media (min-width: 88rem) {
+  /* En pantallas enormes el armazón sí se centra, pero con un tope alto: a
+     1440p o 1600p la ventana se aprovecha entera y no aparecen franjas. */
   .shell {
-    max-width: 90rem;
+    max-width: 120rem;
+    margin: 0 auto;
   }
 }
 
@@ -2155,11 +2346,150 @@ canvas {
   color: var(--color-warning);
 }
 
+/* ── las maneras de cada sistema ──────────────────────────────────────── */
+/* El color del tema ya venía de los tokens; aquí van las formas: Windows
+   aprieta las filas y corta las esquinas, macOS las redondea y respira, Linux
+   se queda en medio con filos marcados. Así el tema no solo cambia de color. */
+
+.header > .live,
+.header .icon-btn,
+.header > .btn {
+  flex: none;
+}
+
+.header .search-field {
+  flex: 1 1 auto;
+  min-width: 7rem;
+  max-width: 13rem;
+}
+
+[data-platform='windows'] .nav__item {
+  padding: calc(var(--space-2) + 2px) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  gap: var(--space-2);
+}
+
+[data-platform='macos'] .nav__item {
+  padding: calc(var(--space-3) * 1.05) var(--space-3);
+  font-size: var(--text-sm);
+}
+
+[data-platform='linux'] .nav__item {
+  padding: calc(var(--space-3) * 0.9) var(--space-3);
+  font-size: var(--text-sm);
+}
+
+[data-platform='windows'] .sidebar {
+  gap: var(--space-3);
+}
+
+[data-platform='windows'] .btn,
+[data-platform='windows'] .chip,
+[data-platform='windows'] .tag,
+[data-platform='windows'] .search-field,
+[data-platform='windows'] .theme-card {
+  border-radius: var(--radius-sm);
+}
+
+[data-platform='windows'] .post__title,
+[data-platform='windows'] .trend__title {
+  font-size: var(--text-base);
+}
+
+[data-platform='macos'] .post__title,
+[data-platform='macos'] .trend__title {
+  letter-spacing: -0.015em;
+}
+
+/* ── armazón: cada panel con su scroll, la ventana no se desplaza ─────── */
+/*
+ * Un solo modelo de scroll. Antes la página entera se desplazaba y, encima,
+ * el lateral y el rail tenían scroll propio: la rueda hacía una cosa u otra
+ * según dónde estuvieras, el final de los paneles quedaba fuera de alcance y
+ * las secciones se pisaban al calcular su alto. Ahora la ventana mide justo lo
+ * que mide la pantalla y se desplaza solo lo que tiene que desplazarse: la
+ * lista del centro, y cada lateral únicamente si le sobra contenido.
+ */
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+html,
+body {
+  overflow: hidden;
+}
+
+body {
+  min-height: 0;
+}
+
+/* Cualquier pantalla que no sea el armazón (recibir, alta) se desplaza si no
+   cabe: nada puede quedar cortado sin salida. */
+#root > * {
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+.shell {
+  height: 100%;
+  min-height: 0;
+  align-items: stretch;
+}
+
+.column {
+  height: 100%;
+  min-height: 0;
+}
+
+.column--center {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.sidebar,
+.rail {
+  position: static;
+  height: 100%;
+  min-height: 0;
+  max-height: none;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.header {
+  position: relative;
+  flex: none;
+}
+
+.column__foot {
+  flex: none;
+}
+
+/* El scroll del centro: la cabecera y el pie quedan fuera de él. */
+.view {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  scrollbar-gutter: stable;
+}
+
 /* ── adaptación a pantallas ───────────────────────────────────────────── */
 
 @media (max-width: 72rem) {
   .shell {
     grid-template-columns: var(--layout-nav) minmax(0, 1fr);
+  }
+  /* Sin rail no hay nada que separar: el tirador desaparece y con él su
+     tramo del grid, así que las columnas vuelven a encajar sin huecos. */
+  .splitter {
+    display: none;
   }
   .rail {
     display: none;

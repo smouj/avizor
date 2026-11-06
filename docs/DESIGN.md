@@ -225,3 +225,41 @@ leyendo `var(--color-surface)` y ya está. Se generan en
 - El contexto lateral se retira a partir de 68rem y la barra lateral a partir de
   56rem (con barra inferior en su lugar): antes se aprieta el contenido que se
   quita contexto, pero nunca se obliga a hacer scroll horizontal.
+
+## Armazón: columnas ajustables
+
+El armazón ocupa **todo el ancho de la ventana**. Antes tenía un tope de 82rem
+centrado, así que en una ventana de 1440p sobrabra un centenar de píxeles a cada
+lado y el contenido parecía flotar. Ahora el único tope es de 120rem y solo actúa
+en pantallas enormes, donde una línea de texto kilométrica no se lee.
+
+Las tres columnas son: navegación · centro (elástico) · panel lateral. Las dos
+laterales se pueden mover, y el centro se queda con lo que sobre.
+
+| Pieza | Qué hace |
+| --- | --- |
+| `.shell` | Grid de cinco tramos: nav · tirador · centro · tirador · rail |
+| `--layout-nav-w` / `--layout-rail-w` | El ancho que ha puesto el usuario, en línea en `.shell`. Si no existe, manda el token |
+| `.splitter` | Zona sensible de 8px (`--layout-splitter`) con una línea de un filo en medio |
+| `state.layout` | `{ nav: number \| null, rail: number \| null }`; `null` = la medida del token. Se guarda con el resto del estado |
+
+**Cómo se mueve**, y por qué así:
+
+- **Arrastrar**: se mide el ancho real de la columna al empezar (el token es un
+  `clamp()`, o sea que el número que importa es el que se ve, no el escrito), y
+  el movimiento se aplica en línea. El rail crece al arrastrar hacia la
+  izquierda; la navegación, hacia la derecha.
+- **Teclado**: el tirador entra con `Tab`, las flechas mueven 16px (1rem, el paso
+  de la escala de espaciado) e `Inicio` devuelve la columna al token. Es un
+  `role="separator"` con `aria-valuemin`, `aria-valuemax` y `aria-valuenow`.
+- **Doble clic**: vuelve a la medida de los tokens.
+- **Límites**: 176–384px la navegación, 208–512px el panel lateral. Por debajo, el
+  texto se parte letra a letra; por encima, la columna se come la vista.
+
+Cuando la ventana baja de 72rem el panel lateral desaparece y con él los dos
+tiradores: al no ser ya hijos del grid, sus tramos se van y las columnas vuelven
+a encajar sin huecos.
+
+El contenido del centro ocupa su columna entera (`max-width: none`). La medida de
+lectura se limita **en el texto**, no en el contenedor: capar el contenedor era lo
+que dejaba franjas vacías a los lados en las pantallas de panel, como Cuentas.

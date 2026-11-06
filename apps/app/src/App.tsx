@@ -1,10 +1,13 @@
 import { useEffect } from 'react'
+import type { CSSProperties } from 'react'
 
 import { CommandPalette, Toasts } from '@/components/CommandPalette'
 import { Header } from '@/components/Header'
 import { Rail } from '@/components/Rail'
 import { Sidebar, TabBar } from '@/components/Sidebar'
+import { Splitter } from '@/components/Splitter'
 import { SkeletonList } from '@/components/primitives'
+import { AccountsScreen } from '@/screens/Accounts'
 import { AlertsScreen } from '@/screens/Alerts'
 import { ExploreScreen } from '@/screens/Explore'
 import { FeedScreen } from '@/screens/Feed'
@@ -26,6 +29,7 @@ const HEADINGS: Record<ViewKey, { title: string; subtitle?: string }> = {
   following: { title: 'following.title', subtitle: 'following.subtitle' },
   explore: { title: 'explore.title', subtitle: 'explore.subtitle' },
   search: { title: 'search.title' },
+  accounts: { title: 'accounts.title', subtitle: 'accounts.subtitle' },
   bookmarks: { title: 'bookmarks.title', subtitle: 'bookmarks.subtitle' },
   alerts: { title: 'alerts.title', subtitle: 'alerts.subtitle' },
   lists: { title: 'lists.title', subtitle: 'lists.subtitle' },
@@ -42,6 +46,7 @@ export function App(): JSX.Element {
   const init = useLatido((state) => state.init)
   const poll = useLatido((state) => state.poll)
   const readyState = useLatido((state) => state.polling)
+  const layout = useLatido((state) => state.layout)
 
   useEffect(() => {
     void init()
@@ -102,26 +107,46 @@ export function App(): JSX.Element {
   const title = t(heading.title as 'feed.title')
   const subtitle = heading.subtitle ? t(heading.subtitle as 'feed.subtitle') : undefined
 
+  /*
+    Las medidas de las columnas laterales las manda el usuario: cuando las ha
+    movido, viajan al armazón como variables en línea (`--layout-nav-w` y
+    `--layout-rail-w`) y ganan a los tokens. Cuando no las ha tocado, se quedan
+    fuera y CSS usa el `clamp()` del token, que ya se adapta al ancho.
+  */
+  const shellStyle = {
+    ...(layout.nav === null ? {} : { '--layout-nav-w': `${layout.nav}px` }),
+    ...(layout.rail === null ? {} : { '--layout-rail-w': `${layout.rail}px` }),
+  } as CSSProperties
+
   return (
     <>
-      <div className="shell">
+      <div className="shell shell--resizable" style={shellStyle}>
         <Sidebar />
+        <Splitter side="nav" />
 
         <main className="column column--center">
           <Header title={title} subtitle={subtitle} />
 
-          {view === 'home' ? <FeedScreen mode="home" /> : null}
-          {view === 'breaking' ? <FeedScreen mode="breaking" /> : null}
-          {view === 'bookmarks' ? <FeedScreen mode="bookmarks" /> : null}
-          {view === 'radar' ? <RadarScreen /> : null}
-          {view === 'following' ? <FollowingScreen /> : null}
-          {view === 'explore' ? <ExploreScreen /> : null}
-          {view === 'search' ? <SearchScreen /> : null}
-          {view === 'alerts' ? <AlertsScreen /> : null}
-          {view === 'lists' ? <ListsScreen /> : null}
-          {view === 'sources' ? <SourcesScreen /> : null}
-          {view === 'settings' ? <SettingsScreen /> : null}
-          {view === 'item' ? <ItemScreen /> : null}
+          {/*
+            La vista es lo unico que se desplaza. La cabecera y el pie del
+            archivo se quedan fijos arriba y abajo de la columna, asi que nada
+            queda tapado y la rueda siempre hace lo que se espera.
+          */}
+          <div className="view">
+            {view === 'home' ? <FeedScreen mode="home" /> : null}
+            {view === 'breaking' ? <FeedScreen mode="breaking" /> : null}
+            {view === 'bookmarks' ? <FeedScreen mode="bookmarks" /> : null}
+            {view === 'radar' ? <RadarScreen /> : null}
+            {view === 'following' ? <FollowingScreen /> : null}
+            {view === 'explore' ? <ExploreScreen /> : null}
+            {view === 'search' ? <SearchScreen /> : null}
+            {view === 'accounts' ? <AccountsScreen /> : null}
+            {view === 'alerts' ? <AlertsScreen /> : null}
+            {view === 'lists' ? <ListsScreen /> : null}
+            {view === 'sources' ? <SourcesScreen /> : null}
+            {view === 'settings' ? <SettingsScreen /> : null}
+            {view === 'item' ? <ItemScreen /> : null}
+          </div>
 
           <footer className="column__foot">
             <span>
@@ -134,6 +159,7 @@ export function App(): JSX.Element {
           </footer>
         </main>
 
+        <Splitter side="rail" />
         <Rail />
       </div>
 

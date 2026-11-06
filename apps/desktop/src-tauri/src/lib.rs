@@ -1,11 +1,13 @@
 //! Arranque de la aplicación de escritorio.
 //!
 //! El shell es deliberadamente delgado: ventana, avisos del sistema, apertura de
-//! enlaces, secretos en el llavero del sistema y un archivo SQLite duradero. El
-//! análisis —conectores, clustering y tendencias— vive en el motor TypeScript y
-//! se ejecuta dentro del WebView, así que hay una sola implementación.
+//! enlaces, secretos en el llavero del sistema, un archivo SQLite duradero y las
+//! ventanas de las cuentas sociales (`browser.rs`). El análisis —conectores,
+//! clustering y tendencias— vive en el motor TypeScript y se ejecuta dentro del
+//! WebView, así que hay una sola implementación.
 
 mod archive;
+mod browser;
 mod secrets;
 mod session;
 mod state;
@@ -32,6 +34,8 @@ pub fn run() {
             let handle = app.handle();
             let archive = Archive::open(handle)?;
             app.manage(archive);
+            // Cuentas sociales: ventanas y perfiles de navegador por cuenta.
+            app.manage(browser::BrowserProfiles::default());
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
@@ -48,6 +52,12 @@ pub fn run() {
             session::session_import,
             session::session_peek,
             session::session_forget,
+            browser::social_open_session,
+            browser::social_check_session,
+            browser::social_read_identity,
+            browser::social_forget_session,
+            browser::social_open_profiles,
+            browser::social_is_open,
             notify,
             open_external,
         ])

@@ -28,7 +28,7 @@
     "build:desktop": "pnpm build && pnpm --filter @latido/desktop build",
     "preview": "pnpm --filter @latido/app preview",
     "typecheck": "pnpm -r typecheck",
-    "test": "pnpm --filter @latido/engine test",
+    "test": "pnpm --filter @latido/engine test && pnpm --filter @latido/social test",
     "test:watch": "pnpm --filter @latido/engine test:watch",
     "lint": "eslint .",
     "format": "prettier --write .",

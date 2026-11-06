@@ -69,7 +69,52 @@ verificar sola.
   cerrarlo antes de publicar: o un comando del shell que haga de proxy, o una
   política de conexión acorde en la CSP.
 
-## v0.3 — Varios dispositivos, sin servidor
+## v0.2.3 — Capa social: cimientos (hecho)
+
+Sin claves API de ningún tipo: la autenticación es siempre la del sitio, en su
+propia página, dentro de un perfil de navegador de Latido.
+
+- Paquete nuevo `@latido/social`: modelo de cuentas, estados de sesión,
+  capacidades efectivas, compositor por red, cola de acciones y contrato del
+  puente de navegador. TypeScript puro y 61 pruebas.
+- Separación explícita de las dos capas: `Connector` lee, `InteractionProvider`
+  participa. El motor no se toca.
+- La matriz de capacidades empieza entera en `false`, y una prueba falla el día
+  que alguien marque un adaptador sin actualizarla.
+- Documentación: [`INTERACTIONS.md`](INTERACTIONS.md),
+  [`SOCIAL-ACCOUNTS.md`](SOCIAL-ACCOUNTS.md) y
+  [`BROWSER-BRIDGE.md`](BROWSER-BRIDGE.md).
+
+## v0.3 — Cuentas y primer adaptador
+
+- **Perfiles de navegador de Latido.** Un directorio de datos por cuenta
+  (`data_directory` de Tauri/wry), ventana visible para iniciar sesión y borrado
+  completo con «Olvidar sesión».
+- **Pantalla Cuentas.** Conectar, gestionar, comprobar estado, desconectar y
+  olvidar; varias cuentas por red.
+- **Primer adaptador real (Nivel A) completo**: iniciar sesión, sesión, identidad,
+  leer, like, responder, repostar, publicar, salir y recuperarse, con selectores
+  centralizados, prueba de salud y *fixtures* de DOM saneados.
+- **Compositor** con el veredicto por cuenta ya implementado en `@latido/social`.
+
+## v0.3.1 — Segunda y tercera red
+
+- Los siguientes adaptadores del Nivel A, reutilizando el mismo contrato: si el
+  segundo adaptador necesita cambiar el núcleo, el primero está mal hecho.
+
+## v0.3.2 — Oportunidades
+
+- Bandeja que cruza el Trend Engine con las cuentas conectadas para proponer
+  dónde merece la pena participar. Relevancia derivada de señales documentadas,
+  nunca de un porcentaje inventado.
+
+## v0.3.3 — Asistente local opcional
+
+- `AssistantProvider` con modelos locales del equipo (por ejemplo Ollama en
+  `localhost`): resumir, traducir, sugerir respuestas. Opcional y desactivable;
+  el núcleo funciona sin él.
+
+## v0.4 — Varios dispositivos, sin servidor
 
 - **Sincronización opcional y cifrada.** Entre tus dispositivos y sin servidor
   del proyecto: exportar/importar un archivo cifrado, o apuntar a una carpeta
@@ -83,7 +128,7 @@ verificar sola.
   Trend Engine están en constantes documentadas: exponerlos en Ajustes, con los
   valores por defecto a la vista.
 
-## v0.4 — Distribución
+## v0.5 — Distribución
 
 - **Empaquetado en Flatpak, AUR y Homebrew**: además de `.deb`, AppImage, NSIS y
   `.dmg`, para que instalar en Linux sea un comando y no una descarga.
@@ -112,10 +157,16 @@ verificar sola.
 
 ## Lo que no está en la hoja de ruta
 
-- Servidor propio, cuentas, perfiles públicos o cualquier forma de red social.
+- Servidor propio, cuentas del proyecto, perfiles públicos o cualquier forma de
+  red social propia.
 - Telemetría, analíticas de uso o informes de error automáticos.
-- Publicar, responder o seguir desde Latido: es un lector.
-- Automatizar X fuera de su API.
+- Claves API pedidas al usuario: ni `client_id`, ni `client_secret`, ni tokens,
+  ni portales de desarrolladores.
+- Automatización masiva: auto-seguir, auto-dar «me gusta», comentarios
+  indiscriminados, mensajes masivos o publicación autónoma ilimitada. La
+  interacción es manual o asistida, y **siempre la confirma el usuario**.
+- CAPTCHA, 2FA, *fingerprint spoofing*, anti-CAPTCHA, evasión de anti-bot y
+  cualquier forma de fingir ser un cliente oficial.
 - Recomendaciones por caja negra: si Latido ordena algo, se puede explicar con
   sus números (`docs/TREND-ENGINE.md`).
 

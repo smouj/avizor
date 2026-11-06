@@ -66,6 +66,24 @@ const staticVars = [
   ['control-highlight', 'transparent'],
 ]
 
+/*
+ * Alias con los nombres que usa la hoja de estilos de la app.
+ *
+ * Ojo: en CSS una variable que no existe no avisa — la declaración entera se
+ * descarta sin más. Por eso, cuando el emisor y la interfaz se separaron de
+ * nombres (`--text-size-sm` frente a `--text-sm`), todo el tamaño de letra, los
+ * colores de superficie y las sombras se quedaron sin valor y el diseño se cayó
+ * en silencio. Los canónicos se mantienen y estos alias garantizan que ambos
+ * nombres funcionen.
+ */
+const aliases = [
+  ...Object.keys(tokens.typography.size).map((key) => [`text-${key}`, `var(--text-size-${key})`]),
+  ['shadow1', 'var(--color-shadow1)'],
+  ['shadow2', 'var(--color-shadow2)'],
+  ['color-surface-raised', 'var(--color-raised)'],
+  ['color-surface-inset', 'var(--color-inset)'],
+]
+
 const byName = (a, b) => (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0)
 const block = (pairs, indent = '  ') =>
   pairs
@@ -77,7 +95,7 @@ const block = (pairs, indent = '  ') =>
 const colorVars = (name) => flatten(tokens.theme[name], 'color')
 const aliasVars = (from, to) => colorVars(from).map(([n, v]) => [n.replace('color-', `${to}-`), v])
 
-let css = `${HEADER}\n:root {\n${block(staticVars)}\n\n  color-scheme: dark;\n}\n`
+let css = `${HEADER}\n:root {\n${block([...staticVars, ...aliases])}\n\n  color-scheme: dark;\n}\n`
 
 css += `\n/* Tema oscuro (por defecto) */\n:root,\n[data-theme='dark'] {\n${block(bodyColors('dark'))}\n}\n`
 
@@ -118,10 +136,19 @@ for (const [name, platform] of Object.entries(tokens.platforms)) {
 
 // Sin elección explícita de tema, seguimos al sistema también con plataforma
 // fijada: así la primera pintura no destella en blanco.
+//
+// Hacen falta las dos ramas (clara y oscura): si solo se emitiera la clara, en
+// un sistema en modo oscuro el tema de plataforma se quedaría sin sus colores y
+// la app caería en silencio al tema base, que no es el de ese sistema.
 for (const [name, platform] of Object.entries(tokens.platforms)) {
-  const pairs = flatten(platform.light ?? {}, 'color')
-  if (pairs.length === 0) continue
-  css += `\n@media (prefers-color-scheme: light) {\n  [data-platform='${name}']:not([data-theme]) {\n${block(pairs, '    ')}\n  }\n}\n`
+  const claros = flatten(platform.light ?? {}, 'color')
+  if (claros.length > 0) {
+    css += `\n@media (prefers-color-scheme: light) {\n  [data-platform='${name}']:not([data-theme]) {\n${block(claros, '    ')}\n  }\n}\n`
+  }
+  const oscuros = flatten(platform.dark ?? {}, 'color')
+  if (oscuros.length > 0) {
+    css += `\n@media (prefers-color-scheme: dark) {\n  [data-platform='${name}']:not([data-theme]) {\n${block(oscuros, '    ')}\n  }\n}\n`
+  }
 }
 
 function bodyColors(name) {
