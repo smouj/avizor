@@ -20,7 +20,6 @@ import type {
   PublicIdentity,
   SessionCheckRequest,
   SessionProbe,
-  SocialSource,
   TypedActionRequest,
 } from '@latido/social'
 import { browserProfileIdFor, loginUrlFor, networkOf, sessionHostsFor } from '@latido/social'

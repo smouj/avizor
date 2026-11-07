@@ -543,7 +543,7 @@ async function postJson(ctx: TranslateContext, url: string, init: RequestInit, p
   try {
     response = await ctx.fetch(url, init)
   } catch (error) {
-    throw new Error(`${provider}: no se pudo conectar con ${url} (${describeError(error)}).`)
+    throw new Error(`${provider}: no se pudo conectar con ${url} (${describeError(error)}).`, { cause: error })
   }
 
   if (!response.ok) {

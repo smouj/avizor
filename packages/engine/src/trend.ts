@@ -12,7 +12,7 @@
  *  - `novelty`   un tema joven puntúa más alto que el mismo tema 6 h después.
  *  - `score`     0–100, media ponderada normalizada. Orden del Radar.
  */
-import { firstLine, simhashSimilarity, titleFromKeywords } from './text'
+import { simhashSimilarity, titleFromKeywords } from './text'
 import type { Cluster, Item, SourceKind, SourceStats, Trend, TrendReason, TrendState } from './types'
 
 export interface TrendOptions {

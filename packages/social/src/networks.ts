@@ -6,7 +6,7 @@
  * Todo lo demás sale de ahí, no de la ilusión de soporte.
  */
 
-import type { InteractionCapabilities, MatrixSource, SocialSource, SocialTier } from './types'
+import type { MatrixSource, SocialSource, SocialTier } from './types'
 
 export interface NetworkDescriptor {
   source: MatrixSource

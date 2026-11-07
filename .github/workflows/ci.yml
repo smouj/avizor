@@ -35,6 +35,8 @@ jobs:
           pnpm --filter @latido/tokens build
           diff -u /tmp/tokens-a.css packages/tokens/dist/tokens.css
           diff -u /tmp/tokens-a.json packages/tokens/dist/tokens.json
+      - name: Estilo y reglas
+        run: pnpm lint
       - name: Tipos
         run: pnpm -r typecheck
       - name: Tests del motor
