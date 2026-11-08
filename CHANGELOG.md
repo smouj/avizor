@@ -3,7 +3,7 @@
 Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 Versionado [semántico](https://semver.org/lang/es/).
 
-## [Sin publicar]
+## [0.3.0] - 2026-11-08
 
 ### Añadido
 - **Capa social: cimientos.** Paquete nuevo `@latido/social` (TypeScript puro, 69
