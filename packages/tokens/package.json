@@ -1,6 +1,6 @@
 {
   "name": "@latido/tokens",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "private": true,
   "description": "Fuente única de verdad del sistema de diseño de Latido: color, tipografía, espacio, movimiento.",
   "type": "module",

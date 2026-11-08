@@ -3,6 +3,16 @@
 Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 Versionado [semántico](https://semver.org/lang/es/).
 
+## [0.3.1] - 2026-11-08
+
+### Corregido
+
+- El escritorio declaraba la version en `tauri.conf.json` y `Cargo.toml`: los artefactos de la 0.3.0 salieron etiquetados como 0.2.2. Ahora las tres versiones suben juntas.
+
+### Añadido
+
+- Pase visual y modelo de scroll por panel (venian de la rama local), conservando los tiradores de columna y la pantalla de cuentas del hub social.
+
 ## [0.3.0] - 2026-11-08
 
 ### Añadido

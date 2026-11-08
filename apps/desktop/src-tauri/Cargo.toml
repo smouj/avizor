@@ -1,6 +1,6 @@
 [package]
 name = "latido"
-version = "0.2.2"
+version = "0.3.1"
 description = "Latido — el pulso de internet, local-first"
 authors = ["smouj <smouj@users.noreply.github.com>"]
 edition = "2021"
