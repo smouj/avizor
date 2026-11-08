@@ -1,8 +1,8 @@
 {
-  "name": "@latido/tokens",
-  "version": "0.3.1",
+  "name": "@avizor/tokens",
+  "version": "0.3.2",
   "private": true,
-  "description": "Fuente única de verdad del sistema de diseño de Latido: color, tipografía, espacio, movimiento.",
+  "description": "Fuente única de verdad del sistema de diseño de Avizor: color, tipografía, espacio, movimiento.",
   "type": "module",
   "license": "AGPL-3.0-or-later",
   "exports": {

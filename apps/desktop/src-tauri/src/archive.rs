@@ -5,7 +5,7 @@
 //! su serie temporal. El esquema es el mismo que documenta
 //! `packages/engine/src/store/schema.ts` y el índice FTS5 se mantiene solo, con
 //! disparadores, así que cualquiera puede abrir el archivo con `sqlite3` y
-//! buscar dentro sin pasar por Latido.
+//! buscar dentro sin pasar por Avizor.
 
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -102,7 +102,7 @@ impl Archive {
             .map_err(|error| format!("no se pudo resolver el directorio de datos: {error}"))?;
         fs::create_dir_all(&dir)?;
         let archive = Self {
-            path: dir.join("latido.sqlite"),
+            path: dir.join("avizor.sqlite"),
         };
         let connection = archive.connection()?;
         connection.execute_batch(SCHEMA_SQL)?;
@@ -312,7 +312,7 @@ pub fn archive_export(
         .or_else(|_| app.path().app_data_dir())
         .map_err(|error| error.to_string())?;
     let stamp = now_millis() / 1000;
-    let destination = directory.join(format!("latido-archivo-{stamp}.sqlite"));
+    let destination = directory.join(format!("avizor-archivo-{stamp}.sqlite"));
     archive
         .export(&destination)
         .map_err(|error| error.to_string())

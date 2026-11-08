@@ -6,7 +6,7 @@
  */
 import { describe, expect, it } from 'vitest'
 
-import type { ActivitySnapshot } from '@latido/engine'
+import type { ActivitySnapshot } from '@avizor/engine'
 
 import {
   activityNoteKey,
@@ -29,7 +29,7 @@ function snapshot(overrides: Partial<ActivitySnapshot> = {}): ActivitySnapshot {
     keywords: [
       { word: 'openai', count: 9, sources: 3, topics: 2 },
       { word: 'rust', count: 5, sources: 1, topics: 1 },
-      { word: 'latido', count: 4, sources: 1, topics: 1 },
+      { word: 'avizor', count: 4, sources: 1, topics: 1 },
       { word: 'otra', count: 1, sources: 1, topics: 1 },
     ],
     sources: [
@@ -94,7 +94,7 @@ describe('fuentes y palabras', () => {
     expect(topKeywords(snapshot()).map((keyword) => keyword.word)).toEqual([
       'openai',
       'rust',
-      'latido',
+      'avizor',
     ])
     expect(topKeywords(snapshot(), 1)).toHaveLength(1)
     expect(topKeywords(null)).toEqual([])

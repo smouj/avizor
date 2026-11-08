@@ -1,4 +1,4 @@
-//! Sesión del navegador para Latido.
+//! Sesión del navegador para Avizor.
 //!
 //! El problema que resuelve: Reddit y la búsqueda de Bluesky responden 403 a una
 //! petición anónima. El usuario ya tiene sesión abierta en su navegador, así que

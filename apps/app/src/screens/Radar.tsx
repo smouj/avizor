@@ -4,7 +4,7 @@ import { TrendCard } from '@/components/TrendCard'
 import { PostCard } from '@/components/PostCard'
 import { EmptyState } from '@/components/primitives'
 import { Icon } from '@/components/Icon'
-import { useLatido } from '@/state/store'
+import { useAvizor } from '@/state/store'
 
 type StateFilter = 'all' | 'breaking' | 'emerging' | 'rising'
 
@@ -14,9 +14,9 @@ type StateFilter = 'all' | 'breaking' | 'emerging' | 'rising'
  * completa —todas las redes, en un solo hilo— sin salir de la vista.
  */
 export function RadarScreen(): JSX.Element {
-  const { t, trends, selectTrend, selectedTrendId, items } = useLatido()
-  const filters = useLatido((state) => state.filters)
-  const setFilters = useLatido((state) => state.setFilters)
+  const { t, trends, selectTrend, selectedTrendId, items } = useAvizor()
+  const filters = useAvizor((state) => state.filters)
+  const setFilters = useAvizor((state) => state.setFilters)
 
   const state = (filters.topics[0] as StateFilter | undefined) ?? 'all'
   const visible = useMemo(

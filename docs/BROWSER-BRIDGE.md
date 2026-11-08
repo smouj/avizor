@@ -1,6 +1,6 @@
 # Puente de navegador
 
-Cómo Latido usa la web real de cada servicio sin claves API y sin esconder nada.
+Cómo Avizor usa la web real de cada servicio sin claves API y sin esconder nada.
 
 ## El contrato
 
@@ -20,7 +20,7 @@ interface BrowserBridge {
 El flujo completo:
 
 ```text
-Latido UI
+Avizor UI
     ↓
 Social Action            (cola de acciones, con confirmación del usuario)
     ↓
@@ -28,7 +28,7 @@ InteractionProvider      (adaptador de la red)
     ↓
 BrowserBridge            (este contrato)
     ↓
-perfil de navegador propio de Latido
+perfil de navegador propio de Avizor
     ↓
 sitio oficial
 ```
@@ -76,7 +76,7 @@ red ni, mucho menos, el perfil del navegador del usuario.
 escritorio para las cuentas. En el navegador devuelve `null` en vez de fingir
 soporte.
 
-**En la capa social** (`@latido/social`): `sessionFromProbe()` traduce lo que vio
+**En la capa social** (`@avizor/social`): `sessionFromProbe()` traduce lo que vio
 el escritorio a estado de sesión, con sus pruebas. Es deliberado que el shell
 devuelva hechos (ventana abierta, recuentos, fecha) y que la política viva aquí.
 

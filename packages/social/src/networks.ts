@@ -14,7 +14,7 @@ export interface NetworkDescriptor {
   tier: SocialTier
   /** Dominios a los que puede viajar la sesión de esta red. Nunca a otra. */
   defaultDomains: string[]
-  /** Hay conector de lectura en `@latido/engine`. */
+  /** Hay conector de lectura en `@avizor/engine`. */
   readConnector: boolean
   /**
    * Hay adaptador web de interacción. Empieza en `false` en todas: se enciende

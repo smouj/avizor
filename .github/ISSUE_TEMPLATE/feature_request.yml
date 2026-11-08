@@ -1,12 +1,12 @@
 name: Propuesta
-description: Una idea para mejorar Latido.
+description: Una idea para mejorar Avizor.
 title: '[Propuesta] '
 labels: ['propuesta']
 body:
   - type: markdown
     attributes:
       value: |
-        Latido es local-first y sin servidor: cualquier propuesta que añada cuentas,
+        Avizor es local-first y sin servidor: cualquier propuesta que añada cuentas,
         telemetría o códigos de servidor propios se descarta de entrada. Todo lo
         demás, adelante.
 

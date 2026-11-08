@@ -13,7 +13,7 @@
 //!  - Si algo falla (base bloqueada, clave de otro perfil, esquema `v20`), se
 //!    devuelve un error en español y **no se inventa ningún dato**.
 //!
-//! El algoritmo de descifrado vive en el crate `latido-chrome-session`, que es
+//! El algoritmo de descifrado vive en el crate `avizor-chrome-session`, que es
 //! lógica pura y está cubierto por pruebas. Aquí solo queda el acceso al sistema:
 //! rutas de Windows, SQLite y llavero.
 
@@ -22,14 +22,14 @@ use std::path::{Path, PathBuf};
 use std::time::{SystemTime, UNIX_EPOCH};
 
 use keyring::Entry;
-use latido_chrome_session::{
+use avizor_chrome_session::{
     cookie_header, encrypted_key_from_local_state, key_from_encrypted, resolve_row, CookieRow,
     SessionError,
 };
 use rusqlite::{Connection, OpenFlags};
 use serde::{Deserialize, Serialize};
 
-const SERVICE: &str = "app.latido.desktop";
+const SERVICE: &str = "app.avizor.desktop";
 /// Prefijo de los secretos que guardan una sesión importada.
 const KEY_PREFIX: &str = "session.cookie.";
 
@@ -230,12 +230,12 @@ fn describe_locked(message: String, path: &Path) -> String {
     }
 }
 
-fn read_key(local_state: &Path) -> Result<latido_chrome_session::SessionKey, SessionError> {
+fn read_key(local_state: &Path) -> Result<avizor_chrome_session::SessionKey, SessionError> {
     let json = fs::read_to_string(local_state).map_err(|error| {
         SessionError::MissingKey(format!("no puedo leer `Local State` ({error})"))
     })?;
     let encrypted = encrypted_key_from_local_state(&json)?;
-    key_from_encrypted(&encrypted, latido_chrome_session::dpapi_unprotect)
+    key_from_encrypted(&encrypted, avizor_chrome_session::dpapi_unprotect)
 }
 
 /// Importa la sesión de un perfil para un conjunto de dominios.
@@ -298,7 +298,7 @@ pub fn session_import(
         let mut row = row.map_err(|error| format!("fila de cookie ilegible: {error}"))?;
         if !domains
             .iter()
-            .any(|domain| latido_chrome_session::host_matches(&row.host_key, domain))
+            .any(|domain| avizor_chrome_session::host_matches(&row.host_key, domain))
         {
             continue;
         }

@@ -1,7 +1,7 @@
 /**
  * RSS / Atom — la fuente más flexible y la que menos depende de terceros.
  * Un usuario puede apuntar a un blog, a un medio o al feed de releases de un
- * proyecto y Latido lo trata igual que a una red social.
+ * proyecto y Avizor lo trata igual que a una red social.
  */
 import { XMLParser } from 'fast-xml-parser'
 

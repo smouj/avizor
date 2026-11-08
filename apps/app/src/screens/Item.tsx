@@ -3,7 +3,7 @@ import { useMemo } from 'react'
 import { PostCard } from '@/components/PostCard'
 import { Avatar, EmptyState, SourceDot, sourceLabel } from '@/components/primitives'
 import { Icon } from '@/components/Icon'
-import { useLatido } from '@/state/store'
+import { useAvizor } from '@/state/store'
 import { clockTime, compactNumber, hostOf, longDate, relativeTime } from '@/lib/format'
 import { copyToClipboard, openExternal } from '@/platform/bridge'
 
@@ -13,7 +13,7 @@ import { copyToClipboard, openExternal } from '@/platform/bridge'
  * que ninguna plataforma te puede enseñar.
  */
 export function ItemScreen(): JSX.Element {
-  const { t, lang, selectedItemId, items, selectTrend, toggleBookmark, toast, bookmarkedIds } = useLatido()
+  const { t, lang, selectedItemId, items, selectTrend, toggleBookmark, toast, bookmarkedIds } = useAvizor()
 
   const item = items.find((entry) => entry.id === selectedItemId) ?? null
   const conversation = useMemo(

@@ -1,5 +1,5 @@
 /**
- * Latido — sistema de diseño.
+ * Avizor — sistema de diseño.
  *
  * Este archivo es la ÚNICA fuente de verdad de los tokens. `scripts/build.mjs`
  * lo consume y emite `dist/tokens.css` (variables CSS) y `dist/tokens.json`.
@@ -271,7 +271,7 @@ export const data = {
  * sigue siendo monoespaciada—, pero cada tema adopta las maneras del sistema en
  * el que vive: radios, densidad, familia tipográfica, elevación y temperatura del
  * neutro. Así, en Windows parece de Windows y en macOS de macOS, sin dejar de ser
- * Latido. Las claves de color pisan a las del tema base.
+ * Avizor. Las claves de color pisan a las del tema base.
  */
 export const platforms = {
   windows: {
@@ -437,7 +437,7 @@ export const platforms = {
   },
 }
 
-/** Identificador de tema de plataforma. `base` es el aspecto neutro de Latido. */
+/** Identificador de tema de plataforma. `base` es el aspecto neutro de Avizor. */
 export const PLATFORM_NAMES = ['windows', 'macos', 'linux']
 
 export const tokens = { palette, theme, platforms, PLATFORM_NAMES, typography, space, radius, border, motion, layout, z, breakpoint, data }

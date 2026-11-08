@@ -3,6 +3,13 @@
 Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 Versionado [semántico](https://semver.org/lang/es/).
 
+## [0.3.2] - 2026-11-08
+
+### Cambiado
+
+- **El proyecto pasa a llamarse Avizor.** El nombre anterior estaba en uso. Cambian el nombre del producto, los seis paquetes (@avizor/*), el identificador del escritorio (app.avizor.desktop), el crate de Rust (avizor, avizor_lib) y el repositorio.
+- Sin cambios de comportamiento: misma funcionalidad, mismos tests.
+
 ## [0.3.1] - 2026-11-08
 
 ### Corregido
@@ -16,7 +23,7 @@ Versionado [semántico](https://semver.org/lang/es/).
 ## [0.3.0] - 2026-11-08
 
 ### Añadido
-- **Capa social: cimientos.** Paquete nuevo `@latido/social` (TypeScript puro, 69
+- **Capa social: cimientos.** Paquete nuevo `@avizor/social` (TypeScript puro, 69
   pruebas) que separa *leer* de *participar*: el motor sigue siendo el lector y
   esta capa se encarga de cuentas, sesiones web, capacidades, compositor y
   acciones.
@@ -60,11 +67,11 @@ Versionado [semántico](https://semver.org/lang/es/).
 
 ### Notas
 - **Ninguna red tiene todavía adaptador de interacción.** No se publica, no se
-  da «me gusta» y no se responde desde Latido: la interfaz sigue comportándose
+  da «me gusta» y no se responde desde Avizor: la interfaz sigue comportándose
   como un lector y la matriz de capacidades lo dice. Lo que hay probado es el
   contrato, la cola, la composición, el aislamiento y las ventanas de cuenta.
 - **Cero claves API.** La autenticación es la del sitio, en su propia página,
-  dentro de un perfil de Latido. No hay ningún campo para contraseñas en el
+  dentro de un perfil de Avizor. No hay ningún campo para contraseñas en el
   modelo de datos y los valores de cookies no salen del shell.
 - Lo que se puede verificar en esta máquina es que **compila y pasa las
   pruebas**; el comportamiento real de la ventana de una cuenta (inicio de
@@ -78,7 +85,7 @@ Versionado [semántico](https://semver.org/lang/es/).
   reutilizar la que ya tienes abierta en el navegador. En Ajustes hay una sección
   por fuente con «Usar mi sesión del navegador», el navegador y el perfil
   elegidos y los dominios afectados a la vista.
-  - Crate propio `latido-chrome-session` (Rust, lógica pura y probada): lee
+  - Crate propio `avizor-chrome-session` (Rust, lógica pura y probada): lee
     `Local State`, descifra la clave con **DPAPI** y los valores con
     **AES-256-GCM** (`v10`), empareja dominios como manda RFC 6265 y monta una
     sola cabecera `Cookie`. El acceso al sistema queda reducido a una llamada.
@@ -122,7 +129,7 @@ Versionado [semántico](https://semver.org/lang/es/).
   concurrencia y espaciado, y **botón para ver el original** en cada publicación.
   La clave del proveedor se guarda en el llavero del sistema, nunca en el archivo
   de estado.
-- **Marca definitiva**: superelipse de esquina continua y latido con pico y valle,
+- **Marca definitiva**: superelipse de esquina continua y avizor con pico y valle,
   generados por `scripts/make-icons.mjs` junto con el vector y el logo de la
   interfaz (una sola fuente de verdad). Ver `docs/brand/`.
 - `scripts/install-desktop.sh`: instala binario, iconos, lanzador y acceso directo

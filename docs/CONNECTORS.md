@@ -101,7 +101,7 @@ funcionando.
 
 Todo el tráfico pasa por `packages/engine/src/sources/http.ts`:
 
-- **User-Agent propio:** `Latido/0.1 (+https://github.com/smouj/latido; local-first reader)`.
+- **User-Agent propio:** `Avizor/0.1 (+https://github.com/smouj/avizor; local-first reader)`.
 - **Tiempo máximo:** 12 s por intento (`DEFAULT_TIMEOUT`).
 - **Reintentos:** 2 (`MAX_RETRIES`), con espera creciente. En `429`/`503` se
   respeta `Retry-After` (hasta 15 s); si no lo trae, espera `800 ms · intento`.
@@ -121,7 +121,7 @@ usan, porque el espaciado lo marca la periodicidad del sondeo.
   volver a la ventana. `defaultSourceConfigs()` no fija `pollMs`, así que en la
   práctica son 5 minutos.
 - `Connector.defaultPollMs` es el ritmo recomendado de cada red y se muestra en
-  la pantalla Fuentes; no programa nada por sí solo (`@latido/engine` lo usa el
+  la pantalla Fuentes; no programa nada por sí solo (`@avizor/engine` lo usa el
   motor al informar, no al sondear).
 - Reddit es la excepción con más disciplina: sondeo cada 5 minutos y OAuth
   opcional para subir el límite.
@@ -176,11 +176,11 @@ Notas de implementación que conviene no romper:
   público y Jetstream), GitHub (API pública), Mastodon (API pública de cada
   instancia), Reddit (`/<sub>/new.json`, permitido para lectura ligera) y RSS
   (los feeds que el usuario elige).
-- **Identificación.** Todas las peticiones llevan el User-Agent de Latido con la
+- **Identificación.** Todas las peticiones llevan el User-Agent de Avizor con la
   URL del proyecto. Reddit y GitHub lo exigen; las demás también lo agradecen.
 - **Límites de ritmo.** Se respeta `Retry-After` y se espacian los sondeos según
   `defaultPollMs`; el orden de magnitud es de minutos, no de segundos. Con OAuth
-  o token se respeta igual: el límite es del usuario, no de Latido.
+  o token se respeta igual: el límite es del usuario, no de Avizor.
 - **Sin credenciales por defecto.** Hacker News, Bluesky y GitHub funcionan sin
   clave. Reddit y GitHub admiten un token opcional, guardado en el llavero del
   sistema (`storeSecret`) y nunca en el repositorio ni en la instantánea.

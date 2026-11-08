@@ -1,6 +1,6 @@
 # Diseño
 
-Este documento es el contrato visual de Latido. Si algo no está aquí, no debería
+Este documento es el contrato visual de Avizor. Si algo no está aquí, no debería
 estar en la interfaz.
 
 - **Tokens:** `packages/tokens/src/tokens.mjs` (fuente única) → `dist/tokens.css`.
@@ -16,7 +16,7 @@ La mayoría de las aplicaciones "de datos" se ven igual: fondo azul-morado oscur
 acento índigo o cian neón, degradados de cristal, tarjetas flotando con sombras
 grandes y emojis decorativos. Es el uniforme de la IA, y no comunica nada.
 
-Latido parte de tres decisiones incómodas:
+Avizor parte de tres decisiones incómodas:
 
 1. **Un solo acento.** El ascua (`#E4572E`) es el único color con carácter.
    Sirve para una cosa: *esto está vivo*. Si todo brilla, nada brilla.
@@ -197,7 +197,7 @@ local. Es el atajo que separa una app de escritorio de una página web.
 ## Tres temas, uno por sistema
 
 El sistema de diseño tiene una capa de tokens base y **tres temas de plataforma**
-que la ajustan. No son tres aspectos distintos: son el mismo Latido con las
+que la ajustan. No son tres aspectos distintos: son el mismo Avizor con las
 maneras del sistema en el que corre.
 
 | Token | Windows | macOS | Linux |

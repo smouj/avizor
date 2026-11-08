@@ -1,6 +1,6 @@
 import { Icon, type IconName } from '@/components/Icon'
 import { Logo } from '@/components/Logo'
-import { useLatido, type ViewKey } from '@/state/store'
+import { useAvizor, type ViewKey } from '@/state/store'
 
 interface NavEntry {
   key: ViewKey
@@ -38,11 +38,11 @@ const YOURS: NavEntry[] = [
 
 /** Barra lateral de escritorio. La marca, dos grupos y el estado del archivo. */
 export function Sidebar(): JSX.Element {
-  const { t, view, setView, counts, openPalette } = useLatido()
+  const { t, view, setView, counts, openPalette } = useAvizor()
 
-  const platform = useLatido((state) => state.platform)
-  const saved = useLatido((state) => state.bookmarkedIds.length)
-  const unread = useLatido((state) => state.alerts.filter((event) => !event.read).length)
+  const platform = useAvizor((state) => state.platform)
+  const saved = useAvizor((state) => state.bookmarkedIds.length)
+  const unread = useAvizor((state) => state.alerts.filter((event) => !event.read).length)
 
   return (
     <nav className="sidebar" aria-label={t('nav.primary')}>
@@ -51,7 +51,7 @@ export function Sidebar(): JSX.Element {
           <Logo size={30} />
         </span>
         <span className="stack stack--tight" style={{ gap: 0, alignItems: 'flex-start' }}>
-          <span className="brand__name">latido</span>
+          <span className="brand__name">avizor</span>
           <span className="brand__tag">{t('app.tagline')}</span>
         </span>
       </button>
@@ -149,8 +149,8 @@ const TABS: NavEntry[] = [
 
 /** Pestañas inferiores: la app tiene que ser cómoda también en el móvil. */
 export function TabBar(): JSX.Element {
-  const { t, view, setView } = useLatido()
-  const unread = useLatido((state) => state.alerts.filter((event) => !event.read).length)
+  const { t, view, setView } = useAvizor()
+  const unread = useAvizor((state) => state.alerts.filter((event) => !event.read).length)
   return (
     <nav className="tabbar" aria-label={t('nav.primary')}>
       {TABS.map((entry) => (

@@ -1,8 +1,8 @@
 import { useState } from 'react'
 
 import { Icon, BrandMark } from '@/components/Icon'
-import { useLatido } from '@/state/store'
-import { CONNECTORS } from '@latido/engine'
+import { useAvizor } from '@/state/store'
+import { CONNECTORS } from '@avizor/engine'
 import { sourceLabel } from '@/components/primitives'
 
 const INTERESTS = [
@@ -23,7 +23,7 @@ const STARTER_SOURCES = ['hackernews', 'bluesky', 'github', 'reddit'] as const
  * cuándo avisarte. Se puede saltar y mirar con datos de ejemplo.
  */
 export function Onboarding(): JSX.Element {
-  const { t, completeOnboarding, toggleSource, sources, rules } = useLatido()
+  const { t, completeOnboarding, toggleSource, sources, rules } = useAvizor()
   const [interests, setInterests] = useState<string[]>(['ai', 'opensource'])
 
   const enabled = new Set(sources.filter((source) => source.enabled).map((source) => source.kind))
@@ -38,7 +38,7 @@ export function Onboarding(): JSX.Element {
           </span>
           <span>
             <span className="display" style={{ fontSize: 'var(--text-2xl)', display: 'block' }}>
-              latido
+              avizor
             </span>
             <span className="micro faint">{t('app.tagline')}</span>
           </span>

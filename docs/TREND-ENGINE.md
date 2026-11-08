@@ -64,7 +64,7 @@ score = 0,40 · jaccard(tokens del item, keywords del tema)
 - **Duplicados:** si el item ya está en el tema, no se añade: se incrementa
   `corroborations`.
 - **Fusión (`merge`) y retirada (`evict`):** se ejecutan desde
-  `LatidoEngine.consolidate()`, no en cada item.
+  `AvizorEngine.consolidate()`, no en cada item.
 
 ### Título del tema
 
@@ -286,7 +286,7 @@ la aceleración.
 
 ## Series temporales
 
-`LatidoEngine.recompute(now)` guarda un punto por minuto y tema, con
+`AvizorEngine.recompute(now)` guarda un punto por minuto y tema, con
 `at = now − (now % 60_000)`, y `volume`, `score` y `velocity` de ese instante. En
 memoria se conservan los últimos 720 puntos por tema (12 horas a un punto por
 minuto). En SQLite viven en `trend_points`, con clave primaria `(trend_id, at)`.

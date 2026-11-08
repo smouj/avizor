@@ -19,7 +19,7 @@ import { RadarScreen } from '@/screens/Radar'
 import { SearchScreen } from '@/screens/Search'
 import { SettingsScreen } from '@/screens/Settings'
 import { SourcesScreen } from '@/screens/Sources'
-import { useLatido, type ViewKey } from '@/state/store'
+import { useAvizor, type ViewKey } from '@/state/store'
 
 /** Título y subtítulo de cada vista. La cabecera los usa tal cual. */
 const HEADINGS: Record<ViewKey, { title: string; subtitle?: string }> = {
@@ -39,14 +39,14 @@ const HEADINGS: Record<ViewKey, { title: string; subtitle?: string }> = {
 }
 
 export function App(): JSX.Element {
-  const ready = useLatido((state) => state.ready)
-  const onboarded = useLatido((state) => state.onboarded)
-  const view = useLatido((state) => state.view)
-  const t = useLatido((state) => state.t)
-  const init = useLatido((state) => state.init)
-  const poll = useLatido((state) => state.poll)
-  const readyState = useLatido((state) => state.polling)
-  const layout = useLatido((state) => state.layout)
+  const ready = useAvizor((state) => state.ready)
+  const onboarded = useAvizor((state) => state.onboarded)
+  const view = useAvizor((state) => state.view)
+  const t = useAvizor((state) => state.t)
+  const init = useAvizor((state) => state.init)
+  const poll = useAvizor((state) => state.poll)
+  const readyState = useAvizor((state) => state.polling)
+  const layout = useAvizor((state) => state.layout)
 
   useEffect(() => {
     void init()
@@ -63,7 +63,7 @@ export function App(): JSX.Element {
 
   // Sondeo periódico: el más rápido de las fuentes activas, con suelo de 60 s.
   useEffect(() => {
-    const sources = useLatido.getState().sources
+    const sources = useAvizor.getState().sources
     const fastest = Math.min(
       ...sources.filter((source) => source.enabled).map((source) => source.pollMs ?? 300_000),
       300_000,
@@ -76,7 +76,7 @@ export function App(): JSX.Element {
     const onKey = (event: KeyboardEvent) => {
       const target = event.target as HTMLElement | null
       if (target && ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)) return
-      const state = useLatido.getState()
+      const state = useAvizor.getState()
       if (event.key.toLowerCase() === 'r') void state.poll()
       if (event.key.toLowerCase() === 'g') {
         const next = (event.shiftKey ? 'radar' : 'home') as ViewKey
@@ -151,8 +151,8 @@ export function App(): JSX.Element {
           <footer className="column__foot">
             <span>
               {t('app.updated', { time: readyState ? t('app.refreshing') : t('app.live') })} ·{' '}
-              <a href="https://github.com/smouj/latido" target="_blank" rel="noopener noreferrer">
-                latido
+              <a href="https://github.com/smouj/avizor" target="_blank" rel="noopener noreferrer">
+                avizor
               </a>{' '}
               · AGPL-3.0
             </span>

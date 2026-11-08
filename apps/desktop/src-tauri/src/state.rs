@@ -12,7 +12,7 @@ use std::path::PathBuf;
 
 use tauri::{AppHandle, Manager};
 
-const FILE_NAME: &str = "latido-state.json";
+const FILE_NAME: &str = "avizor-state.json";
 
 fn state_path(app: &AppHandle) -> Result<PathBuf, String> {
     let directory = app

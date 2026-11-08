@@ -1,14 +1,14 @@
 /**
  * Puente de navegador: el contrato, no la implementación.
  *
- * Aquí se declara qué puede pedirle Latido al navegador y qué no. La
+ * Aquí se declara qué puede pedirle Avizor al navegador y qué no. La
  * implementación vive en el escritorio (Tauri): un perfil propio por cuenta,
  * ventana visible, sesión persistente y operaciones tipeadas.
  *
  * Lo que este contrato prohíbe por diseño:
  *
  * - Pedir credenciales: no hay ningún campo donde quepan. El usuario entra en
- *   la página real de la red, dentro del perfil de Latido.
+ *   la página real de la red, dentro del perfil de Avizor.
  * - Ejecutar JavaScript arbitrario: solo llegan `TypedActionRequest`.
  * - Hablar con una red desde el perfil de otra: cada operación lleva sus hosts.
  */
@@ -18,7 +18,7 @@ import type { ForgetReport, SessionProbe } from './probe'
 import type { ActionResult, MatrixSource, PublicIdentity, TypedActionRequest } from './types'
 
 export interface BrowserProfileRef {
-  /** Identificador del perfil de Latido para esa cuenta (`threads/smouj`). */
+  /** Identificador del perfil de Avizor para esa cuenta (`threads/smouj`). */
   id: string
   /**
    * Entrada del catálogo a la que pertenece la cuenta. Se admite toda la matriz
@@ -60,7 +60,7 @@ export interface BrowserBridge {
 }
 
 /**
- * Páginas oficiales de inicio de sesión. Son las del propio sitio; Latido no
+ * Páginas oficiales de inicio de sesión. Son las del propio sitio; Avizor no
  * dibuja ningún formulario propio.
  */
 const LOGIN_URLS: Record<MatrixSource, string> = {
@@ -110,7 +110,7 @@ export function sessionHostsFor(source: MatrixSource, instanceHost?: string): st
   return allowedHostsFor(source, instanceHost ? [instanceHost] : [])
 }
 
-/** Ruta del perfil de Latido para una cuenta: un directorio por red y cuenta. */
+/** Ruta del perfil de Avizor para una cuenta: un directorio por red y cuenta. */
 export function browserProfileIdFor(source: MatrixSource, handle: string): string {
   const clean = handle
     .trim()

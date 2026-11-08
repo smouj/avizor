@@ -3,11 +3,11 @@ import { useMemo } from 'react'
 import { PostCard } from '@/components/PostCard'
 import { EmptyState } from '@/components/primitives'
 import { Icon } from '@/components/Icon'
-import { getEngine, useLatido } from '@/state/store'
+import { getEngine, useAvizor } from '@/state/store'
 
 /** Buscar en todo el archivo local: títulos, texto y etiquetas. */
 export function SearchScreen(): JSX.Element {
-  const { t, query, trends, selectTrend } = useLatido()
+  const { t, query, trends, selectTrend } = useAvizor()
 
   const results = useMemo(() => (query.trim().length > 1 ? getEngine().search(query, 80) : []), [query])
   const matchingTrends = useMemo(() => {

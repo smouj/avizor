@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react'
 
 import { Icon } from '@/components/Icon'
 import { sourceLabel } from '@/components/primitives'
-import { useLatido } from '@/state/store'
-import { CONNECTORS, type TranslateProviderKind } from '@latido/engine'
+import { useAvizor } from '@/state/store'
+import { CONNECTORS, type TranslateProviderKind } from '@avizor/engine'
 import { compactNumber, relativeTime } from '@/lib/format'
 import { isDesktop, platformName, storageUsage } from '@/platform/bridge'
 
@@ -47,7 +47,7 @@ export function SettingsScreen(): JSX.Element {
     importSession,
     forgetSession,
     setUseSession,
-  } = useLatido()
+  } = useAvizor()
 
   const [usage, setUsage] = useState(0)
   const [sessionChoice, setSessionChoice] = useState<Record<string, string>>({})
@@ -70,7 +70,7 @@ export function SettingsScreen(): JSX.Element {
     const url = URL.createObjectURL(blob)
     const anchor = document.createElement('a')
     anchor.href = url
-    anchor.download = `latido-${new Date().toISOString().slice(0, 10)}.json`
+    anchor.download = `avizor-${new Date().toISOString().slice(0, 10)}.json`
     anchor.click()
     URL.revokeObjectURL(url)
     toast(t('settings.export'), 'ok')
@@ -548,12 +548,12 @@ export function SettingsScreen(): JSX.Element {
           <span className="tag">{platformName()}</span>
           <a
             className="tag"
-            href="https://github.com/smouj/latido"
+            href="https://github.com/smouj/avizor"
             target="_blank"
             rel="noopener noreferrer"
           >
             <Icon name="external" size="sm" />
-            github.com/smouj/latido
+            github.com/smouj/avizor
           </a>
         </div>
       </section>

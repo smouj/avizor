@@ -1,5 +1,5 @@
 name: Error
-description: Algo de Latido no funciona como debería.
+description: Algo de Avizor no funciona como debería.
 title: '[Error] '
 labels: ['error']
 body:
@@ -13,7 +13,7 @@ body:
   - type: input
     id: version
     attributes:
-      label: Versión de Latido
+      label: Versión de Avizor
       description: Aparece en Ajustes → Acerca de, o en el nombre del paquete instalado.
       placeholder: '0.1.0'
     validations:
@@ -23,7 +23,7 @@ body:
     id: plataforma
     attributes:
       label: Sistema y forma de uso
-      description: Cómo estás ejecutando Latido.
+      description: Cómo estás ejecutando Avizor.
       options:
         - Escritorio · Linux (.deb)
         - Escritorio · Linux (AppImage)
@@ -63,7 +63,7 @@ body:
     id: pasos
     attributes:
       label: Pasos para reproducirlo
-      description: Qué hiciste, en orden, desde que abriste Latido.
+      description: Qué hiciste, en orden, desde que abriste Avizor.
       placeholder: |
         1. Abrir Fuentes y activar RSS con https://example.com/feed.xml
         2. Pulsar «Sondear ahora»

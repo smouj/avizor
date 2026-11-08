@@ -1,16 +1,16 @@
 <p align="center">
-  <img src="docs/brand/logo.png" alt="Latido" width="112" height="112">
+  <img src="docs/brand/logo.png" alt="Avizor" width="112" height="112">
 </p>
 
-<h1 align="center">Latido</h1>
+<h1 align="center">Avizor</h1>
 
 > **El pulso de internet, en tu equipo.**
 > Mira por ti las redes abiertas, agrupa lo que se está diciendo sobre lo mismo y
 > te avisa **solo** cuando algo empieza a crecer.
 
-[![CI](https://github.com/smouj/latido/actions/workflows/ci.yml/badge.svg)](https://github.com/smouj/latido/actions/workflows/ci.yml)
-[![CodeQL](https://github.com/smouj/latido/actions/workflows/codeql.yml/badge.svg)](https://github.com/smouj/latido/actions/workflows/codeql.yml)
-[![Release](https://img.shields.io/github/v/release/smouj/latido?include_prereleases&label=descarga)](https://github.com/smouj/latido/releases)
+[![CI](https://github.com/smouj/avizor/actions/workflows/ci.yml/badge.svg)](https://github.com/smouj/avizor/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/smouj/avizor/actions/workflows/codeql.yml/badge.svg)](https://github.com/smouj/avizor/actions/workflows/codeql.yml)
+[![Release](https://img.shields.io/github/v/release/smouj/avizor?include_prereleases&label=descarga)](https://github.com/smouj/avizor/releases)
 [![Licencia: AGPL-3.0](https://img.shields.io/badge/licencia-AGPL--3.0-or-later-blue.svg)](LICENSE)
 [![Estado: alfa](https://img.shields.io/badge/estado-alfa-orange.svg)](docs/ROADMAP.md)
 [![Plataformas](https://img.shields.io/badge/plataformas-linux%20%7C%20windows%20%7C%20macos-lightgrey.svg)](#instalar)
@@ -20,19 +20,19 @@
 ## Qué es (y qué no es)
 
 **No es otra red social.** No hay cuenta, no hay servidor, no hay algoritmo que
-decida qué te enfada hoy. Latido lee las fuentes que tú elijas, entiende cuándo
+decida qué te enfada hoy. Avizor lee las fuentes que tú elijas, entiende cuándo
 varias de ellas hablan del mismo acontecimiento y te lo cuenta como **un tema**,
 no como doscientas publicaciones sueltas.
 
 X te enseña lo que su algoritmo quiere que veas.
-**Latido te enseña qué está pasando de verdad en las fuentes que tú has decidido observar.**
+**Avizor te enseña qué está pasando de verdad en las fuentes que tú has decidido observar.**
 
 **Y no se inventa nada.** No hay titulares de relleno ni historias de ejemplo: lo
 que aparece en pantalla viene de Hacker News, Bluesky, GitHub, Reddit, Mastodon o
 de tus propios feeds, y cada item lleva su enlace y su hora. Si una fuente falla,
 se dice; si no hay nada, la pantalla lo dice en vez de rellenar el hueco.
 
-| Pregunta | Respuesta de Latido |
+| Pregunta | Respuesta de Avizor |
 | --- | --- |
 | ¿Qué está pasando ahora mismo? | Cronología con los temas agrupados, no items sueltos |
 | ¿Por qué empieza a hablarse de esto? | El **Trend Engine** explica el motivo con números: ×4,6 menciones, 6 redes, 1.284 publicaciones |
@@ -57,7 +57,7 @@ Todas las capturas están tomadas de la aplicación en marcha con **datos reales
 
 ## Tres temas, uno por sistema
 
-Latido no te obliga a su aspecto: adopta las maneras del sistema en el que vive.
+Avizor no te obliga a su aspecto: adopta las maneras del sistema en el que vive.
 Los tres temas cambian **radios, densidad de fila, tipografía, elevación y la
 temperatura del neutro**; lo que no cambia es la marca —el ascua sigue siendo el
 acento— ni la escala tipográfica. Se eligen en Ajustes, con vista previa, y la
@@ -74,7 +74,7 @@ Cada tema funciona en claro y en oscuro (o siguiendo al sistema).
 ## Traducción
 
 El contenido llega en el idioma en que lo escribió su autor. Si activas la
-traducción, Latido lo pasa **al idioma que estás leyendo**, con el proveedor que
+traducción, Avizor lo pasa **al idioma que estás leyendo**, con el proveedor que
 tú elijas: LibreTranslate (propio o público), DeepL u OpenAI.
 
 - **El original nunca se pierde**: cada publicación trae un botón para verla en su
@@ -91,7 +91,7 @@ tú elijas: LibreTranslate (propio o público), DeepL u OpenAI.
 
 ### Desde el icono del escritorio (recomendado)
 
-1. Descarga el instalador de tu sistema en **[Releases](https://github.com/smouj/latido/releases)**:
+1. Descarga el instalador de tu sistema en **[Releases](https://github.com/smouj/avizor/releases)**:
    `.exe` (Windows), `.deb`/`.AppImage` (Linux) o `.dmg` (macOS).
 2. Instálalo y ábrelo como cualquier otra aplicación: aparece en el menú y crea su icono.
 
@@ -111,10 +111,10 @@ perfil: no hace falta `root`. Al final imprime cómo desinstalarlo.
 ### Con el escritorio en desarrollo
 
 ```bash
-git clone https://github.com/smouj/latido.git
-cd latido
+git clone https://github.com/smouj/avizor.git
+cd avizor
 pnpm install
-pnpm dev:desktop        # o: pnpm --filter @latido/desktop build
+pnpm dev:desktop        # o: pnpm --filter @avizor/desktop build
 ```
 
 Necesitas **Node ≥ 20.19**, **pnpm 10** y, para el escritorio, **Rust estable**
@@ -153,7 +153,7 @@ web. El escritorio las lee con su propio cliente HTTP y no tiene ese problema. E
 Añadir una fuente es un archivo y una línea en el registro: ver
 [`docs/CONNECTORS.md`](docs/CONNECTORS.md).
 
-Si una fuente responde 403 sin sesión, Latido puede reutilizar la que ya tienes
+Si una fuente responde 403 sin sesión, Avizor puede reutilizar la que ya tienes
 abierta en el navegador: en **Ajustes → Sesión del navegador** eliges navegador y
 perfil, la app lee las cookies (solo lectura, cifradas con DPAPI), monta **una sola
 cabecera** y la guarda en el llavero del sistema. No se copia la base de datos y no
@@ -190,16 +190,16 @@ Detalle matemático completo, con los pesos reales: [`docs/TREND-ENGINE.md`](doc
 
 ## Capa social (cimientos, sin interfaz todavía)
 
-Latido va a dejar de ser solo un lector: la idea es poder ver qué pasa,
+Avizor va a dejar de ser solo un lector: la idea es poder ver qué pasa,
 descubrir dónde merece la pena participar y gestionar tus conversaciones desde
-un único sitio, **sin entregar tus credenciales a Latido y sin claves API**.
+un único sitio, **sin entregar tus credenciales a Avizor y sin claves API**.
 
-La autenticación es siempre la del sitio: Latido abre su página real en una
+La autenticación es siempre la del sitio: Avizor abre su página real en una
 ventana visible con un perfil de navegador propio de esa cuenta, y de ahí solo
 lee la identidad pública. Nunca pide usuario ni contraseña en un formulario
 propio.
 
-Hoy están hechos los **cimientos**: el paquete `@latido/social` con el modelo de
+Hoy están hechos los **cimientos**: el paquete `@avizor/social` con el modelo de
 cuentas, los estados de sesión, las capacidades por red —que no se inventan: la
 matriz empieza entera en `false`—, la validación del compositor, la cola de
 actions con verificación obligatoria y el contrato del puente de navegador. La
@@ -215,7 +215,7 @@ Detalle: [`docs/INTERACTIONS.md`](docs/INTERACTIONS.md),
 ## Estructura
 
 ```text
-latido/
+avizor/
 ├── apps/
 │   ├── app/          interfaz React 19 + TypeScript (escritorio y navegador)
 │   └── desktop/      shell Tauri 2: SQLite, avisos del sistema, llavero
@@ -274,7 +274,7 @@ pnpm verify           # verificación completa
 ## La marca
 
 El icono, el vector y el logo que ves en la interfaz salen del **mismo script**
-(`node scripts/make-icons.mjs`): una superelipse de esquina continua, un latido
+(`node scripts/make-icons.mjs`): una superelipse de esquina continua, un avizor
 con su pico y su valle, y un juego completo de PNG (16→1024), `.ico` e `.icns`
 con transparencia real. No son tres dibujos parecidos: son el mismo. El trazo se
 engrosa en los tamaños pequeños, que es donde un icono se cae. Las reglas de uso

@@ -23,10 +23,10 @@ async function invoke<T>(command: string, args?: Record<string, unknown>): Promi
 
 // ── almacenamiento ──────────────────────────────────────────────────────────
 
-const DB_NAME = 'latido'
+const DB_NAME = 'avizor'
 const STORE_NAME = 'state'
 const KEY = 'snapshot'
-const FALLBACK_KEY = 'latido:snapshot'
+const FALLBACK_KEY = 'avizor:snapshot'
 
 function openDatabase(): Promise<IDBDatabase | null> {
   return new Promise((resolve) => {

@@ -1,7 +1,7 @@
 # Cómo contribuir
 
 Gracias por el interés. Este documento dice qué hace falta para trabajar en
-Latido y qué se espera de un cambio.
+Avizor y qué se espera de un cambio.
 
 Antes de escribir código, lee `docs/ARCHITECTURE.md` (capas y por qué están así)
 y `docs/CONNECTORS.md` si vas a tocar una fuente. Los números del agrupado y de
@@ -17,8 +17,8 @@ las tendencias están en `docs/TREND-ENGINE.md` y el esquema en
 | Rust | estable (el `Cargo.toml` pide ≥ 1.77.2) | solo para el escritorio |
 
 ```bash
-git clone https://github.com/smouj/latido.git
-cd latido
+git clone https://github.com/smouj/avizor.git
+cd avizor
 pnpm install --frozen-lockfile
 ```
 
@@ -46,10 +46,10 @@ Para el escritorio hacen falta además las dependencias del sistema de Tauri 2
 Por paquete, con filtro:
 
 ```bash
-pnpm --filter @latido/tokens build
-pnpm --filter @latido/engine test
-pnpm --filter @latido/app build
-pnpm --filter @latido/desktop exec tauri build
+pnpm --filter @avizor/tokens build
+pnpm --filter @avizor/engine test
+pnpm --filter @avizor/app build
+pnpm --filter @avizor/desktop exec tauri build
 ```
 
 Antes de abrir un pull request: `pnpm test`, `pnpm typecheck` y `pnpm verify` en
@@ -78,7 +78,7 @@ apps/desktop/      shell Tauri: ventana, llavero, notificaciones, archivo SQLite
   duraciones y curvas salen de los tokens: `var(--color-surface)`,
   `var(--space-4)`, `var(--duration-fast)`… Si falta un token, se añade en
   `packages/tokens/src/tokens.mjs` (y se regenera `dist` con
-  `pnpm --filter @latido/tokens build`). `packages/tokens/README.md` recoge las
+  `pnpm --filter @avizor/tokens build`). `packages/tokens/README.md` recoge las
   reglas del sistema.
 - **Todo texto de interfaz va en `apps/app/src/i18n/index.ts`**, en los dos
   idiomas. `es` es la tabla de referencia (`MessageKey` sale de ella) y `en` está
@@ -142,7 +142,7 @@ proyecto.
 
 ## Licencia
 
-Latido es software libre bajo **AGPL-3.0-or-later** (`LICENSE`). Al contribuir,
+Avizor es software libre bajo **AGPL-3.0-or-later** (`LICENSE`). Al contribuir,
 aceptas que tu aportación se distribuye con esa misma licencia. Ten en cuenta qué
-implica la AGPL: quien ofrezca Latido como servicio en red tiene que ofrecer
+implica la AGPL: quien ofrezca Avizor como servicio en red tiene que ofrecer
 también el código fuente.

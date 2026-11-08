@@ -4,7 +4,7 @@ Adaptación breve del [Contributor Covenant 2.1](https://www.contributor-covenan
 
 ## Nuestro compromiso
 
-Quien participa en Latido —issues, pull requests, revisiones y cualquier otro
+Quien participa en Avizor —issues, pull requests, revisiones y cualquier otro
 canal— se compromete a que participar sea una experiencia libre de acoso para
 todo el mundo, con independencia de edad, complexión, discapacidad visible o
 invisible, etnia, características sexuales, identidad y expresión de género,

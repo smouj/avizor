@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { KeyboardEvent as ReactKeyboardEvent, PointerEvent as ReactPointerEvent } from 'react'
 
-import { useLatido } from '@/state/store'
+import { useAvizor } from '@/state/store'
 
 /**
  * El tirador que separa dos columnas del armazón.
@@ -32,10 +32,10 @@ const BOUNDS: Record<SplitterSide, { min: number; max: number }> = {
 const STEP = 16
 
 export function Splitter({ side }: { side: SplitterSide }): JSX.Element {
-  const width = useLatido((state) => state.layout[side])
-  const setLayoutWidth = useLatido((state) => state.setLayoutWidth)
-  const resetLayoutWidth = useLatido((state) => state.resetLayoutWidth)
-  const t = useLatido((state) => state.t)
+  const width = useAvizor((state) => state.layout[side])
+  const setLayoutWidth = useAvizor((state) => state.setLayoutWidth)
+  const resetLayoutWidth = useAvizor((state) => state.resetLayoutWidth)
+  const t = useAvizor((state) => state.t)
 
   const [dragging, setDragging] = useState(false)
   const ref = useRef<HTMLDivElement | null>(null)

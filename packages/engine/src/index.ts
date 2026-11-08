@@ -1,5 +1,5 @@
 /**
- * @latido/engine — superficie pública.
+ * @avizor/engine — superficie pública.
  *
  * Los tests y la app importan solo desde aquí. Si algo no está exportado, no es
  * parte del contrato.
@@ -68,7 +68,7 @@ export {
   type TranslateProviderKind,
   type Translator,
 } from './translate'
-export { LatidoEngine, type EngineOptions } from './engine'
+export { AvizorEngine, type EngineOptions } from './engine'
 export {
   CONNECTORS,
   BlueskyStream,

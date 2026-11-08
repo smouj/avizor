@@ -1,6 +1,6 @@
 //! Puente de navegador: las cuentas sociales, en una ventana propia.
 //!
-//! Cada cuenta tiene un **perfil de navegador de Latido**: un directorio de datos
+//! Cada cuenta tiene un **perfil de navegador de Avizor**: un directorio de datos
 //! suyo, separado del navegador del usuario y del de las demás cuentas. Ahí vive
 //! la sesión que el usuario abre en la web oficial del servicio, como la abriría
 //! en su navegador.
@@ -16,7 +16,7 @@
 //! - No devuelve valores de cookies a la interfaz: solo cuántas hay por dominio.
 //!   Con eso se decide si la sesión sigue viva, sin exponer el contenido.
 //! - No habla con un dominio que no esté en la lista blanca que le pasa la capa
-//!   social (`@latido/social`), que es la misma que usa para sus comprobaciones.
+//!   social (`@avizor/social`), que es la misma que usa para sus comprobaciones.
 
 use std::collections::HashMap;
 use std::path::{Path, PathBuf};
@@ -157,7 +157,7 @@ pub fn fnv1a32(value: &str) -> u32 {
 pub fn data_store_id(profile_id: &str) -> [u8; 16] {
     let mut id = [0u8; 16];
     let seed = fnv1a32(profile_id);
-    let seed_b = fnv1a32(&format!("latido:{profile_id}"));
+    let seed_b = fnv1a32(&format!("avizor:{profile_id}"));
     id[..4].copy_from_slice(&seed.to_le_bytes());
     id[4..8].copy_from_slice(&seed_b.to_le_bytes());
     id[8..12].copy_from_slice(&(seed ^ 0x5bf0_3635).to_le_bytes());
@@ -376,7 +376,7 @@ fn profiles_root(app: &AppHandle) -> Result<PathBuf, String> {
 
 /// Abre la web oficial de una red en una ventana visible con el perfil de esa
 /// cuenta. Es el único camino para iniciar sesión: la contraseña se escribe en
-/// la página del servicio, no en Latido.
+/// la página del servicio, no en Avizor.
 #[tauri::command]
 pub async fn social_open_session(
     app: AppHandle,
@@ -406,7 +406,7 @@ pub async fn social_open_session(
     std::fs::create_dir_all(&directory)
         .map_err(|error| format!("no se pudo preparar el perfil de la cuenta: {error}"))?;
 
-    let title = format!("Latido · {profile_id}");
+    let title = format!("Avizor · {profile_id}");
     let builder = WebviewWindowBuilder::new(&app, &label, WebviewUrl::External(parsed))
         .title(title)
         .inner_size(1080.0, 820.0)
@@ -611,7 +611,7 @@ mod tests {
 
     #[test]
     fn el_directorio_del_perfil_no_se_sale_de_su_raiz() {
-        let root = Path::new("/datos/latido");
+        let root = Path::new("/datos/avizor");
         let directory = profile_dir(root, "threads/smouj").expect("perfil válido");
         assert_eq!(directory, root.join("profiles").join("threads").join("smouj"));
         assert!(directory.starts_with(root));
@@ -641,7 +641,7 @@ mod tests {
     fn solo_se_navega_a_la_web() {
         assert!(is_safe_navigation("https://www.threads.net/login"));
         assert!(is_safe_navigation("http://localhost:5173/"));
-        for blocked in ["file:///etc/passwd", "javascript:alert(1)", "data:text/html,x", "mailto:a@b.c", "latido://cualquiera"] {
+        for blocked in ["file:///etc/passwd", "javascript:alert(1)", "data:text/html,x", "mailto:a@b.c", "avizor://cualquiera"] {
             assert!(!is_safe_navigation(blocked), "«{blocked}» no debería navegarse");
         }
     }

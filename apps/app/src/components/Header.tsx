@@ -1,6 +1,6 @@
 import { ActivityStrip } from '@/components/ActivityStrip'
 import { Icon } from '@/components/Icon'
-import { useLatido } from '@/state/store'
+import { useAvizor } from '@/state/store'
 
 /**
  * Cabecera del canal central: título de la vista, pulso real de la actividad y
@@ -12,7 +12,7 @@ import { useLatido } from '@/state/store'
  * fuentes responden y de qué se está hablando. Nunca un «en vivo» decorativo.
  */
 export function Header({ title, subtitle }: { title: string; subtitle?: string }): JSX.Element {
-  const { t, lang, theme, setTheme, setLang, poll, query, setQuery, polling } = useLatido()
+  const { t, lang, theme, setTheme, setLang, poll, query, setQuery, polling } = useAvizor()
 
   return (
     <>

@@ -1,19 +1,19 @@
 import { memo } from 'react'
 
-import type { Trend } from '@latido/engine'
+import type { Trend } from '@avizor/engine'
 
 import { Icon } from '@/components/Icon'
 import { ReasonText, ScoreBar, Sparkline, StateBadge, TrendDelta, sourceLabel } from '@/components/primitives'
 import { compactNumber, relativeTime } from '@/lib/format'
-import { useLatido } from '@/state/store'
+import { useAvizor } from '@/state/store'
 
 /** Tarjeta completa de un tema: la vista del Radar y el detalle. */
 export const TrendCard = memo(function TrendCard({ trend, rank }: { trend: Trend; rank?: number }): JSX.Element {
-  const t = useLatido((state) => state.t)
-  const lang = useLatido((state) => state.lang)
-  const selected = useLatido((state) => state.selectedTrendId === trend.id)
+  const t = useAvizor((state) => state.t)
+  const lang = useAvizor((state) => state.lang)
+  const selected = useAvizor((state) => state.selectedTrendId === trend.id)
 
-  const toggle = (): void => useLatido.getState().selectTrend(selected ? null : trend.id)
+  const toggle = (): void => useAvizor.getState().selectTrend(selected ? null : trend.id)
 
   return (
     <article
@@ -127,12 +127,12 @@ export const TrendRailRow = memo(function TrendRailRow({
   trend: Trend
   rank: number
 }): JSX.Element {
-  const lang = useLatido((state) => state.lang)
+  const lang = useAvizor((state) => state.lang)
   return (
     <button
       type="button"
       className="rail-trend"
-      onClick={() => useLatido.getState().selectTrend(trend.id)}
+      onClick={() => useAvizor.getState().selectTrend(trend.id)}
     >
       <span className="grow">
         <span className="rail-trend__title">

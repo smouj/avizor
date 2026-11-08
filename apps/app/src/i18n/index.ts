@@ -14,7 +14,7 @@ export const es = {
   'app.demoNotice': 'Estás viendo datos de ejemplo. Activa fuentes reales en Fuentes.',
   'app.firstRun': 'Conectando con las fuentes',
   'app.firstRunHint':
-    'Latido no inventa nada: lo que veas vendrá de las fuentes que actives. Ahora mismo está pidiendo las últimas publicaciones a Hacker News, Bluesky y GitHub.',
+    'Avizor no inventa nada: lo que veas vendrá de las fuentes que actives. Ahora mismo está pidiendo las últimas publicaciones a Hacker News, Bluesky y GitHub.',
   'realtime.off': 'Flujo apagado',
   'realtime.connecting': 'Conectando al flujo…',
   'realtime.live': 'En directo',
@@ -185,7 +185,7 @@ export const es = {
   'translate.keyPlaceholder': 'Clave del proveedor (se guarda en el llavero)',
   'translate.test': 'Probar traducción',
   'translate.works': 'Traducción correcta',
-  'translate.sample': 'Esto es una prueba de traducción de Latido.',
+  'translate.sample': 'Esto es una prueba de traducción de Avizor.',
   'translate.clearCache': 'Vaciar la caché',
   'translate.cacheCleared': 'Caché de traducciones vaciada',
   'translate.showOriginal': 'Ver original',
@@ -200,7 +200,7 @@ export const es = {
 
   'session.title': 'Sesión del navegador',
   'session.hint':
-    'Si ya tienes la sesión abierta en tu navegador, Latido puede reutilizarla. Lee las cookies de un perfil, monta una sola cabecera para los dominios de esa fuente y la guarda en el llavero del sistema. No se copia la base de datos, no se sube nada a ningún sitio y fuera de esos dominios no se envía nunca.',
+    'Si ya tienes la sesión abierta en tu navegador, Avizor puede reutilizarla. Lee las cookies de un perfil, monta una sola cabecera para los dominios de esa fuente y la guarda en el llavero del sistema. No se copia la base de datos, no se sube nada a ningún sitio y fuera de esos dominios no se envía nunca.',
   'session.use': 'Usar mi sesión del navegador',
   'session.browser': 'Navegador y perfil',
   'session.import': 'Importar cookies',
@@ -235,7 +235,7 @@ export const es = {
   'accounts.title': 'Cuentas',
   'accounts.subtitle': 'Un perfil propio por cuenta, con la sesión del sitio y nada más',
   'accounts.desktopOnly':
-    'Esto necesita la aplicación de escritorio: abrir la sesión de una red, comprobarla y leer tu identidad pasan por una ventana de Latido, no por una página web.',
+    'Esto necesita la aplicación de escritorio: abrir la sesión de una red, comprobarla y leer tu identidad pasan por una ventana de Avizor, no por una página web.',
   'accounts.noAdapterNotice':
     'Ninguna red tiene todavía adaptador de interacción: estas cuentas son de sesión y lectura. Por eso no hay botones de publicar, y no los habrá hasta que exista un adaptador probado.',
   'accounts.catalog': 'Redes del catálogo',
@@ -300,7 +300,7 @@ export const es = {
   'alerts.title': 'Avisos',
   'alerts.subtitle': 'Solo lo que pediste que te avisara',
   'alerts.empty': 'Sin avisos',
-  'alerts.emptyHint': 'Define reglas abajo y Latido dejará de molestarte con lo demás.',
+  'alerts.emptyHint': 'Define reglas abajo y Avizor dejará de molestarte con lo demás.',
   'alerts.rules': 'Reglas',
   'alerts.newRule': 'Nueva regla',
   'alerts.kind.topic_surge': 'Un tema se acelera',
@@ -346,7 +346,7 @@ export const es = {
   'settings.language': 'Idioma',
   'settings.data': 'Tus datos',
   'settings.dataHint':
-    'Latido guarda todo en este dispositivo: publicaciones, temas, preferencias y avisos. No hay cuenta, no hay servidor y nada se envía fuera salvo las peticiones a las fuentes que actives.',
+    'Avizor guarda todo en este dispositivo: publicaciones, temas, preferencias y avisos. No hay cuenta, no hay servidor y nada se envía fuera salvo las peticiones a las fuentes que actives.',
   'settings.retention': 'Conservar publicaciones',
   'settings.days': '{count} días',
   'settings.forever': 'Siempre',
@@ -359,12 +359,12 @@ export const es = {
   'settings.storageDetail': '{items} publicaciones · {trends} temas · {size}',
   'settings.about': 'Acerca de',
   'settings.aboutText':
-    'Latido es software libre (AGPL-3.0). Mira las redes abiertas por ti, agrupa lo que se está diciendo y te avisa solo cuando algo empieza a crecer.',
+    'Avizor es software libre (AGPL-3.0). Mira las redes abiertas por ti, agrupa lo que se está diciendo y te avisa solo cuando algo empieza a crecer.',
   'settings.saved': 'Preferencias guardadas',
 
-  'onboarding.title': 'Bienvenido a Latido',
+  'onboarding.title': 'Bienvenido a Avizor',
   'onboarding.lead':
-    'X te enseña lo que su algoritmo quiere que veas. Latido te enseña qué está pasando de verdad en las fuentes que tú eliges.',
+    'X te enseña lo que su algoritmo quiere que veas. Avizor te enseña qué está pasando de verdad en las fuentes que tú eliges.',
   'onboarding.step1': 'Elige de dónde escuchar',
   'onboarding.step2': 'Qué te interesa',
   'onboarding.step3': 'Cuándo quieres que te avise',
@@ -400,7 +400,7 @@ export const en: Record<MessageKey, string> = {
   'app.demoNotice': "You're looking at sample data. Turn on real sources in Sources.",
   'app.firstRun': 'Connecting to your sources',
   'app.firstRunHint':
-    'Latido invents nothing: whatever you see comes from the sources you turn on. Right now it is asking Hacker News, Bluesky and GitHub for the latest posts.',
+    'Avizor invents nothing: whatever you see comes from the sources you turn on. Right now it is asking Hacker News, Bluesky and GitHub for the latest posts.',
   'realtime.off': 'Stream off',
   'realtime.connecting': 'Connecting to the stream…',
   'realtime.live': 'Live',
@@ -571,7 +571,7 @@ export const en: Record<MessageKey, string> = {
   'translate.keyPlaceholder': 'Provider key (stored in the keychain)',
   'translate.test': 'Test translation',
   'translate.works': 'Translation worked',
-  'translate.sample': 'This is a test of the Latido translator.',
+  'translate.sample': 'This is a test of the Avizor translator.',
   'translate.clearCache': 'Clear the cache',
   'translate.cacheCleared': 'Translation cache cleared',
   'translate.showOriginal': 'See original',
@@ -586,7 +586,7 @@ export const en: Record<MessageKey, string> = {
 
   'session.title': 'Browser session',
   'session.hint':
-    'If you are already signed in on your browser, Latido can reuse that session. It reads the cookies of one profile, builds a single header for that source domains and stores it in the system keychain. The database is not copied, nothing is uploaded anywhere, and it is never sent outside those domains.',
+    'If you are already signed in on your browser, Avizor can reuse that session. It reads the cookies of one profile, builds a single header for that source domains and stores it in the system keychain. The database is not copied, nothing is uploaded anywhere, and it is never sent outside those domains.',
   'session.use': 'Use my browser session',
   'session.browser': 'Browser and profile',
   'session.import': 'Import cookies',
@@ -619,7 +619,7 @@ export const en: Record<MessageKey, string> = {
   'accounts.title': 'Accounts',
   'accounts.subtitle': 'One profile per account, with the site session and nothing else',
   'accounts.desktopOnly':
-    'This needs the desktop app: opening a network session, checking it and reading your identity all go through a Latido window, not a web page.',
+    'This needs the desktop app: opening a network session, checking it and reading your identity all go through a Avizor window, not a web page.',
   'accounts.noAdapterNotice':
     'No network has an interaction adapter yet: these accounts are for session and reading. That is why there are no publish buttons, and there will not be any until a tested adapter exists.',
   'accounts.catalog': 'Networks in the catalog',
@@ -684,7 +684,7 @@ export const en: Record<MessageKey, string> = {
   'alerts.title': 'Alerts',
   'alerts.subtitle': 'Only what you asked to be told about',
   'alerts.empty': 'No alerts',
-  'alerts.emptyHint': 'Add rules below and Latido will stop bothering you with the rest.',
+  'alerts.emptyHint': 'Add rules below and Avizor will stop bothering you with the rest.',
   'alerts.rules': 'Rules',
   'alerts.newRule': 'New rule',
   'alerts.kind.topic_surge': 'A topic speeds up',
@@ -730,7 +730,7 @@ export const en: Record<MessageKey, string> = {
   'settings.language': 'Language',
   'settings.data': 'Your data',
   'settings.dataHint':
-    'Latido keeps everything on this device: posts, topics, preferences and alerts. No account, no server, nothing leaves except requests to the sources you enable.',
+    'Avizor keeps everything on this device: posts, topics, preferences and alerts. No account, no server, nothing leaves except requests to the sources you enable.',
   'settings.retention': 'Keep posts for',
   'settings.days': '{count} days',
   'settings.forever': 'Forever',
@@ -742,12 +742,12 @@ export const en: Record<MessageKey, string> = {
   'settings.storageDetail': '{items} posts · {trends} topics · {size}',
   'settings.about': 'About',
   'settings.aboutText':
-    'Latido is free software (AGPL-3.0). It watches the open networks for you, groups what is being said and only tells you when something starts to grow.',
+    'Avizor is free software (AGPL-3.0). It watches the open networks for you, groups what is being said and only tells you when something starts to grow.',
   'settings.saved': 'Preferences saved',
 
-  'onboarding.title': 'Welcome to Latido',
+  'onboarding.title': 'Welcome to Avizor',
   'onboarding.lead':
-    'X shows you what its algorithm wants you to see. Latido shows you what is actually happening in the sources you choose.',
+    'X shows you what its algorithm wants you to see. Avizor shows you what is actually happening in the sources you choose.',
   'onboarding.step1': 'Choose where to listen',
   'onboarding.step2': 'What you care about',
   'onboarding.step3': 'When to tell you',

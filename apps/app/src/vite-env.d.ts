@@ -1,7 +1,7 @@
 /// <reference types="vite/client" />
 
 declare module '*.css'
-declare module '@latido/tokens/tokens.css'
+declare module '@avizor/tokens/tokens.css'
 
 /**
  * Compatibilidad de tipos: @types/react 19 movió `JSX` dentro de `React`.

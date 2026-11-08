@@ -8,7 +8,7 @@
 import { describe, expect, it } from 'vitest'
 
 import { ACTIVITY_WINDOWS, KEYWORD_LIMIT, buildActivity, type ActivityInput } from '../src/activity'
-import { LatidoEngine } from '../src/engine'
+import { AvizorEngine } from '../src/engine'
 import { demoRawItems } from '../src/sources/demo'
 import type { Item, SourceConfig, Trend } from '../src/types'
 
@@ -21,7 +21,7 @@ function item(overrides: Partial<Item> = {}): Item {
     source,
     externalId: overrides.externalId ?? '1',
     url: 'https://example.com/a',
-    title: 'Un titular de prueba sobre rust y latido',
+    title: 'Un titular de prueba sobre rust y avizor',
     author: { id: 'a', handle: 'a', source },
     publishedAt: NOW - 10_000,
     ingestedAt: NOW - 5_000,
@@ -267,7 +267,7 @@ describe('temas destacados y totales', () => {
 
 describe('el motor lo sirve con datos reales', () => {
   it('tras ingerir, la actividad está en vivo y con palabras', () => {
-    const engine = new LatidoEngine({ clock: () => NOW, sourceConfigs: [] })
+    const engine = new AvizorEngine({ clock: () => NOW, sourceConfigs: [] })
     engine.ingest(demoRawItems(NOW), NOW)
     const activity = engine.activity(NOW)
     expect(activity.level).toBe('live')
@@ -279,7 +279,7 @@ describe('el motor lo sirve con datos reales', () => {
   })
 
   it('un motor recién creado dice que todavía no hay datos', () => {
-    const engine = new LatidoEngine({ clock: () => NOW, sourceConfigs: [] })
+    const engine = new AvizorEngine({ clock: () => NOW, sourceConfigs: [] })
     const activity = engine.activity(NOW)
     expect(activity.note.code).toBe('no_data')
     expect(activity.totals.items).toBe(0)

@@ -10,7 +10,7 @@ import {
   profileIdFor,
   socialSupported,
 } from '@/platform/social'
-import { useLatido, type LinkedAccount } from '@/state/store'
+import { useAvizor, type LinkedAccount } from '@/state/store'
 import { relativeTime } from '@/lib/format'
 import type { MessageKey } from '@/i18n'
 import {
@@ -19,7 +19,7 @@ import {
   sessionMessageKey,
   type MatrixSource,
   type SocialTier,
-} from '@latido/social'
+} from '@avizor/social'
 
 /**
  * Cuentas: las redes del catálogo, con un perfil de navegador por cuenta.
@@ -40,16 +40,16 @@ function tierKey(tier: SocialTier): MessageKey {
 }
 
 export function AccountsScreen(): JSX.Element {
-  const t = useLatido((state) => state.t)
-  const lang = useLatido((state) => state.lang)
-  const accounts = useLatido((state) => state.accounts)
-  const accountBusy = useLatido((state) => state.accountBusy)
-  const addAccount = useLatido((state) => state.addAccount)
-  const openAccountSession = useLatido((state) => state.openAccountSession)
-  const checkAccount = useLatido((state) => state.checkAccount)
-  const readAccountIdentity = useLatido((state) => state.readAccountIdentity)
-  const forgetAccount = useLatido((state) => state.forgetAccount)
-  const toast = useLatido((state) => state.toast)
+  const t = useAvizor((state) => state.t)
+  const lang = useAvizor((state) => state.lang)
+  const accounts = useAvizor((state) => state.accounts)
+  const accountBusy = useAvizor((state) => state.accountBusy)
+  const addAccount = useAvizor((state) => state.addAccount)
+  const openAccountSession = useAvizor((state) => state.openAccountSession)
+  const checkAccount = useAvizor((state) => state.checkAccount)
+  const readAccountIdentity = useAvizor((state) => state.readAccountIdentity)
+  const forgetAccount = useAvizor((state) => state.forgetAccount)
+  const toast = useAvizor((state) => state.toast)
 
   const [source, setSource] = useState<MatrixSource>('threads')
   const [handle, setHandle] = useState('')
@@ -276,7 +276,7 @@ function AccountCard({
   onIdentity: () => void
   onForget: () => void
 }): JSX.Element {
-  const t = useLatido((state) => state.t)
+  const t = useAvizor((state) => state.t)
   const network = networkOf(account.source)
   const identity = account.identity
   const name = identity?.displayName ?? account.handle

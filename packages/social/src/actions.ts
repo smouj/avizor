@@ -139,7 +139,7 @@ export class ActionQueue {
 
   /**
    * Resultado de un destino. Un `success` sin `verified` no se acepta como
-   * éxito: acaba en `FAILED` con el motivo, porque Latido no puede afirmar que
+   * éxito: acaba en `FAILED` con el motivo, porque Avizor no puede afirmar que
    * algo se publicó sin haberlo comprobado.
    */
   report(id: string, result: ActionResult, accountId?: string): SocialAction {

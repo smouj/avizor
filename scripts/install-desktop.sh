@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Instala Latido en el escritorio de Linux: binario, icono y lanzador.
+# Instala Avizor en el escritorio de Linux: binario, icono y lanzador.
 #
 #   ./scripts/install-desktop.sh                 compila y lo instala para el usuario
 #   ./scripts/install-desktop.sh --binary RUTA   instala un binario ya compilado
@@ -37,7 +37,7 @@ install_icons() {
   for size in 32 64 128 256 512; do
     local source="$ROOT/apps/desktop/src-tauri/icons/${size}x${size}.png"
     [ -f "$source" ] || continue
-    install -Dm644 "$source" "$ICON_DIR/${size}x${size}/apps/latido.png"
+    install -Dm644 "$source" "$ICON_DIR/${size}x${size}/apps/avizor.png"
   done
   if command -v gtk-update-icon-cache >/dev/null 2>&1; then
     gtk-update-icon-cache -qtf "$ICON_DIR" >/dev/null 2>&1 || true
@@ -46,15 +46,15 @@ install_icons() {
 
 install_launcher() {
   log "Instalando lanzador"
-  install -Dm644 "$ROOT/apps/desktop/latido.desktop" "$APPS_DIR/latido.desktop"
+  install -Dm644 "$ROOT/apps/desktop/avizor.desktop" "$APPS_DIR/avizor.desktop"
   if command -v update-desktop-database >/dev/null 2>&1; then
     update-desktop-database -q "$APPS_DIR" >/dev/null 2>&1 || true
   fi
   # Copia en el escritorio, para poder abrirlo con doble clic.
   if [ -d "$DESKTOP_DIR" ]; then
-    install -m755 "$ROOT/apps/desktop/latido.desktop" "$DESKTOP_DIR/latido.desktop"
+    install -m755 "$ROOT/apps/desktop/avizor.desktop" "$DESKTOP_DIR/avizor.desktop"
     if command -v gio >/dev/null 2>&1; then
-      gio set "$DESKTOP_DIR/latido.desktop" metadata::trusted true >/dev/null 2>&1 || true
+      gio set "$DESKTOP_DIR/avizor.desktop" metadata::trusted true >/dev/null 2>&1 || true
     fi
   fi
 }
@@ -62,34 +62,34 @@ install_launcher() {
 if [ "$ONLY_ICON" -eq 0 ]; then
   if [ -z "$BINARY" ]; then
     log "Compilando (esto tarda la primera vez)"
-    (cd "$ROOT" && pnpm build >/dev/null && pnpm --filter @latido/desktop exec tauri build --no-bundle)
-    BINARY="$ROOT/apps/desktop/src-tauri/target/release/latido"
+    (cd "$ROOT" && pnpm build >/dev/null && pnpm --filter @avizor/desktop exec tauri build --no-bundle)
+    BINARY="$ROOT/apps/desktop/src-tauri/target/release/avizor"
   fi
   [ -x "$BINARY" ] || { echo "no encuentro el binario: $BINARY" >&2; exit 1; }
-  log "Instalando binario en $BIN_DIR/latido"
-  install -Dm755 "$BINARY" "$BIN_DIR/latido"
+  log "Instalando binario en $BIN_DIR/avizor"
+  install -Dm755 "$BINARY" "$BIN_DIR/avizor"
 fi
 
 install_icons
 install_launcher
 
 if ! printf '%s' ":$PATH:" | grep -q ":$BIN_DIR:"; then
-  log "Aviso: $BIN_DIR no está en el PATH. Añádelo para poder lanzar 'latido' desde la terminal."
+  log "Aviso: $BIN_DIR no está en el PATH. Añádelo para poder lanzar 'avizor' desde la terminal."
 fi
 
 cat <<TXT
 
-Listo. Abre Latido desde el menú de aplicaciones (busca "Latido") o con doble
+Listo. Abre Avizor desde el menú de aplicaciones (busca "Avizor") o con doble
 clic en el icono del escritorio.
 
-  Lanzador   $APPS_DIR/latido.desktop
-  Iconos     $ICON_DIR/*/apps/latido.png
-  Binario    $BIN_DIR/latido
+  Lanzador   $APPS_DIR/avizor.desktop
+  Iconos     $ICON_DIR/*/apps/avizor.png
+  Binario    $BIN_DIR/avizor
 
 Desinstalar:
 
-  rm -f "$APPS_DIR/latido.desktop" "$BIN_DIR/latido" "$DESKTOP_DIR/latido.desktop"
-  rm -rf "\${XDG_DATA_HOME:-\$HOME/.local/share}/app.latido.desktop"
+  rm -f "$APPS_DIR/avizor.desktop" "$BIN_DIR/avizor" "$DESKTOP_DIR/avizor.desktop"
+  rm -rf "\${XDG_DATA_HOME:-\$HOME/.local/share}/app.avizor.desktop"
 
 Tus datos (publicaciones, temas, avisos) viven en el directorio de datos de la
 aplicación; borrarlo es lo que los elimina de verdad.
