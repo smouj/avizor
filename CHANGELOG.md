@@ -3,6 +3,13 @@
 Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 Versionado [semántico](https://semver.org/lang/es/).
 
+## [0.3.3] - 2026-11-08
+
+### Cambiado
+
+- Marca nueva: ojo abierto en ascua sobre losa de grafito, en lugar del pulso anterior.
+- Iconos de escritorio, vector, PNG y logo de la interfaz regenerados desde scripts/make-icons.mjs.
+
 ## [0.3.2] - 2026-11-08
 
 ### Cambiado
