@@ -1,12 +1,12 @@
 # Privacidad
 
-Latido es local-first: no hay cuenta, no hay servidor del proyecto y no hay
+Avizor es local-first: no hay cuenta, no hay servidor del proyecto y no hay
 telemetría. Esta página dice exactamente qué se guarda, dónde, qué sale a la red
 y cómo borrarlo todo.
 
 ## Qué se guarda
 
-Todo lo que Latido sabe viene de las fuentes que tú activas:
+Todo lo que Avizor sabe viene de las fuentes que tú activas:
 
 - **Publicaciones** (`posts`): título, cuerpo, URL, autor (handle y nombre tal
   como los publica la red), métricas (me gusta, respuestas, reposts, comentarios,
@@ -23,7 +23,7 @@ Todo lo que Latido sabe viene de las fuentes que tú activas:
 - **Diagnóstico de fuentes**: `lastOkAt` y el texto del último error de cada
   fuente.
 
-Lo que Latido **no** guarda: ni tu identidad, ni tu dirección, ni tu ubicación,
+Lo que Avizor **no** guarda: ni tu identidad, ni tu dirección, ni tu ubicación,
 ni un identificador de dispositivo, ni nada que sirva para reconocerte entre
 instalaciones.
 
@@ -37,8 +37,8 @@ Nada sale del dispositivo.
 | Escritorio | Estado de la aplicación (sesión, reglas, instantánea del motor) | Fichero de estado propio (`state_save`) |
 | Escritorio | Token de una fuente, si decides ponerlo | Llavero del sistema operativo (`secret_set`); nunca en el archivo ni en la instantánea |
 | Escritorio | Sesión del navegador, si la importas | Llavero del sistema (`session.cookie.<fuente>`): **solo** la cabecera `Cookie` montada, los dominios, los nombres incluidos y la procedencia. La cabecera vive en memoria mientras la app está abierta |
-| Navegador | Instantánea del motor y sesión | IndexedDB (`latido` / `state` / `snapshot`) |
-| Navegador | Reserva si IndexedDB no está disponible | `localStorage`, clave `latido:snapshot` |
+| Navegador | Instantánea del motor y sesión | IndexedDB (`avizor` / `state` / `snapshot`) |
+| Navegador | Reserva si IndexedDB no está disponible | `localStorage`, clave `avizor:snapshot` |
 
 Consecuencias honestas de guardar así:
 
@@ -48,7 +48,7 @@ Consecuencias honestas de guardar así:
 - **Exportar una copia** (Ajustes → Exportar) genera un JSON con lo mismo: si lo
   guardas en un sitio compartido, estás compartiendo tu histórico.
 - El borrado real de SQLite puede dejar restos en el sistema de archivos hasta
-  que el sistema reutilice esos bloques; Latido no hace sobrescritura segura.
+  que el sistema reutilice esos bloques; Avizor no hace sobrescritura segura.
 
 ## Sesión del navegador
 
@@ -87,17 +87,17 @@ está abierta:
 | GitHub | `api.github.com` |
 
 Todas las peticiones llevan el User-Agent
-`Latido/0.1 (+https://github.com/smouj/latido; local-first reader)`, que dice qué
+`Avizor/0.1 (+https://github.com/smouj/avizor; local-first reader)`, que dice qué
 cliente eres y dónde está el proyecto, no quién eres.
 
 Qué ve la red a la que te conectas, sin adornos: tu dirección IP, tu proveedor
-de internet, el momento de la petición y que usas Latido. Es lo mismo que vería
+de internet, el momento de la petición y que usas Avizor. Es lo mismo que vería
 si abrieras su web, sin cookies suyas y sin identificarte. Si pones un token,
 ese token viaja solo a la API de su red.
 
 Cuando pulsas un enlace o se carga un avatar remoto, la petición sale del
 dispositivo (el navegador del sistema o el WebView) y el destino te ve como
-cualquier otra visita. Latido abre los enlaces externos con el navegador del
+cualquier otra visita. Avizor abre los enlaces externos con el navegador del
 sistema y no incrusta rastreadores, píxeles ni iframes.
 
 ## Qué nunca se envía
@@ -109,7 +109,7 @@ sistema y no incrusta rastreadores, píxeles ni iframes.
 - Las búsquedas que escribes en el buscador: se resuelven contra el índice local
   del almacén, sin tocar la red.
 
-No hay servidor de Latido al que enviar nada. Si en el futuro se añade algo
+No hay servidor de Avizor al que enviar nada. Si en el futuro se añade algo
 opcional que salga del dispositivo, tendrá que ser explícito, desactivado por
 defecto y documentado aquí.
 
@@ -125,7 +125,7 @@ defecto y documentado aquí.
 3. **Los tokens.** Se borran desde el llavero del sistema (`secret_delete`) o
    desde la propia utilidad de llavero del sistema operativo.
 4. **Las copias exportadas.** Si has usado Exportar, esos JSON son tuyos y están
-   donde los pusieras: Latido no los gestiona.
+   donde los pusieras: Avizor no los gestiona.
 
 Y para reducir lo que se acumula sin borrarlo todo: Ajustes → "Conservar
 publicaciones" (30 días por defecto, o "Siempre"). La poda no toca las
@@ -133,9 +133,9 @@ tendencias que aún no has visto.
 
 ## Menores y datos de terceros
 
-Latido muestra lo que otras personas publican en redes públicas. Esos textos,
+Avizor muestra lo que otras personas publican en redes públicas. Esos textos,
 nombres y avatares son de quien los escribió, y su tratamiento por tu parte
-depende de ti: Latido no los envía a ningún sitio, pero tú sí puedes exportarlos
+depende de ti: Avizor no los envía a ningún sitio, pero tú sí puedes exportarlos
 o publicarlos. Si vas a hacerlo, mira las condiciones de la red de origen.
 
 ## Cambios

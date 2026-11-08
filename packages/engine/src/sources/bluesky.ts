@@ -4,7 +4,7 @@
  * Dos caminos, igual que en el diseño:
  *  - `fetchItems`: búsqueda pública (XRPC) para llenar el feed al arrancar.
  *  - `BlueskyStream`: Jetstream, el flujo en tiempo real del protocolo. Es la
- *    pieza que hace que Latido se entere de algo *mientras* pasa.
+ *    pieza que hace que Avizor se entere de algo *mientras* pasa.
  *
  * Jetstream manda DIDs, no nombres: se resuelven aparte y se cachean, para no
  * pedir el mismo perfil dos veces.

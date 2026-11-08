@@ -1,11 +1,11 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Latido",
-  "version": "0.3.1",
-  "identifier": "app.latido.desktop",
+  "productName": "Avizor",
+  "version": "0.3.2",
+  "identifier": "app.avizor.desktop",
   "build": {
-    "beforeDevCommand": "pnpm --filter @latido/app dev",
-    "beforeBuildCommand": "pnpm --filter @latido/app build",
+    "beforeDevCommand": "pnpm --filter @avizor/app dev",
+    "beforeBuildCommand": "pnpm --filter @avizor/app build",
     "devUrl": "http://localhost:5173",
     "frontendDist": "../../app/dist"
   },
@@ -13,7 +13,7 @@
     "windows": [
       {
         "label": "main",
-        "title": "Latido",
+        "title": "Avizor",
         "width": 1440,
         "height": 900,
         "minWidth": 900,
@@ -49,7 +49,7 @@
     ],
     "category": "News",
     "shortDescription": "El pulso de internet, en local",
-    "longDescription": "Latido mira por ti las redes abiertas (Hacker News, Bluesky, Reddit, Mastodon, RSS y GitHub), agrupa lo que se está diciendo sobre lo mismo y te avisa solo cuando algo empieza a crecer. Sin cuenta, sin servidor: todo se queda en tu equipo.",
+    "longDescription": "Avizor mira por ti las redes abiertas (Hacker News, Bluesky, Reddit, Mastodon, RSS y GitHub), agrupa lo que se está diciendo sobre lo mismo y te avisa solo cuando algo empieza a crecer. Sin cuenta, sin servidor: todo se queda en tu equipo.",
     "copyright": "© 2026 smouj — AGPL-3.0-or-later",
     "licenseFile": "../../../LICENSE",
     "linux": {

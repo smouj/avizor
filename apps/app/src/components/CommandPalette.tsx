@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 
 import { Icon, type IconName } from '@/components/Icon'
-import { getEngine, useLatido, type ViewKey } from '@/state/store'
+import { getEngine, useAvizor, type ViewKey } from '@/state/store'
 import { relativeTime } from '@/lib/format'
-import type { Item } from '@latido/engine'
+import type { Item } from '@avizor/engine'
 
 interface Command {
   id: string
@@ -18,15 +18,15 @@ interface Command {
  * Busca a la vez en los comandos y en el archivo local de publicaciones.
  */
 export function CommandPalette(): JSX.Element | null {
-  const paletteOpen = useLatido((state) => state.paletteOpen)
-  const openPalette = useLatido((state) => state.openPalette)
-  const setView = useLatido((state) => state.setView)
-  const setTheme = useLatido((state) => state.setTheme)
-  const setLang = useLatido((state) => state.setLang)
-  const selectItem = useLatido((state) => state.selectItem)
-  const poll = useLatido((state) => state.poll)
-  const t = useLatido((state) => state.t)
-  const lang = useLatido((state) => state.lang)
+  const paletteOpen = useAvizor((state) => state.paletteOpen)
+  const openPalette = useAvizor((state) => state.openPalette)
+  const setView = useAvizor((state) => state.setView)
+  const setTheme = useAvizor((state) => state.setTheme)
+  const setLang = useAvizor((state) => state.setLang)
+  const selectItem = useAvizor((state) => state.selectItem)
+  const poll = useAvizor((state) => state.poll)
+  const t = useAvizor((state) => state.t)
+  const lang = useAvizor((state) => state.lang)
 
   const [term, setTerm] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
@@ -173,8 +173,8 @@ export function CommandPalette(): JSX.Element | null {
 
 /** Avisos flotantes: confirmaciones breves, nunca diálogos que bloquean. */
 export function Toasts(): JSX.Element {
-  const toasts = useLatido((state) => state.toasts)
-  const dismiss = useLatido((state) => state.dismissToast)
+  const toasts = useAvizor((state) => state.toasts)
+  const dismiss = useAvizor((state) => state.dismissToast)
   return (
     <div className="toasts" role="status" aria-live="polite">
       {toasts.map((toast) => (

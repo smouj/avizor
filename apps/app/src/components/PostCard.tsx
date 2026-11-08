@@ -2,9 +2,9 @@ import { memo } from 'react'
 
 import { ActionButton, Avatar, ExternalLink, SourceDot } from '@/components/primitives'
 import { Icon } from '@/components/Icon'
-import { translationLookup, useLatido } from '@/state/store'
+import { translationLookup, useAvizor } from '@/state/store'
 import { clockTime, compactNumber, hostOf, relativeTime } from '@/lib/format'
-import type { Item } from '@latido/engine'
+import type { Item } from '@avizor/engine'
 
 /**
  * Una publicación del flujo.
@@ -24,17 +24,17 @@ export const PostCard = memo(function PostCard({
   item: Item
   grouped?: number
 }): JSX.Element {
-  const lang = useLatido((state) => state.lang)
-  const t = useLatido((state) => state.t)
-  const bookmarked = useLatido((state) => state.bookmarkedIds.includes(item.id))
+  const lang = useAvizor((state) => state.lang)
+  const t = useAvizor((state) => state.t)
+  const bookmarked = useAvizor((state) => state.bookmarkedIds.includes(item.id))
   // Traducción: se busca por texto original y idioma de lectura.
-  const translatedTitle = useLatido((state) =>
+  const translatedTitle = useAvizor((state) =>
     item.title ? state.translations[translationLookup(state.lang, item.title)] : undefined,
   )
-  const translatedBody = useLatido((state) =>
+  const translatedBody = useAvizor((state) =>
     item.body ? state.translations[translationLookup(state.lang, item.body)] : undefined,
   )
-  const sourceShown = useLatido((state) => Boolean(state.showOriginal[item.id]))
+  const sourceShown = useAvizor((state) => Boolean(state.showOriginal[item.id]))
   const hasTranslation = Boolean(translatedTitle ?? translatedBody)
 
   // Con traducción disponible se muestra traducido; el original sigue a un clic.
@@ -42,7 +42,7 @@ export const PostCard = memo(function PostCard({
   const body = sourceShown ? item.body?.trim() : (translatedBody ?? item.body?.trim())
 
   const saved = (): void => {
-    const store = useLatido.getState()
+    const store = useAvizor.getState()
     store.toggleBookmark(item.id)
     store.toast(t('app.saved'), 'ok')
   }
@@ -51,7 +51,7 @@ export const PostCard = memo(function PostCard({
     <article
       className={`post ${grouped > 1 ? 'post--grouped' : ''}`}
       onClick={() => {
-        const store = useLatido.getState()
+        const store = useAvizor.getState()
         store.markRead([item.id])
         store.selectItem(item.id)
       }}
@@ -78,7 +78,7 @@ export const PostCard = memo(function PostCard({
               className="post__translated"
               onClick={(event) => {
                 event.stopPropagation()
-                useLatido.getState().toggleOriginal(item.id)
+                useAvizor.getState().toggleOriginal(item.id)
               }}
             >
               <Icon name={sourceShown ? 'eye' : 'globe'} size="sm" />
@@ -119,7 +119,7 @@ export const PostCard = memo(function PostCard({
               className="post__action post__action--group"
               onClick={(event) => {
                 event.stopPropagation()
-                useLatido.getState().selectTrend(item.clusterId ?? null)
+                useAvizor.getState().selectTrend(item.clusterId ?? null)
               }}
             >
               <Icon name="activity" size="sm" />
@@ -138,12 +138,12 @@ export const PostCard = memo(function PostCard({
 
 /** Fila compacta para resultados de búsqueda y paneles. */
 export const PostRow = memo(function PostRow({ item }: { item: Item }): JSX.Element {
-  const lang = useLatido((state) => state.lang)
+  const lang = useAvizor((state) => state.lang)
   return (
     <button
       type="button"
       className="rail-trend"
-      onClick={() => useLatido.getState().selectItem(item.id)}
+      onClick={() => useAvizor.getState().selectItem(item.id)}
     >
       <span className="grow">
         <span className="rail-trend__title">{item.title ?? item.body ?? item.url}</span>

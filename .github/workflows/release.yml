@@ -59,9 +59,9 @@ jobs:
 
       - name: Comprobar antes de empaquetar
         run: |
-          pnpm --filter @latido/tokens build
+          pnpm --filter @avizor/tokens build
           pnpm -r typecheck
-          pnpm --filter @latido/engine test
+          pnpm --filter @avizor/engine test
 
       - uses: tauri-apps/tauri-action@v1
         env:
@@ -69,7 +69,7 @@ jobs:
         with:
           projectPath: apps/desktop
           tagName: ${{ github.ref_name }}
-          releaseName: 'Latido ${{ github.ref_name }}'
+          releaseName: 'Avizor ${{ github.ref_name }}'
           releaseBody: |
             Descarga el instalador de tu sistema y ejecútalo. No hay cuenta ni
             configuración: la app arranca con datos de ejemplo y activas tus
@@ -78,7 +78,7 @@ jobs:
             Comprobación de integridad (Linux/macOS):
 
             ```bash
-            sha256sum -c latido-*.sha256 2>/dev/null || shasum -a 256 -c *.sha256
+            sha256sum -c avizor-*.sha256 2>/dev/null || shasum -a 256 -c *.sha256
             ```
           releaseDraft: true
           prerelease: false

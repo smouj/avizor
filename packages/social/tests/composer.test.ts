@@ -44,7 +44,7 @@ describe('contar caracteres', () => {
 describe('validar una publicación por cuenta', () => {
   it('un texto corto cabe en Bluesky', () => {
     const readiness = validateForAccount(
-      { text: 'Hola desde Latido' },
+      { text: 'Hola desde Avizor' },
       {
         account: account('bluesky'),
         capabilities: WITH_SESSION,
@@ -168,7 +168,7 @@ describe('validar una publicación por cuenta', () => {
 
 describe('resumen del compositor', () => {
   it('cuenta listas, bloqueadas y desconocidas, y deja fuera a las bloqueadas', () => {
-    const readiness = validateCompose({ text: 'Hola desde Latido' }, [
+    const readiness = validateCompose({ text: 'Hola desde Avizor' }, [
       { account: account('bluesky'), capabilities: WITH_SESSION },
       { account: account('reddit'), capabilities: WITH_SESSION },
       { account: account('mastodon'), capabilities: WITH_SESSION },

@@ -2,9 +2,9 @@ import { useState } from 'react'
 
 import { EmptyState } from '@/components/primitives'
 import { Icon, type IconName } from '@/components/Icon'
-import { useLatido } from '@/state/store'
+import { useAvizor } from '@/state/store'
 import { relativeTime } from '@/lib/format'
-import type { AlertKind, AlertRule } from '@latido/engine'
+import type { AlertKind, AlertRule } from '@avizor/engine'
 
 const KINDS: { kind: AlertKind; icon: IconName }[] = [
   { kind: 'multi_source', icon: 'layers' },
@@ -17,7 +17,7 @@ const KINDS: { kind: AlertKind; icon: IconName }[] = [
 
 /** Avisos: la bandeja de lo que el usuario pidió saber, y las reglas que la alimentan. */
 export function AlertsScreen(): JSX.Element {
-  const { t, lang, alerts, rules, addRule, toggleRule, removeRule, selectTrend, markAllRead, entities } = useLatido()
+  const { t, lang, alerts, rules, addRule, toggleRule, removeRule, selectTrend, markAllRead, entities } = useAvizor()
   const [draft, setDraft] = useState<{ kind: AlertKind; query: string; minGrowth: number; minSources: number }>({
     kind: 'keyword',
     query: '',

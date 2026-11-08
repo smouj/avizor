@@ -62,7 +62,7 @@ pub fn run() {
             open_external,
         ])
         .run(tauri::generate_context!())
-        .expect("no se pudo arrancar Latido");
+        .expect("no se pudo arrancar Avizor");
 }
 
 /// Aviso del sistema. Se usa para lo que de verdad interrumpe: un tema que

@@ -1,8 +1,8 @@
 {
-  "name": "@latido/social",
-  "version": "0.3.1",
+  "name": "@avizor/social",
+  "version": "0.3.2",
   "private": true,
-  "description": "Capa social de Latido: cuentas, sesiones web, capacidades reales, compositor y cola de acciones. TypeScript puro, sin claves API.",
+  "description": "Capa social de Avizor: cuentas, sesiones web, capacidades reales, compositor y cola de acciones. TypeScript puro, sin claves API.",
   "type": "module",
   "license": "AGPL-3.0-or-later",
   "main": "./dist/index.js",

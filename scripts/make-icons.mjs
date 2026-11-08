@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Genera la marca de Latido: PNG (16→1024), `icon.ico` e `icon.icns`.
+ * Genera la marca de Avizor: PNG (16→1024), `icon.ico` e `icon.icns`.
  *
  * Sin dependencias: se dibuja por muestreo de distancias y se codifica a PNG con
  * zlib, que ya trae Node. Determinista —el mismo código produce los mismos
@@ -42,10 +42,10 @@ const TILE_TOP = [228, 87, 46]
 const TILE_BOTTOM = [190, 60, 27]
 /** Tinta de la marca: blanco cálido, nunca blanco puro. */
 const INK = [255, 245, 237]
-/** Trazo del latido en el lienzo de 1024. */
+/** Trazo del avizor en el lienzo de 1024. */
 const STROKE = 48
 /**
- * Trazado, en coordenadas del lienzo (y hacia abajo). La forma de un latido de
+ * Trazado, en coordenadas del lienzo (y hacia abajo). La forma de un avizor de
  * verdad —línea base, muesca Q, pico R, valle S y vuelta a la base— y no una
  * onda cualquiera: el pico es el punto más alto y el valle baja por debajo de la
  * línea, que es lo que hace que el ojo lo lea como un pulso.
@@ -81,7 +81,7 @@ function distanceToSegment(px, py, ax, ay, bx, by) {
   return Math.hypot(px - (ax + t * vx), py - (ay + t * vy))
 }
 
-/** true si (x,y) cae sobre el trazo del latido. */
+/** true si (x,y) cae sobre el trazo del avizor. */
 function onTrace(x, y, size, stroke) {
   const scale = size / DESIGN
   const half = (stroke * scale) / 2
@@ -298,8 +298,8 @@ function squirclePath(size, steps = 96) {
 }
 
 function svgSource() {
-  const gradientId = 'latido-tile'
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${DESIGN} ${DESIGN}" width="${DESIGN}" height="${DESIGN}" role="img" aria-label="Latido">
+  const gradientId = 'avizor-tile'
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${DESIGN} ${DESIGN}" width="${DESIGN}" height="${DESIGN}" role="img" aria-label="Avizor">
   <!-- Generado por scripts/make-icons.mjs: no lo edites a mano. -->
   <defs>
     <linearGradient id="${gradientId}" x1="0" y1="0" x2="0" y2="1">

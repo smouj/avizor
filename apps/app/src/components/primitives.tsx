@@ -4,9 +4,9 @@
  */
 import type { ReactNode } from 'react'
 
-import type { SourceKind, TrendState } from '@latido/engine'
+import type { SourceKind, TrendState } from '@avizor/engine'
 
-import { useLatido } from '@/state/store'
+import { useAvizor } from '@/state/store'
 import { compactNumber, hueOf, initialsOf, percent, times } from '@/lib/format'
 
 import { Icon, type IconName } from './Icon'
@@ -128,14 +128,14 @@ export function SourceDot({ source, withLabel = false }: { source: SourceKind; w
 // ── estado de una tendencia ─────────────────────────────────────────────────
 
 export function StateBadge({ state }: { state: TrendState }): JSX.Element {
-  const { t } = useLatido()
+  const { t } = useAvizor()
   const key = `radar.${state}` as const
   const label = t(key)
   return <span className={`state state--${state}`}>{label}</span>
 }
 
 export function TrendDelta({ growth }: { growth: number }): JSX.Element {
-  const { lang } = useLatido()
+  const { lang } = useAvizor()
   const down = growth < 0
   return (
     <span className={`delta ${down ? 'delta--down' : ''}`} title={percent(growth, lang)}>
@@ -276,7 +276,7 @@ export function SkeletonList({ rows = 6 }: { rows?: number }): JSX.Element {
 
 /** Traduce el motivo estructurado de una tendencia. */
 export function ReasonText({ code, params }: { code: string; params: Record<string, number | string> }): JSX.Element {
-  const { t, lang } = useLatido()
+  const { t, lang } = useAvizor()
   const key = `reason.${code}` as 'reason.velocity_spike'
   const translated = t(key, {
     ...params,

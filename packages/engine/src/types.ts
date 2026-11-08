@@ -1,5 +1,5 @@
 /**
- * Modelo canónico de Latido.
+ * Modelo canónico de Avizor.
  *
  * Todo lo que entra por un conector se traduce a `Item`. El resto del motor
  * (clustering, tendencias, alertas, UI) solo conoce estos tipos: añadir una red
@@ -60,7 +60,7 @@ export interface Item {
   author: Author
   /** epoch ms, tal como lo publica la fuente. */
   publishedAt: number
-  /** epoch ms, cuándo lo vio Latido por primera vez. */
+  /** epoch ms, cuándo lo vio Avizor por primera vez. */
   ingestedAt: number
   metrics: ItemMetrics
   tags: string[]
@@ -107,7 +107,7 @@ export interface Trend {
   reason: TrendReason
   /** Muestra representativa para "Ver conversación". */
   sampleIds: string[]
-  /** Latido ya visto por el usuario (para no volver a avisar). */
+  /** Avizor ya visto por el usuario (para no volver a avisar). */
   acknowledged?: boolean
 }
 

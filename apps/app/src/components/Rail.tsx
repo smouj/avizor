@@ -1,7 +1,7 @@
 import { Icon } from '@/components/Icon'
 import { Sparkline, sourceLabel } from '@/components/primitives'
 import { TrendRailRow } from '@/components/TrendCard'
-import { useLatido } from '@/state/store'
+import { useAvizor } from '@/state/store'
 import { compactNumber, relativeTime } from '@/lib/format'
 
 /**
@@ -10,7 +10,7 @@ import { compactNumber, relativeTime } from '@/lib/format'
  * centro: informa de un vistazo.
  */
 export function Rail(): JSX.Element {
-  const { t, trends, items, entities, lang, selectTrend, realtime, lastPollAt, sources, counts } = useLatido()
+  const { t, trends, items, entities, lang, selectTrend, realtime, lastPollAt, sources, counts } = useAvizor()
 
   const top = trends.slice(0, 5)
   const emerging = trends.filter((trend) => trend.state === 'emerging' || trend.state === 'breaking').slice(0, 3)
@@ -133,13 +133,13 @@ export function Rail(): JSX.Element {
       </section>
 
       <footer className="rail-foot">
-        <a href="https://github.com/smouj/latido" target="_blank" rel="noopener noreferrer">
+        <a href="https://github.com/smouj/avizor" target="_blank" rel="noopener noreferrer">
           GitHub
         </a>
-        <a href="https://github.com/smouj/latido/blob/main/docs/DESIGN.md" target="_blank" rel="noopener noreferrer">
+        <a href="https://github.com/smouj/avizor/blob/main/docs/DESIGN.md" target="_blank" rel="noopener noreferrer">
           {t('settings.appearance')}
         </a>
-        <a href="https://github.com/smouj/latido/blob/main/docs/PRIVACY.md" target="_blank" rel="noopener noreferrer">
+        <a href="https://github.com/smouj/avizor/blob/main/docs/PRIVACY.md" target="_blank" rel="noopener noreferrer">
           {t('settings.data')}
         </a>
         <span>AGPL-3.0</span>

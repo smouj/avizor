@@ -1,11 +1,11 @@
 import { useMemo, useState } from 'react'
 
-import type { Item } from '@latido/engine'
+import type { Item } from '@avizor/engine'
 
 import { PostCard } from '@/components/PostCard'
 import { EmptyState, SkeletonList, sourceLabel } from '@/components/primitives'
 import { Icon } from '@/components/Icon'
-import { useLatido } from '@/state/store'
+import { useAvizor } from '@/state/store'
 import { TrendCard } from '@/components/TrendCard'
 
 export type FeedMode = 'home' | 'breaking' | 'bookmarks'
@@ -20,7 +20,7 @@ export type FeedMode = 'home' | 'breaking' | 'bookmarks'
  * la interfaz en un bucle de actualización. Se calcula con `useMemo`.
  */
 export function FeedScreen({ mode }: { mode: FeedMode }): JSX.Element {
-  const { t, items, trends, ready, setFilters, realtime, poll } = useLatido()
+  const { t, items, trends, ready, setFilters, realtime, poll } = useAvizor()
 
   const byCluster = useMemo(() => {
     const counts = new Map<string, number>()
@@ -31,7 +31,7 @@ export function FeedScreen({ mode }: { mode: FeedMode }): JSX.Element {
     return counts
   }, [items])
 
-  const bookmarked = useLatido((state) => state.bookmarkedIds)
+  const bookmarked = useAvizor((state) => state.bookmarkedIds)
   const visible: Item[] =
     mode === 'bookmarks' ? items.filter((item) => bookmarked.includes(item.id)) : items
 
@@ -115,7 +115,7 @@ export function FeedScreen({ mode }: { mode: FeedMode }): JSX.Element {
 
 /** Filtros del flujo: qué se mira y de dónde viene. */
 export function TopicFilters(): JSX.Element {
-  const { t, entities, sources, filters, toggleTopic, toggleSourceFilter, setFilters } = useLatido()
+  const { t, entities, sources, filters, toggleTopic, toggleSourceFilter, setFilters } = useAvizor()
 
   const topEntities = [...entities]
     .filter((entity) => entity.watch)

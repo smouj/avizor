@@ -1,4 +1,4 @@
--- Esquema del archivo de Latido (SQLite + FTS5).
+-- Esquema del archivo de Avizor (SQLite + FTS5).
 --
 -- ATENCIÓN: este archivo y `packages/engine/src/store/schema.ts` describen el
 -- mismo modelo y deben cambiar juntos. `docs/DATA-MODEL.md` es la referencia.

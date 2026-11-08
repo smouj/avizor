@@ -212,7 +212,7 @@ export function Icon({ name, size = 'md', className, ...rest }: IconProps): JSX.
   )
 }
 
-/** Marca de Latido: el latido dentro de un cuadrado. */
+/** Marca de Avizor: el avizor dentro de un cuadrado. */
 export function BrandMark({ size = 22 }: { size?: number }): JSX.Element {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">

@@ -6,12 +6,12 @@ import {
   sourcesHealth,
   topKeywords,
 } from '@/lib/activity'
-import { useLatido } from '@/state/store'
+import { useAvizor } from '@/state/store'
 
 /**
  * El pulso, siempre a la vista.
  *
- * Latido tiene que notarse vivo: aquí se ve cuánto está entrando **por minuto**,
+ * Avizor tiene que notarse vivo: aquí se ve cuánto está entrando **por minuto**,
  * cuántas fuentes están respondiendo ahora mismo y sobre qué palabras se está
  * hablando más. Todo son cifras contadas sobre los items del almacén; si no hay
  * datos, el pulso lo dice en vez de latir de mentira.
@@ -20,7 +20,7 @@ import { useLatido } from '@/state/store'
  * fuerte de que algo está entrando en este momento.
  */
 export function ActivityStrip(): JSX.Element {
-  const { t, activity, realtime, polling, pollError } = useLatido()
+  const { t, activity, realtime, polling, pollError } = useAvizor()
 
   const tone = polling ? 'recent' : activityTone(activity)
   const health = sourcesHealth(activity)

@@ -27,12 +27,12 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - name: Construir los tokens de diseño
-        run: pnpm --filter @latido/tokens build
+        run: pnpm --filter @avizor/tokens build
       - name: Comprobar que los tokens son deterministas
         run: |
           cp packages/tokens/dist/tokens.css /tmp/tokens-a.css
           cp packages/tokens/dist/tokens.json /tmp/tokens-a.json
-          pnpm --filter @latido/tokens build
+          pnpm --filter @avizor/tokens build
           diff -u /tmp/tokens-a.css packages/tokens/dist/tokens.css
           diff -u /tmp/tokens-a.json packages/tokens/dist/tokens.json
       - name: Estilo y reglas
@@ -40,13 +40,13 @@ jobs:
       - name: Tipos
         run: pnpm -r typecheck
       - name: Tests del motor
-        run: pnpm --filter @latido/engine test
+        run: pnpm --filter @avizor/engine test
       - name: Tests de la capa social
-        run: pnpm --filter @latido/social test
+        run: pnpm --filter @avizor/social test
       - name: Tests de la interfaz
-        run: pnpm --filter @latido/app test
+        run: pnpm --filter @avizor/app test
       - name: Compilar la interfaz
-        run: pnpm --filter @latido/app build
+        run: pnpm --filter @avizor/app build
 
   node-matrix:
     name: Node ${{ matrix.node }}
@@ -64,10 +64,10 @@ jobs:
           node-version: ${{ matrix.node }}
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter @latido/tokens build
-      - run: pnpm --filter @latido/engine test
-      - run: pnpm --filter @latido/social test
-      - run: pnpm --filter @latido/app test
+      - run: pnpm --filter @avizor/tokens build
+      - run: pnpm --filter @avizor/engine test
+      - run: pnpm --filter @avizor/social test
+      - run: pnpm --filter @avizor/app test
 
   desktop:
     name: Escritorio (Rust)
@@ -91,7 +91,7 @@ jobs:
         with:
           workspaces: apps/desktop/src-tauri
       - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter @latido/tokens build
+      - run: pnpm --filter @avizor/tokens build
       - name: Comprobar el shell sin empaquetar
         working-directory: apps/desktop/src-tauri
         run: cargo check --locked

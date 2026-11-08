@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Emite los tokens de diseño como variables CSS y JSON.
- *   dist/tokens.css   → consumido por apps/app (import '@latido/tokens/tokens.css')
+ *   dist/tokens.css   → consumido por apps/app (import '@avizor/tokens/tokens.css')
  *   dist/tokens.json  → consumido por herramientas, tests y el tema de Tauri
  *
  * Determinista: mismo input, mismo output byte a byte (el CI lo comprueba).
@@ -17,7 +17,7 @@ const outDir = join(here, '..', 'dist')
 
 const HEADER = `/* GENERADO POR scripts/build.mjs — NO EDITAR A MANO.
    Fuente: packages/tokens/src/tokens.mjs
-   Latido · sistema de diseño · Grafito y ascua */\n`
+   Avizor · sistema de diseño · Grafito y ascua */\n`
 
 const kebab = (s) => s.replace(/([a-z0-9])([A-Z])/g, '$1-$2').replace(/_/g, '-').toLowerCase()
 

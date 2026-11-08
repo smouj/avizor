@@ -1,6 +1,6 @@
 # Arquitectura
 
-Latido es un lector local-first del pulso de internet. No hay cuentas, no hay
+Avizor es un lector local-first del pulso de internet. No hay cuentas, no hay
 servidor propio y no hay base de datos central: la aplicación lee fuentes
 públicas, normaliza lo que encuentra, agrupa lo que habla de lo mismo y calcula
 si eso está creciendo.
@@ -44,7 +44,7 @@ la interfaz: recibe el almacén por inyección y devuelve resultados.
 
 ## Flujo de datos
 
-1. **Sondeo.** `LatidoEngine.poll(kinds?, { limit })` selecciona las fuentes
+1. **Sondeo.** `AvizorEngine.poll(kinds?, { limit })` selecciona las fuentes
    activas (`sourceConfigs.get(kind).enabled`) que además tengan conector
    registrado, y las lanza con `Promise.allSettled`. Un fallo de red no cancela
    el resto: el error se guarda en `IngestResult.errors` y en
@@ -75,9 +75,9 @@ la interfaz: recibe el almacén por inyección y devuelve resultados.
 9. **Interfaz.** Si hay un oyente suscrito con `onUpdate`, el motor lo avisa al
    final del ciclo. La aplicación sincroniza su estado (Zustand) con
    `syncFromEngine()` y repinta.
-10. **Persistencia.** La aplicación serializa `LatidoEngine.snapshot()`, un JSON
+10. **Persistencia.** La aplicación serializa `AvizorEngine.snapshot()`, un JSON
     con `SNAPSHOT_VERSION` 1, y lo escribe por `saveState()`: fichero de estado
-    en el escritorio, IndexedDB (`latido` / `state` / `snapshot`) en el
+    en el escritorio, IndexedDB (`avizor` / `state` / `snapshot`) en el
     navegador, con `localStorage` como último recurso. Al arrancar,
     `hydrate(snapshot)` reconstruye almacén, temas y entidades.
 
@@ -105,14 +105,14 @@ TypeScript puro, sin I/O implícito:
 
 | Paquete | Ruta | Responsabilidad | Publicación |
 | --- | --- | --- | --- |
-| `@latido/engine` | `packages/engine` | Conectores, normalización, agrupación, tendencias, avisos y almacén en memoria. TypeScript puro, sin I/O implícito. | `private`, se consume desde fuente (`main`/`types` apuntan a `src/index.ts`) |
-| `@latido/social` | `packages/social` | La capa social: cuentas, sesiones web, capacidades efectivas, compositor por red, cola de acciones y el contrato del puente de navegador. TypeScript puro, sin claves API. | `private`, se consume desde fuente |
-| `@latido/tokens` | `packages/tokens` | Fuente única del sistema de diseño. `src/tokens.mjs` → `dist/tokens.css` y `dist/tokens.json` con `scripts/build.mjs`. | `private`; se consume `dist/` |
-| `@latido/app` | `apps/app` | Interfaz React 19 + Zustand 5 + Vite 6. La misma base para escritorio y navegador. | `private` |
-| `@latido/desktop` | `apps/desktop` | Shell Tauri 2: ventana, llavero, notificaciones, enlaces y archivo SQLite. | `private` |
+| `@avizor/engine` | `packages/engine` | Conectores, normalización, agrupación, tendencias, avisos y almacén en memoria. TypeScript puro, sin I/O implícito. | `private`, se consume desde fuente (`main`/`types` apuntan a `src/index.ts`) |
+| `@avizor/social` | `packages/social` | La capa social: cuentas, sesiones web, capacidades efectivas, compositor por red, cola de acciones y el contrato del puente de navegador. TypeScript puro, sin claves API. | `private`, se consume desde fuente |
+| `@avizor/tokens` | `packages/tokens` | Fuente única del sistema de diseño. `src/tokens.mjs` → `dist/tokens.css` y `dist/tokens.json` con `scripts/build.mjs`. | `private`; se consume `dist/` |
+| `@avizor/app` | `apps/app` | Interfaz React 19 + Zustand 5 + Vite 6. La misma base para escritorio y navegador. | `private` |
+| `@avizor/desktop` | `apps/desktop` | Shell Tauri 2: ventana, llavero, notificaciones, enlaces y archivo SQLite. | `private` |
 
 Raíz: `pnpm` con `packages/*`, `apps/app` y `apps/desktop` en el workspace
-(`pnpm-workspace.yaml`). El alias `@latido/engine` apunta al TypeScript fuente
+(`pnpm-workspace.yaml`). El alias `@avizor/engine` apunta al TypeScript fuente
 en `apps/app/vite.config.ts`, así que un error de tipos aparece donde se escribe
 y no en un `dist` intermedio.
 
@@ -151,7 +151,7 @@ lectura no toca la capa social y al revés; ver
 ## Decisiones y alternativas descartadas
 
 **Perfiles por red, sin reescritura en Rust.** Descartado: implementar el
-clustering en Rust para acelerarlo. El coste real de Latido no es la CPU, son
+clustering en Rust para acelerarlo. El coste real de Avizor no es la CPU, son
 las peticiones a las redes; duplicar el algoritmo habría costado divergencias
 sin ganancia medible.
 

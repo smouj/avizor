@@ -8,7 +8,7 @@
  *
  * Lo que nunca viaja por aquí: contraseñas, tokens ni valores de cookies. El
  * inicio de sesión ocurre en la página del servicio, dentro de la ventana de
- * Latido; lo único que se lee después es la identidad pública.
+ * Avizor; lo único que se lee después es la identidad pública.
  */
 
 import type {
@@ -21,8 +21,8 @@ import type {
   SessionCheckRequest,
   SessionProbe,
   TypedActionRequest,
-} from '@latido/social'
-import { browserProfileIdFor, loginUrlFor, networkOf, sessionHostsFor } from '@latido/social'
+} from '@avizor/social'
+import { browserProfileIdFor, loginUrlFor, networkOf, sessionHostsFor } from '@avizor/social'
 
 import { isDesktop } from './bridge'
 

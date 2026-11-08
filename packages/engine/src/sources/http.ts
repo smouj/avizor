@@ -6,7 +6,7 @@ import { SourceError, hostMatchesDomain } from './types'
 import type { SessionProvider } from './types'
 import type { SourceKind } from '../types'
 
-export const USER_AGENT = 'Latido/0.1 (+https://github.com/smouj/latido; local-first reader)'
+export const USER_AGENT = 'Avizor/0.1 (+https://github.com/smouj/avizor; local-first reader)'
 const DEFAULT_TIMEOUT = 12_000
 const MAX_RETRIES = 2
 

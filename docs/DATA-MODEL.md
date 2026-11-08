@@ -54,7 +54,7 @@ Los items normalizados. Una fila por publicación.
 | `title`, `body`, `lang` | TEXT | Texto e idioma detectado (`es`, `en`, `und`) |
 | `author_id`, `author_handle`, `author_name` | TEXT | Autor normalizado |
 | `published_at` | INTEGER | Cuándo lo publicó la fuente |
-| `ingested_at` | INTEGER | Cuándo lo vio Latido |
+| `ingested_at` | INTEGER | Cuándo lo vio Avizor |
 | `likes`, `replies`, `reposts`, `comments`, `stars`, `score`, `delta` | INTEGER | Métricas; `delta` es la variación desde la observación anterior |
 | `tags_json` | TEXT | Etiquetas normalizadas, ordenadas |
 | `entities_json` | TEXT | Slugs de entidades detectadas |
@@ -167,7 +167,7 @@ CREATE VIRTUAL TABLE posts_fts USING fts5 (
 
 Es una tabla externa (`content = 'posts'`): no guarda copia de los datos, sino el
 índice, y apunta a la fila real por `rowid`. El tokenizador `unicode61` con
-`remove_diacritics 2` hace que "latido" encuentre "latído" y "latidos".
+`remove_diacritics 2` hace que "avizor" encuentre "latído" y "avizors".
 
 El índice lo mantienen **tres disparadores**, no el código:
 
@@ -201,7 +201,7 @@ item debe sobrevivir a la retirada del tema al que se asignó.
 
 ## Política de retención
 
-- **Motor (memoria):** `LatidoEngine` usa `retentionMs` con 30 días por defecto
+- **Motor (memoria):** `AvizorEngine` usa `retentionMs` con 30 días por defecto
   (`30 * 86_400_000`). `retain(now)` llama a `MemoryStore.prune(now − retentionMs)`,
   que borra los items con `published_at` anterior al corte y, además, las
   tendencias ya caducadas **solo si están reconocidas** (`acknowledged`): una
@@ -229,6 +229,6 @@ item debe sobrevivir a la retirada del tema al que se asignó.
 `SNAPSHOT_VERSION = 1` y el objeto lleva: `items`, `clusters`, `trends`,
 `points`, `alerts`, `rules`, `fired`, `entities`, `watchlists`, `lists`,
 `bookmarks`, `kv`, `session` y `savedAt`. Al hidratar, `MemoryStore.hydrate`
-reconstruye los mapas y el índice de búsqueda, y `LatidoEngine.hydrate` vuelve a
+reconstruye los mapas y el índice de búsqueda, y `AvizorEngine.hydrate` vuelve a
 sembrar las entidades del diccionario y reasigna cada item a su tema para que el
 agrupador y el almacén no se desincronicen.

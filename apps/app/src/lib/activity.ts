@@ -9,7 +9,7 @@
  * interfaz (español e inglés).
  */
 
-import type { ActivityKeyword, ActivityNote, ActivitySnapshot } from '@latido/engine'
+import type { ActivityKeyword, ActivityNote, ActivitySnapshot } from '@avizor/engine'
 
 export type ActivityTone = 'live' | 'recent' | 'stale' | 'quiet'
 

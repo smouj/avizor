@@ -4,9 +4,9 @@
     "jsx": "react-jsx",
     "types": ["vite/client"],
     "paths": {
-      "@latido/engine": ["../../packages/engine/src/index.ts"],
-      "@latido/social": ["../../packages/social/src/index.ts"],
-      "@latido/tokens": ["../../packages/tokens/src/tokens.mjs"],
+      "@avizor/engine": ["../../packages/engine/src/index.ts"],
+      "@avizor/social": ["../../packages/social/src/index.ts"],
+      "@avizor/tokens": ["../../packages/tokens/src/tokens.mjs"],
       "@/*": ["./src/*"]
     }
   },

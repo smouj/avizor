@@ -26,21 +26,21 @@ importers:
 
   apps/app:
     dependencies:
+      '@avizor/engine':
+        specifier: workspace:*
+        version: link:../../packages/engine
+      '@avizor/social':
+        specifier: workspace:*
+        version: link:../../packages/social
+      '@avizor/tokens':
+        specifier: workspace:*
+        version: link:../../packages/tokens
       '@fontsource-variable/manrope':
         specifier: ^5.1.1
         version: 5.3.0
       '@fontsource/ibm-plex-mono':
         specifier: ^5.1.1
         version: 5.3.0
-      '@latido/engine':
-        specifier: workspace:*
-        version: link:../../packages/engine
-      '@latido/social':
-        specifier: workspace:*
-        version: link:../../packages/social
-      '@latido/tokens':
-        specifier: workspace:*
-        version: link:../../packages/tokens
       '@tauri-apps/api':
         specifier: ^2.2.0
         version: 2.12.4
@@ -81,7 +81,7 @@ importers:
 
   apps/desktop:
     dependencies:
-      '@latido/app':
+      '@avizor/app':
         specifier: workspace:*
         version: link:../app
     devDependencies:

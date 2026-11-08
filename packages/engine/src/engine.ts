@@ -47,7 +47,7 @@ export interface EngineOptions {
 
 const DAY = 86_400_000
 
-export class LatidoEngine {
+export class AvizorEngine {
   readonly store: MemoryStore
   readonly sourceConfigs: Map<SourceKind, SourceConfig>
 

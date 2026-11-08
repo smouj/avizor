@@ -16,7 +16,7 @@ apps/desktop/src-tauri/gen/
 *.pem
 *.key
 
-# local data (a Latido install is local-first: never commit a database)
+# local data (a Avizor install is local-first: never commit a database)
 *.sqlite
 *.sqlite-wal
 *.sqlite-shm

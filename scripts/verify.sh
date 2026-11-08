@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Verificación completa de Latido. Es lo que ejecuta el CI, paso a paso, y lo que
+# Verificación completa de Avizor. Es lo que ejecuta el CI, paso a paso, y lo que
 # debería correr cualquiera antes de abrir un pull request.
 #
 #   pnpm verify
@@ -28,13 +28,13 @@ step "Dependencias"
 pnpm install --frozen-lockfile
 
 step "Tokens de diseño"
-pnpm --filter @latido/tokens build
+pnpm --filter @avizor/tokens build
 
 step "Los tokens son deterministas"
 readonly TEMP_DIR="$(mktemp -d)"
 cp packages/tokens/dist/tokens.css "$TEMP_DIR/tokens.css"
 cp packages/tokens/dist/tokens.json "$TEMP_DIR/tokens.json"
-pnpm --filter @latido/tokens build >/dev/null
+pnpm --filter @avizor/tokens build >/dev/null
 diff -q "$TEMP_DIR/tokens.css" packages/tokens/dist/tokens.css >/dev/null \
   || fail "tokens.css cambia entre dos compilaciones idénticas"
 diff -q "$TEMP_DIR/tokens.json" packages/tokens/dist/tokens.json >/dev/null \
@@ -45,16 +45,16 @@ step "Tipos"
 pnpm -r typecheck
 
 step "Tests del motor"
-pnpm --filter @latido/engine test
+pnpm --filter @avizor/engine test
 
 step "Tests de la capa social"
-pnpm --filter @latido/social test
+pnpm --filter @avizor/social test
 
 step "Tests de la interfaz"
-pnpm --filter @latido/app test
+pnpm --filter @avizor/app test
 
 step "Compilar la interfaz"
-pnpm --filter @latido/app build
+pnpm --filter @avizor/app build
 
 if [ -f apps/desktop/src-tauri/Cargo.toml ] && command -v cargo >/dev/null 2>&1; then
   step "Escritorio (Rust)"

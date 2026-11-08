@@ -1,7 +1,7 @@
 /**
- * @latido/social — superficie pública.
+ * @avizor/social — superficie pública.
  *
- * La capa social de Latido: cuentas, sesiones web, capacidades reales,
+ * La capa social de Avizor: cuentas, sesiones web, capacidades reales,
  * compositor, cola de acciones y el contrato del puente de navegador.
  *
  * No hay claves API en ninguna parte de este paquete, y no las habrá: la

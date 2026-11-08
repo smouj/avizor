@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react'
 import { PostCard } from '@/components/PostCard'
 import { Avatar, EmptyState } from '@/components/primitives'
 import { Icon } from '@/components/Icon'
-import { useLatido } from '@/state/store'
+import { useAvizor } from '@/state/store'
 import { getEngine } from '@/state/store'
 
 /**
@@ -12,7 +12,7 @@ import { getEngine } from '@/state/store'
  * proyecto: aparezcan donde aparezcan.
  */
 export function FollowingScreen(): JSX.Element {
-  const { t, entities, watchEntity, selectItem } = useLatido()
+  const { t, entities, watchEntity, selectItem } = useAvizor()
   const [slug, setSlug] = useState<string | null>(null)
   const [filter, setFilter] = useState('')
 

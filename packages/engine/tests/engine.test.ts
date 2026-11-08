@@ -1,14 +1,14 @@
 import { describe, expect, it, vi } from 'vitest'
 
-import { LatidoEngine } from '../src/engine'
+import { AvizorEngine } from '../src/engine'
 import { demoRawItems } from '../src/sources/demo'
 import { defaultSourceConfigs } from '../src/sources'
 import type { SourceKind } from '../src/types'
 
 const NOW = 1_760_000_000_000
 
-function engineWithDemo(): LatidoEngine {
-  return new LatidoEngine({
+function engineWithDemo(): AvizorEngine {
+  return new AvizorEngine({
     clock: () => NOW,
     connectors: {
       demo: {
@@ -24,7 +24,7 @@ function engineWithDemo(): LatidoEngine {
   })
 }
 
-describe('LatidoEngine', () => {
+describe('AvizorEngine', () => {
   it('ingiere los datos de ejemplo y forma temas con varias fuentes', () => {
     const engine = engineWithDemo()
     const result = engine.loadDemo(NOW)
@@ -95,7 +95,7 @@ describe('LatidoEngine', () => {
 
   it('un fallo de red en una fuente no tumba el ciclo', async () => {
     const log = vi.fn()
-    const engine = new LatidoEngine({
+    const engine = new AvizorEngine({
       clock: () => NOW,
       log,
       connectors: {
@@ -133,7 +133,7 @@ describe('LatidoEngine', () => {
 
   it('el sondeo respeta las fuentes desactivadas', async () => {
     const fetchItems = vi.fn(async () => demoRawItems(NOW))
-    const engine = new LatidoEngine({
+    const engine = new AvizorEngine({
       clock: () => NOW,
       connectors: {
         rss: {
@@ -158,7 +158,7 @@ describe('LatidoEngine', () => {
     engine.recompute(NOW)
     const snapshot = engine.snapshot()
 
-    const revived = new LatidoEngine({ clock: () => NOW, sourceConfigs: defaultSourceConfigs() })
+    const revived = new AvizorEngine({ clock: () => NOW, sourceConfigs: defaultSourceConfigs() })
     revived.hydrate(snapshot)
     expect(revived.stats().items).toBe(engine.stats().items)
     expect(revived.search('openai').length).toBeGreaterThan(0)

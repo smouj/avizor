@@ -9,7 +9,7 @@
 
 use keyring::Entry;
 
-const SERVICE: &str = "app.latido.desktop";
+const SERVICE: &str = "app.avizor.desktop";
 
 fn entry(key: &str) -> Result<Entry, String> {
     if key.trim().is_empty() || key.len() > 128 {

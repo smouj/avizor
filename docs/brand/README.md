@@ -1,4 +1,4 @@
-# Marca de Latido
+# Marca de Avizor
 
 Todo lo que hay en esta carpeta se **genera**, no se dibuja a mano:
 
@@ -24,7 +24,7 @@ dibujos parecidos, son el mismo.
 - **La losa**: superelipse (`|x|^4.6 + |y|^4.6 = 1`), no un cuadrado redondeado.
   Es la esquina continua de los iconos modernos, sin el codo que aparece al
   redondear un rectángulo.
-- **El latido**: línea base, muesca Q, pico R, valle S y vuelta a la base. Un
+- **El avizor**: línea base, muesca Q, pico R, valle S y vuelta a la base. Un
   pico por encima y un valle por debajo: eso es lo que el ojo lee como pulso, y no
   una onda cualquiera.
 - **El trazo se engrosa en los tamaños pequeños** (×1.35 a 16 px, ×1.24 a 32 px).
@@ -48,7 +48,7 @@ alternativa** para modo oscuro: la losa ya aporta el contraste.
 - **Espacio libre**: deja alrededor al menos el 12 % del ancho de la marca. El
   vector ya trae su propio margen interno; no lo recortes.
 - **Tamaño mínimo**: 16 px para el icono completo (está probado a ese tamaño). Si
-  necesitas algo más pequeño, usa solo el latido sin la losa.
+  necesitas algo más pequeño, usa solo el avizor sin la losa.
 - **No la deformes**, no la gires, no le cambies el ángulo del degradado ni le
   añadas sombras o biseles. Si hace falta otro color, cambia el token del sistema
   de diseño (`packages/tokens`), no el icono.

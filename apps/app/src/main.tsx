@@ -6,7 +6,7 @@ import '@fontsource-variable/manrope'
 import '@fontsource/ibm-plex-mono/400.css'
 import '@fontsource/ibm-plex-mono/500.css'
 
-import '@latido/tokens/tokens.css'
+import '@avizor/tokens/tokens.css'
 import '@/styles/base.css'
 
 import { App } from '@/App'

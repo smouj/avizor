@@ -11,7 +11,7 @@
 import { create } from 'zustand'
 
 import {
-  LatidoEngine,
+  AvizorEngine,
   MemoryStore,
   CONNECTORS,
   createSessionState,
@@ -29,7 +29,7 @@ import {
   type SourceSession,
   type StoreSnapshot,
   type Trend,
-} from '@latido/engine'
+} from '@avizor/engine'
 
 import { translate, type Language, type MessageKey } from '@/i18n'
 import {
@@ -57,7 +57,7 @@ import {
   type MatrixSource,
   type PublicIdentity,
   type SessionState as SocialSessionState,
-} from '@latido/social'
+} from '@avizor/social'
 import {
   checkSession as checkAccountSession,
   forgetSession as forgetAccountSession,
@@ -72,7 +72,7 @@ import {
   createTranslator,
   type TranslateProviderKind,
   type Translator,
-} from '@latido/engine'
+} from '@avizor/engine'
 
 export type ViewKey =
   | 'home'
@@ -227,13 +227,13 @@ function ensureQueue(target: Language): TranslationQueue | null {
         translateFlush = null
         const patch = translateBuffer
         translateBuffer = {}
-        const current = useLatido.getState()
-        useLatido.setState((state) => ({ translations: { ...state.translations, ...patch } }))
+        const current = useAvizor.getState()
+        useAvizor.setState((state) => ({ translations: { ...state.translations, ...patch } }))
         void current
       }, 250)
     },
     onError: (error) => {
-      useLatido.setState({ translationError: error.message })
+      useAvizor.setState({ translationError: error.message })
     },
   })
   return translateQueue
@@ -241,7 +241,7 @@ function ensureQueue(target: Language): TranslationQueue | null {
 
 /** Encola los textos de lo que se está viendo, sin bloquear nada. */
 function requestTranslations(items: Item[]): void {
-  const state = useLatido.getState()
+  const state = useAvizor.getState()
   if (!state.translation.enabled) return
   const queue = ensureQueue(state.lang)
   if (!queue) return
@@ -286,21 +286,21 @@ interface PersistedShape {
 const PERSIST_VERSION = 1
 
 /** El motor vive fuera del almacén: no es serializable y no debe re-renderizar. */
-let engine: LatidoEngine | null = null
+let engine: AvizorEngine | null = null
 
-export function getEngine(): LatidoEngine {
+export function getEngine(): AvizorEngine {
   if (!engine) {
-    engine = new LatidoEngine({
+    engine = new AvizorEngine({
       store: new MemoryStore(),
       log: (message) => {
-        if (import.meta.env.DEV) console.info(`[latido] ${message}`)
+        if (import.meta.env.DEV) console.info(`[avizor] ${message}`)
       },
     })
   }
   return engine
 }
 
-interface LatidoState {
+interface AvizorState {
   ready: boolean
   polling: boolean
   /** `true` solo si se han cargado datos de ejemplo a mano (ajustes de desarrollo). */
@@ -406,7 +406,7 @@ interface LatidoState {
   addAccount: (source: MatrixSource, handle: string, instanceHost?: string) => AddAccountResult
   /** Quita una cuenta de la lista. No toca el perfil de navegador. */
   removeAccount: (id: string) => void
-  /** Abre la web oficial de esa cuenta en su ventana de Latido. */
+  /** Abre la web oficial de esa cuenta en su ventana de Avizor. */
   openAccountSession: (id: string) => Promise<void>
   /** Mira si la sesión sigue viva y traduce el hecho a estado de sesión. */
   checkAccount: (id: string) => Promise<void>
@@ -432,7 +432,7 @@ const defaultFilters: Filters = { topics: [], sources: [], onlyWatched: false, s
 
 let saveTimer: ReturnType<typeof setTimeout> | null = null
 
-export const useLatido = create<LatidoState>((set, get) => ({
+export const useAvizor = create<AvizorState>((set, get) => ({
   ready: false,
   polling: false,
   demoMode: false,
@@ -1139,7 +1139,7 @@ function buildQuery(filters: Filters, query: string): ItemQuery {
 }
 
 function applyPersisted(parsed: Partial<PersistedShape>): void {
-  const state = useLatido.getState()
+  const state = useAvizor.getState()
   if (parsed.theme) state.theme = parsed.theme
   // La plataforma detectada no se queda pegada: si el usuario no la eligió a
   // mano, se vuelve a mirar el sistema. Antes un arranque raro la dejaba fija
@@ -1166,7 +1166,7 @@ function applyPersisted(parsed: Partial<PersistedShape>): void {
       sort: state.filters.sort,
     }
   }
-  useLatido.setState({
+  useAvizor.setState({
     theme: state.theme,
     platform: state.platform,
     platformAuto: state.platformAuto,
@@ -1183,7 +1183,7 @@ function applyPersisted(parsed: Partial<PersistedShape>): void {
   })
 }
 
-function buildPersisted(state: LatidoState): PersistedShape {
+function buildPersisted(state: AvizorState): PersistedShape {
   const session: SessionState = {
     ...createSessionState(),
     filters: {
@@ -1216,7 +1216,7 @@ function buildPersisted(state: LatidoState): PersistedShape {
   }
 }
 
-async function persist(get: () => LatidoState): Promise<void> {
+async function persist(get: () => AvizorState): Promise<void> {
   const state = get()
   const payload = JSON.stringify(buildPersisted(state))
   const ok = await saveState(payload)
@@ -1224,7 +1224,7 @@ async function persist(get: () => LatidoState): Promise<void> {
 }
 
 /** Guarda como mucho una vez por segundo: sondear no debe escribir en disco. */
-function scheduleSave(get: () => LatidoState): void {
+function scheduleSave(get: () => AvizorState): void {
   if (saveTimer) clearTimeout(saveTimer)
   saveTimer = setTimeout(() => void persist(get), 1000)
 }
@@ -1233,9 +1233,9 @@ let archiveTimer: ReturnType<typeof setTimeout> | null = null
 
 /**
  * Refleja el estado vivo en el archivo SQLite. Solo en escritorio, y con retraso:
- * el archivo es para durar, no para ir detrás de cada latido de la interfaz.
+ * el archivo es para durar, no para ir detrás de cada avizor de la interfaz.
  */
-function scheduleArchive(get: () => LatidoState): void {
+function scheduleArchive(get: () => AvizorState): void {
   if (!isDesktop()) return
   if (archiveTimer) clearTimeout(archiveTimer)
   archiveTimer = setTimeout(() => {
@@ -1382,7 +1382,7 @@ function applyLanguage(lang: Language): void {
 }
 
 /** Un aviso del sistema por cada tema nuevo que de verdad lo merezca. */
-function announceNewTrends(trends: Trend[], state: LatidoState): void {
+function announceNewTrends(trends: Trend[], state: AvizorState): void {
   if (trends.length === 0) return
   const store = getEngine().store
   const worth = trends.filter(
@@ -1403,7 +1403,7 @@ if (typeof window !== 'undefined' && isDesktop() === false) {
   window.addEventListener('keydown', (event) => {
     if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
       event.preventDefault()
-      const state = useLatido.getState()
+      const state = useAvizor.getState()
       state.openPalette(!state.paletteOpen)
     }
   })

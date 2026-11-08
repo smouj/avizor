@@ -22,7 +22,7 @@ de mantenimiento": el arreglo llega en la siguiente versión.
 
 ## Modelo de amenaza
 
-Latido es una aplicación de escritorio/navegador que **no tiene servidor propio**,
+Avizor es una aplicación de escritorio/navegador que **no tiene servidor propio**,
 **no tiene cuentas** y **no recibe conexiones entrantes**. Eso deja cuatro
 superficies reales:
 
@@ -32,7 +32,7 @@ superficies reales:
   dispositivo: SQLite y un fichero de estado en el escritorio; IndexedDB en el
   navegador (ver `docs/PRIVACY.md`).
 - **No hay cifrado en reposo.** El adversario aquí es quien ya tiene acceso a tu
-  sesión de usuario en el equipo. Lo que protege Latido no es la criptografía,
+  sesión de usuario en el equipo. Lo que protege Avizor no es la criptografía,
   sino el aislamiento normal del sistema operativo.
 - Los **secretos** (token opcional de Reddit o GitHub) van al llavero del sistema
   operativo (`secret_set`), no al archivo de datos ni a la instantánea.
@@ -45,7 +45,7 @@ superficies reales:
   esquema: nada de `file://`, `javascript:` ni esquemas que lancen aplicaciones
   arbitrarias.
 - En el navegador, los enlaces se abren con `noopener,noreferrer`.
-- El resto de enlaces que abre Latido son los que aparecen en los items: van al
+- El resto de enlaces que abre Avizor son los que aparecen en los items: van al
   navegador del sistema, con las protecciones de ese navegador.
 
 ### 3. Contenido de terceros tratado como datos
@@ -74,13 +74,13 @@ Lo que llega de las redes es **contenido no confiable** y se trata como tal:
 - Los conectores no aceptan destinos arbitrarios: los hosts están fijados en el
   código, salvo RSS/Mastodon/GitHub/Bluesky, donde la URL la escribes tú.
 - Consecuencia conocida y aceptada: si añades un feed que apunta a una dirección
-  interna (por ejemplo `http://127.0.0.1:8080/feed`), Latido intentará leerla.
+  interna (por ejemplo `http://127.0.0.1:8080/feed`), Avizor intentará leerla.
   Está en tus manos; no hay nada del otro lado que se pueda atacar desde fuera.
 - No hay servidor que pueda ser escaneado, ni puerto a la escucha, ni webhooks.
 
 ## Qué NO es un fallo
 
-- **Que un titular sea falso.** Latido no verifica la verdad de nada: muestra lo
+- **Que un titular sea falso.** Avizor no verifica la verdad de nada: muestra lo
   que dicen las fuentes y de quién lo dicen. Una noticia falsa publicada en una
   red abierta es un contenido, no una vulnerabilidad nuestra.
 - **Que un tema mezcle dos historias.** El agrupador pondera 0,40 palabras +
@@ -92,8 +92,8 @@ Lo que llega de las redes es **contenido no confiable** y se trata como tal:
 - **Que la base de datos local sea legible por tu propio usuario.** Es un lector
   local-first: si alguien tiene tu sesión abierta, tiene tus datos.
 - **Que un autor mienta sobre quién es.** El handle y el nombre son los que
-  publica la red de origen; Latido no los verifica.
-- **Que el contenido te parezca ofensivo.** Latido no modera: filtra `over_18`
+  publica la red de origen; Avizor no los verifica.
+- **Que el contenido te parezca ofensivo.** Avizor no modera: filtra `over_18`
   de Reddit y nada más.
 - **Ejecutar una versión antigua.** Si has ignorado el aviso de versión y el
   fallo ya está arreglado aguas arriba, actualiza antes de reportar.

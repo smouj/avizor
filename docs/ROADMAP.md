@@ -6,7 +6,7 @@ verificar sola.
 
 ## v0.1 — El pulso, en local (hecho)
 
-**Motor** (`@latido/engine`, TypeScript puro)
+**Motor** (`@avizor/engine`, TypeScript puro)
 
 - Modelo canónico (`Item`, `Cluster`, `Trend`, `AlertRule`, `Entity`…) con
   superficie pública en `packages/engine/src/index.ts`.
@@ -23,18 +23,18 @@ verificar sola.
   determinista.
 - HTTP con identificación, reintentos y respeto de `Retry-After`.
 
-**Aplicación** (`@latido/app`)
+**Aplicación** (`@avizor/app`)
 
 - Pantallas: Inicio, Ahora mismo, Radar, Siguiendo, Explorar, Guardados,
   Buscar, Avisos, Listas, Fuentes, Ajustes y detalle de item, con paleta de
   comandos y atajos.
-- Sistema de diseño propio (`@latido/tokens`) con temas oscuro/claro y
+- Sistema de diseño propio (`@avizor/tokens`) con temas oscuro/claro y
   `prefers-reduced-motion`.
 - Interfaz bilingüe (español e inglés) con las traducciones completas.
 - Puente de plataforma único (`bridge.ts`): IndexedDB en el navegador, servicios
   del sistema en el escritorio.
 
-**Escritorio** (`@latido/desktop`, Tauri 2)
+**Escritorio** (`@avizor/desktop`, Tauri 2)
 
 - Ventana única con instancia única, notificaciones del sistema, apertura de
   enlaces externos, secretos en el llavero y archivo SQLite con búsqueda FTS5
@@ -72,9 +72,9 @@ verificar sola.
 ## v0.2.3 — Capa social: cimientos (hecho)
 
 Sin claves API de ningún tipo: la autenticación es siempre la del sitio, en su
-propia página, dentro de un perfil de navegador de Latido.
+propia página, dentro de un perfil de navegador de Avizor.
 
-- Paquete nuevo `@latido/social`: modelo de cuentas, estados de sesión,
+- Paquete nuevo `@avizor/social`: modelo de cuentas, estados de sesión,
   capacidades efectivas, compositor por red, cola de acciones y contrato del
   puente de navegador. TypeScript puro y 61 pruebas.
 - Separación explícita de las dos capas: `Connector` lee, `InteractionProvider`
@@ -87,7 +87,7 @@ propia página, dentro de un perfil de navegador de Latido.
 
 ## v0.3 — Cuentas y primer adaptador
 
-- **Perfiles de navegador de Latido.** Un directorio de datos por cuenta
+- **Perfiles de navegador de Avizor.** Un directorio de datos por cuenta
   (`data_directory` de Tauri/wry), ventana visible para iniciar sesión y borrado
   completo con «Olvidar sesión».
 - **Pantalla Cuentas.** Conectar, gestionar, comprobar estado, desconectar y
@@ -95,7 +95,7 @@ propia página, dentro de un perfil de navegador de Latido.
 - **Primer adaptador real (Nivel A) completo**: iniciar sesión, sesión, identidad,
   leer, like, responder, repostar, publicar, salir y recuperarse, con selectores
   centralizados, prueba de salud y *fixtures* de DOM saneados.
-- **Compositor** con el veredicto por cuenta ya implementado en `@latido/social`.
+- **Compositor** con el veredicto por cuenta ya implementado en `@avizor/social`.
 
 ## v0.3.1 — Segunda y tercera red
 
@@ -167,7 +167,7 @@ propia página, dentro de un perfil de navegador de Latido.
   interacción es manual o asistida, y **siempre la confirma el usuario**.
 - CAPTCHA, 2FA, *fingerprint spoofing*, anti-CAPTCHA, evasión de anti-bot y
   cualquier forma de fingir ser un cliente oficial.
-- Recomendaciones por caja negra: si Latido ordena algo, se puede explicar con
+- Recomendaciones por caja negra: si Avizor ordena algo, se puede explicar con
   sus números (`docs/TREND-ENGINE.md`).
 
 ## Hecho en 0.1.x (ampliación)

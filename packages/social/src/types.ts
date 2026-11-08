@@ -1,7 +1,7 @@
 /**
- * Modelo de la capa social de Latido.
+ * Modelo de la capa social de Avizor.
  *
- * Latido tiene dos capas separadas a propósito:
+ * Avizor tiene dos capas separadas a propósito:
  *
  *   Connector           → LEER    (packages/engine: conectores, temas, tendencias)
  *   InteractionProvider → PARTICIPAR (este paquete)
@@ -13,7 +13,7 @@
  *
  * Regla que atraviesa todo el modelo: **cero claves API**. La autenticación es
  * siempre la del sitio, en su propia página, dentro de un perfil de navegador
- * de Latido; aquí nunca viaja una contraseña.
+ * de Avizor; aquí nunca viaja una contraseña.
  */
 
 /** Redes con las que la capa social sabe hablar: Nivel A, B y C del diseño. */
@@ -117,7 +117,7 @@ export interface SocialAccount {
   displayName?: string
   avatarUrl?: string
   profileUrl?: string
-  /** Perfil de navegador de Latido que guarda esta sesión. Uno por cuenta. */
+  /** Perfil de navegador de Avizor que guarda esta sesión. Uno por cuenta. */
   browserProfileId: string
   sessionState: SessionState
   addedAt: number
@@ -191,7 +191,7 @@ export interface ActionResult {
   outcome: ActionOutcome
   /**
    * `true` solo si se comprobó **en la red** que la acción ocurrió. Sin esto,
-   * Latido no puede decir que algo se publicó.
+   * Avizor no puede decir que algo se publicó.
    */
   verified: boolean
   /** URL del resultado: la publicación nueva o la propia publicación. */

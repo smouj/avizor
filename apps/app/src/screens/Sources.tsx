@@ -2,8 +2,8 @@ import { useState } from 'react'
 
 import { Icon } from '@/components/Icon'
 import { sourceLabel } from '@/components/primitives'
-import { useLatido } from '@/state/store'
-import { CONNECTORS } from '@latido/engine'
+import { useAvizor } from '@/state/store'
+import { CONNECTORS } from '@avizor/engine'
 import { relativeTime } from '@/lib/format'
 import { isDesktop } from '@/platform/bridge'
 
@@ -12,7 +12,7 @@ import { isDesktop } from '@/platform/bridge'
  * Una app que no enseña esto está pidiendo confianza a ciegas.
  */
 export function SourcesScreen(): JSX.Element {
-  const { t, lang, sources, toggleSource, updateSourceOptions, poll, polling, toast, sessions } = useLatido()
+  const { t, lang, sources, toggleSource, updateSourceOptions, poll, polling, toast, sessions } = useAvizor()
   const [openKind, setOpenKind] = useState<string | null>(null)
   const desktop = isDesktop()
 

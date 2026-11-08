@@ -13,7 +13,7 @@
  * Solo se conecta si hay de qué filtrar: el flujo completo de Bluesky son miles
  * de publicaciones por segundo y tirarlo entero contra la app no tiene sentido.
  */
-import { BlueskyStream, type RawItem, type SourceKind } from '@latido/engine'
+import { BlueskyStream, type RawItem, type SourceKind } from '@avizor/engine'
 
 export type RealtimeStatus = 'off' | 'connecting' | 'live' | 'reconnecting' | 'error'
 

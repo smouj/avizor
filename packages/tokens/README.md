@@ -1,6 +1,6 @@
-# @latido/tokens
+# @avizor/tokens
 
-Fuente única de verdad del sistema de diseño de Latido. **Ningún componente escribe
+Fuente única de verdad del sistema de diseño de Avizor. **Ningún componente escribe
 un color, tamaño o duración literal**: todo sale de aquí.
 
 ```text
@@ -12,7 +12,7 @@ dist/tokens.css     → :root + [data-theme="dark"|"light"] + prefers-color-sche
 ## Uso
 
 ```ts
-import '@latido/tokens/tokens.css'
+import '@avizor/tokens/tokens.css'
 
 // en CSS
 .anything {
@@ -27,7 +27,7 @@ import '@latido/tokens/tokens.css'
 
 ```ts
 // en TS (colores de series para gráficas)
-import tokens from '@latido/tokens'
+import tokens from '@avizor/tokens'
 const [first] = tokens.data.series
 ```
 
@@ -41,8 +41,8 @@ const [first] = tokens.data.series
 ## Build
 
 ```bash
-pnpm --filter @latido/tokens build
+pnpm --filter @avizor/tokens build
 ```
 
-Los scripts `predev`/`prebuild` de `@latido/app` lo ejecutan solos. `dist/` no se
+Los scripts `predev`/`prebuild` de `@avizor/app` lo ejecutan solos. `dist/` no se
 versiona; el CI comprueba que el resultado es determinista.

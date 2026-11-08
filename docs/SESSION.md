@@ -38,7 +38,7 @@ aparece, la aplicación lo dice con esas palabras y no sigue.
 ## Qué se guarda
 
 En el **llavero del sistema** (Credential Manager en Windows), bajo
-`app.latido.desktop` / `session.cookie.<fuente>`, un único JSON con:
+`app.avizor.desktop` / `session.cookie.<fuente>`, un único JSON con:
 
 - la cabecera `Cookie` ya montada,
 - los dominios a los que se puede enviar,
@@ -79,13 +79,13 @@ las cookies no bastan: hace falta un token de sesión, que es trabajo aparte.
 
 ```bash
 # Lógica de descifrado, dominios y cabecera (sin sistema operativo de por medio)
-cd apps/desktop/src-tauri/crates/latido-chrome-session && cargo test
+cd apps/desktop/src-tauri/crates/avizor-chrome-session && cargo test
 
 # Que el camino de Windows (DPAPI) compila
 cargo check --target x86_64-pc-windows-msvc
 
 # Que la cabecera solo viaja a donde debe
-pnpm --filter @latido/engine test
+pnpm --filter @avizor/engine test
 ```
 
 El descifrado con DPAPI de verdad solo se puede ejecutar en Windows: es el único

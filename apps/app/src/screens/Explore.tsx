@@ -1,7 +1,7 @@
 import { TrendRailRow } from '@/components/TrendCard'
 import { EmptyState, Meter, sourceLabel } from '@/components/primitives'
 import { Icon } from '@/components/Icon'
-import { getEngine, useLatido } from '@/state/store'
+import { getEngine, useAvizor } from '@/state/store'
 import { compactNumber, relativeTime } from '@/lib/format'
 
 /**
@@ -9,7 +9,7 @@ import { compactNumber, relativeTime } from '@/lib/format'
  * archivo local. Sirve para entender de dónde sale todo lo demás.
  */
 export function ExploreScreen(): JSX.Element {
-  const { t, trends, items, counts, lang, selectTrend, selectItem, entities } = useLatido()
+  const { t, trends, items, counts, lang, selectTrend, selectItem, entities } = useAvizor()
 
   const bySource = new Map<string, number>()
   for (const item of items) bySource.set(item.source, (bySource.get(item.source) ?? 0) + 1)

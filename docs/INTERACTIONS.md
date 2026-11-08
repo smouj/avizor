@@ -1,6 +1,6 @@
 # Interacciones
 
-Latido tiene dos capas separadas a propósito:
+Avizor tiene dos capas separadas a propósito:
 
 ```text
 Connector            → LEER        (packages/engine)
@@ -15,7 +15,7 @@ conocimiento de cada sitio.
 
 ## Cero claves API
 
-Latido no pide, no guarda y no usa claves de usuario:
+Avizor no pide, no guarda y no usa claves de usuario:
 
 - ni `client_id` / `client_secret`,
 - ni tokens de desarrollador,
@@ -23,9 +23,9 @@ Latido no pide, no guarda y no usa claves de usuario:
 - ni pasos del tipo «crea una aplicación en el portal de desarrolladores».
 
 Cuando una red necesite autenticación, se abre **su** página de inicio de sesión
-en una superficie visible con el perfil de Latido de esa cuenta. La contraseña,
+en una superficie visible con el perfil de Avizor de esa cuenta. La contraseña,
 el 2FA y el CAPTCHA los resuelve el usuario en el sitio, nunca en un formulario
-de Latido. Aquí no hay ningún campo donde quepa una contraseña: el modelo de
+de Avizor. Aquí no hay ningún campo donde quepa una contraseña: el modelo de
 datos no los tiene.
 
 Lo que **no** se hace, ni se va a hacer: interceptar contraseñas, leer gestores
@@ -86,7 +86,7 @@ Reglas que están en las pruebas:
 - Una acción multirred **no es todo o nada**: cada destino tiene su resultado
   (`PENDING`/`RUNNING`/`SUCCESS`/`FAILED`/`SKIPPED`) y el resumen dice éxito
   parcial cuando unos salieron y otros no.
-- Un `success` **sin verificar** se registra como `FAILED`: Latido no puede
+- Un `success` **sin verificar** se registra como `FAILED`: Avizor no puede
   afirmar que algo se publicó si no lo ha comprobado en la red.
 - La cola no guarda contraseñas ni campos sensibles, porque el modelo no los
   tiene. Hay una prueba que serializa el historial y comprueba que no aparece
@@ -113,7 +113,7 @@ caducada, función retirada) no se hacen arreglos silenciosos:
 ```text
 Threads ha cambiado su interfaz.
 
-Latido puede abrir esta publicación en Threads para que la completes allí.
+Avizor puede abrir esta publicación en Threads para que la completes allí.
 
 [Abrir Threads]
 ```
@@ -124,7 +124,7 @@ La fiabilidad importa más que fingir soporte.
 
 | Pieza | Estado |
 | --- | --- |
-| Modelo de cuentas, sesiones y acciones (`@latido/social`) | hecho, 70 pruebas |
+| Modelo de cuentas, sesiones y acciones (`@avizor/social`) | hecho, 70 pruebas |
 | Capacidades efectivas y matriz por red | hecho |
 | Cola de acciones con verificación obligatoria | hecho |
 | Validación del compositor por cuenta | hecho |

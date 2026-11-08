@@ -1,5 +1,5 @@
 /**
- * Actividad: el pulso de lo que está pasando **ahora mismo** en Latido.
+ * Actividad: el pulso de lo que está pasando **ahora mismo** en Avizor.
  *
  * La aplicación tiene que notarse viva: cuánto está entrando, de dónde, a qué
  * ritmo y sobre qué se está hablando. Todo lo que sale de aquí es **contado**,

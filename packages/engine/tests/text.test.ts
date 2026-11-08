@@ -59,8 +59,8 @@ describe('jaccard', () => {
 
 describe('helpers', () => {
   it('fnv1a64 es estable entre ejecuciones', () => {
-    expect(fnv1a64('latido').toString(16)).toBe(fnv1a64('latido').toString(16))
-    expect(fnv1a64('latido')).not.toBe(fnv1a64('latido '))
+    expect(fnv1a64('avizor').toString(16)).toBe(fnv1a64('avizor').toString(16))
+    expect(fnv1a64('avizor')).not.toBe(fnv1a64('avizor '))
   })
 
   it('slugify genera claves estables', () => {

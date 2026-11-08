@@ -2,15 +2,15 @@ import { useState } from 'react'
 
 import { Avatar, EmptyState } from '@/components/primitives'
 import { Icon } from '@/components/Icon'
-import { getEngine, useLatido } from '@/state/store'
-import type { UserList } from '@latido/engine'
+import { getEngine, useAvizor } from '@/state/store'
+import type { UserList } from '@avizor/engine'
 
 /**
  * Listas: colecciones propias. Sirven para separar mundos que no se mezclan
  * (trabajo, videojuegos, investigación) sin depender de etiquetas de terceros.
  */
 export function ListsScreen(): JSX.Element {
-  const { t, toast, selectItem } = useLatido()
+  const { t, toast, selectItem } = useAvizor()
 
   const [lists, setLists] = useState<UserList[]>(() => getEngine().store.allLists())
   const [name, setName] = useState('')
@@ -129,7 +129,7 @@ function ListMembers({
   lists: UserList[]
   onChange: (next: UserList[]) => void
 }): JSX.Element {
-  const { t, entities } = useLatido()
+  const { t, entities } = useAvizor()
   const [pick, setPick] = useState('')
 
   const add = (slug: string): void => {
