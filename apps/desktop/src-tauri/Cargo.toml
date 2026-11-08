@@ -14,6 +14,16 @@ default-run = "latido"
 name = "latido_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
+[features]
+# Compilación de producción. Sin este feature, `tauri` arranca en modo
+# desarrollo y la ventana carga `build.devUrl` (http://localhost:5173) en vez de
+# los assets embebidos: fuera de `tauri dev` eso es una página en blanco.
+# `tauri build` lo activa solo; compilando a mano hay que pedirlo:
+#
+#   cargo build --release --features custom-protocol
+#
+custom-protocol = ["tauri/custom-protocol"]
+
 [build-dependencies]
 tauri-build = { version = "2", features = [] }
 
@@ -35,3 +45,4 @@ tauri-plugin-http = "2.6.1"
 tauri-plugin-notification = "2.4.0"
 tauri-plugin-opener = "2.5.5"
 tauri-plugin-single-instance = "2.4.4"
+tokio = { version = "1", features = ["sync", "time"] }

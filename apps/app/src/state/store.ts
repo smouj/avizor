@@ -16,6 +16,7 @@ import {
   CONNECTORS,
   createSessionState,
   defaultSourceConfigs,
+  type ActivitySnapshot,
   type AlertEvent,
   type AlertRule,
   type Entity,
@@ -50,6 +51,21 @@ import {
   type BrowserProfile,
   type SessionSummary,
 } from '@/platform/bridge'
+import {
+  disconnectedSession,
+  sessionFromProbe,
+  type MatrixSource,
+  type PublicIdentity,
+  type SessionState as SocialSessionState,
+} from '@latido/social'
+import {
+  checkSession as checkAccountSession,
+  forgetSession as forgetAccountSession,
+  loginUrlForAccount,
+  openSession as openAccountSession,
+  readIdentity as readAccountIdentity,
+  type AccountTarget,
+} from '@/platform/social'
 import { keywordsFrom, startRealtime, stopRealtime, type RealtimeStatus } from '@/state/realtime'
 import {
   TranslationQueue,
@@ -65,6 +81,7 @@ export type ViewKey =
   | 'following'
   | 'explore'
   | 'search'
+  | 'accounts'
   | 'bookmarks'
   | 'alerts'
   | 'lists'
@@ -114,6 +131,36 @@ export interface Toast {
   id: string
   message: string
   tone: 'info' | 'ok' | 'warn'
+}
+
+/**
+ * Una cuenta del catálogo, tal como vive en este equipo.
+ *
+ * La sesión y la identidad se guardan con el estado de la aplicación, que es
+ * local: en el repositorio no entra ni un handle. Un perfil de navegador por
+ * cuenta, y la identidad se queda en `null` hasta que se lee de verdad.
+ */
+export interface LinkedAccount {
+  id: string
+  source: MatrixSource
+  handle: string
+  /** Solo en redes federadas: la instancia de esa cuenta. */
+  instanceHost?: string
+  session: SocialSessionState
+  identity: PublicIdentity | null
+  addedAt: number
+}
+
+/** Resultado de añadir una cuenta: o entra, o se explica por qué no. */
+export type AddAccountResult = { ok: true } | { ok: false; error: MessageKey }
+
+/** Lo que se le pasa a la capa social para hablar de esta cuenta. */
+export function accountTarget(account: LinkedAccount): AccountTarget {
+  return {
+    source: account.source,
+    handle: account.handle,
+    ...(account.instanceHost ? { instanceHost: account.instanceHost } : {}),
+  }
 }
 
 /**
@@ -208,6 +255,12 @@ function requestTranslations(items: Item[]): void {
   void queue.flush()
 }
 
+/** Ancho de las columnas laterales del armazón, en píxeles. `null` = el token. */
+export interface LayoutWidths {
+  nav: number | null
+  rail: number | null
+}
+
 interface PersistedShape {
   version: number
   session: SessionState
@@ -223,6 +276,10 @@ interface PersistedShape {
   onboarded: boolean
   sourceConfigs: SourceConfig[]
   rules: AlertRule[]
+  /** Cuentas del catálogo añadidas en este equipo. Nunca en el repositorio. */
+  accounts: LinkedAccount[]
+  /** Anchos que el usuario ha movido a mano en este equipo. */
+  layout: LayoutWidths
   snapshot: StoreSnapshot | null
 }
 
@@ -290,8 +347,16 @@ interface LatidoState {
   sessionBusy: string | null
   /** Último fallo de importación, tal cual lo cuenta el escritorio. */
   sessionError: string | null
+  /** Cuentas del catálogo añadidas en este equipo, con su sesión y su identidad. */
+  accounts: LinkedAccount[]
+  /** Cuenta cuya acción está en curso ahora mismo. */
+  accountBusy: string | null
+  /** Medidas de las columnas laterales: las del token o las que puso el usuario. */
+  layout: LayoutWidths
   bookmarkedIds: string[]
   counts: { items: number; trends: number; alerts: number; clusters: number }
+  /** El pulso: ritmo de entrada, fuentes que responden y palabras de moda. */
+  activity: ActivitySnapshot | null
   toasts: Toast[]
 
   init: () => Promise<void>
@@ -303,6 +368,8 @@ interface LatidoState {
   setTheme: (theme: ThemeChoice) => void
   setPlatform: (platform: PlatformChoice) => void
   setUiScale: (scale: UiScaleChoice) => void
+  setLayoutWidth: (side: 'nav' | 'rail', px: number) => void
+  resetLayoutWidth: (side: 'nav' | 'rail') => void
   setTranslation: (patch: Partial<TranslationSettings>) => void
   setTranslationKey: (value: string) => Promise<void>
   testTranslation: () => Promise<void>
@@ -321,7 +388,10 @@ interface LatidoState {
   markAllRead: () => void
   watchEntity: (slug: string, watch?: boolean) => void
   toggleSource: (kind: SourceKind, enabled?: boolean) => void
-  updateSourceOptions: (kind: SourceKind, options: Record<string, string | number | boolean | string[]>) => void
+  updateSourceOptions: (
+    kind: SourceKind,
+    options: Record<string, string | number | boolean | string[]>,
+  ) => void
   /** Lee los navegadores disponibles en el equipo (una vez por sesión basta). */
   loadSessionBrowsers: () => Promise<void>
   /** Importa la sesión del navegador para una fuente y la activa. */
@@ -332,6 +402,18 @@ interface LatidoState {
   setUseSession: (kind: SourceKind, useSession: boolean) => void
   /** Vuelve a leer del llavero las sesiones que estén activas. */
   refreshSessions: () => Promise<void>
+  /** Añade una cuenta del catálogo. Valida antes de aceptarla. */
+  addAccount: (source: MatrixSource, handle: string, instanceHost?: string) => AddAccountResult
+  /** Quita una cuenta de la lista. No toca el perfil de navegador. */
+  removeAccount: (id: string) => void
+  /** Abre la web oficial de esa cuenta en su ventana de Latido. */
+  openAccountSession: (id: string) => Promise<void>
+  /** Mira si la sesión sigue viva y traduce el hecho a estado de sesión. */
+  checkAccount: (id: string) => Promise<void>
+  /** Lee la identidad pública de la cuenta: nombre, avatar y URL. */
+  readAccountIdentity: (id: string) => Promise<void>
+  /** Olvida la sesión: borra el perfil entero de esa cuenta y la quita de la lista. */
+  forgetAccount: (id: string) => Promise<void>
   addRule: (rule: Omit<AlertRule, 'createdAt'>) => void
   toggleRule: (ruleId: string) => void
   removeRule: (ruleId: string) => void
@@ -387,8 +469,12 @@ export const useLatido = create<LatidoState>((set, get) => ({
   sessions: {},
   sessionBusy: null,
   sessionError: null,
+  accounts: [],
+  accountBusy: null,
+  layout: { nav: null, rail: null },
   bookmarkedIds: [],
   counts: { items: 0, trends: 0, alerts: 0, clusters: 0 },
+  activity: null,
   toasts: [],
 
   t: (key, params) => translate(get().lang, key, params),
@@ -446,7 +532,9 @@ export const useLatido = create<LatidoState>((set, get) => ({
     set({ ready: true })
     get().sync()
 
-    void get().poll().then(() => get().startStream())
+    void get()
+      .poll()
+      .then(() => get().startStream())
   },
 
   /**
@@ -502,7 +590,7 @@ export const useLatido = create<LatidoState>((set, get) => ({
       const failed = result.errors.filter((error) => error.source !== 'demo')
       set({
         lastPollAt: Date.now(),
-        pollError: failed.length > 0 ? failed[0]?.message ?? null : null,
+        pollError: failed.length > 0 ? (failed[0]?.message ?? null) : null,
       })
     } catch (error) {
       set({ pollError: (error as Error).message })
@@ -535,6 +623,9 @@ export const useLatido = create<LatidoState>((set, get) => ({
         alerts: stats.alerts,
         clusters: stats.clusters,
       },
+      // El pulso se recalcula en cada sincronización: son cuentas sobre los
+      // items que ya están en el almacén, no una estimación.
+      activity: engineInstance.activity(),
     })
 
     // La traducción va después de pintar: primero el dato real, luego la capa.
@@ -544,6 +635,28 @@ export const useLatido = create<LatidoState>((set, get) => ({
   setUiScale: (uiScale) => {
     applyScale(uiScale)
     set({ uiScale })
+    scheduleSave(get)
+  },
+
+  /**
+   * Mueve el ancho de una columna lateral. Lo llama el tirador del armazón, y el
+   * valor se guarda con el resto del estado: al abrir, la ventana se ve como la
+   * dejaste. Los límites viven en el propio tirador, que es quien conoce el
+   * mínimo que aguanta cada columna.
+   */
+  setLayoutWidth: (side, px) => {
+    const value = Math.round(px)
+    const layout =
+      side === 'nav' ? { ...get().layout, nav: value } : { ...get().layout, rail: value }
+    set({ layout })
+    scheduleSave(get)
+  },
+
+  /** Devuelve esa columna a la medida de sus tokens. */
+  resetLayoutWidth: (side) => {
+    const layout =
+      side === 'nav' ? { ...get().layout, nav: null } : { ...get().layout, rail: null }
+    set({ layout })
     scheduleSave(get)
   },
 
@@ -575,7 +688,10 @@ export const useLatido = create<LatidoState>((set, get) => ({
     try {
       const [sample] = await translator.translate([get().t('translate.sample')])
       set({ translationError: null })
-      get().toast(sample ? `${get().t('translate.works')}: ${sample}` : get().t('translate.works'), 'ok')
+      get().toast(
+        sample ? `${get().t('translate.works')}: ${sample}` : get().t('translate.works'),
+        'ok',
+      )
     } catch (error) {
       set({ translationError: (error as Error).message })
       get().toast((error as Error).message, 'warn')
@@ -631,12 +747,16 @@ export const useLatido = create<LatidoState>((set, get) => ({
   },
   toggleTopic: (topic) => {
     const { topics } = get().filters
-    const next = topics.includes(topic) ? topics.filter((entry) => entry !== topic) : [...topics, topic]
+    const next = topics.includes(topic)
+      ? topics.filter((entry) => entry !== topic)
+      : [...topics, topic]
     get().setFilters({ topics: next })
   },
   toggleSourceFilter: (source) => {
     const { sources } = get().filters
-    const next = sources.includes(source) ? sources.filter((entry) => entry !== source) : [...sources, source]
+    const next = sources.includes(source)
+      ? sources.filter((entry) => entry !== source)
+      : [...sources, source]
     get().setFilters({ sources: next })
   },
   selectTrend: (trendId) => {
@@ -731,7 +851,12 @@ export const useLatido = create<LatidoState>((set, get) => ({
     }
 
     set({ sessionBusy: kind, sessionError: null })
-    const { summary, error } = await sessionImport(browser, profile, requirement.key, requirement.domains)
+    const { summary, error } = await sessionImport(
+      browser,
+      profile,
+      requirement.key,
+      requirement.domains,
+    )
     if (error || !summary) {
       importedSessions.delete(requirement.key)
       set({ sessionBusy: null, sessionError: error ?? get().t('session.failed') })
@@ -797,6 +922,114 @@ export const useLatido = create<LatidoState>((set, get) => ({
       }
     }
     set({ sessions: summaries })
+  },
+
+  addAccount: (source, handle, instanceHost) => {
+    const clean = handle.trim().replace(/^@/, '')
+    if (clean === '') return { ok: false, error: 'accounts.error.handle' }
+    if (/\s/.test(clean)) return { ok: false, error: 'accounts.error.spaces' }
+
+    const host = instanceHost?.trim() ?? ''
+    const target: AccountTarget = {
+      source,
+      handle: clean,
+      ...(host ? { instanceHost: host } : {}),
+    }
+    // La misma comprobación que se hace al abrir: sin dirección de entrada no
+    // hay sesión que abrir, y eso se dice antes de guardar nada.
+    if (!loginUrlForAccount(target)) {
+      return { ok: false, error: host ? 'accounts.error.instance' : 'accounts.error.noLogin' }
+    }
+
+    const duplicated = get().accounts.some(
+      (account) =>
+        account.source === source && account.handle.toLowerCase() === clean.toLowerCase(),
+    )
+    if (duplicated) return { ok: false, error: 'accounts.error.duplicate' }
+
+    const account: LinkedAccount = {
+      id: `${source}:${clean}`,
+      source,
+      handle: clean,
+      ...(host ? { instanceHost: host } : {}),
+      // Nace sin sesión: no se finge que está conectada hasta comprobarla.
+      session: disconnectedSession(),
+      identity: null,
+      addedAt: Date.now(),
+    }
+    set({ accounts: [...get().accounts, account] })
+    scheduleSave(get)
+    return { ok: true }
+  },
+
+  removeAccount: (id) => {
+    set({ accounts: get().accounts.filter((account) => account.id !== id) })
+    scheduleSave(get)
+  },
+
+  openAccountSession: async (id) => {
+    const account = get().accounts.find((entry) => entry.id === id)
+    if (!account) return
+    set({ accountBusy: id })
+    const result = await openAccountSession(accountTarget(account))
+    set({ accountBusy: null })
+    get().toast(
+      result.ok ? get().t('accounts.opened') : `${get().t('accounts.openFailed')}: ${result.error}`,
+      result.ok ? 'ok' : 'warn',
+    )
+  },
+
+  checkAccount: async (id) => {
+    const account = get().accounts.find((entry) => entry.id === id)
+    if (!account) return
+    set({ accountBusy: id })
+    const probe = await checkAccountSession(accountTarget(account))
+    set({ accountBusy: null })
+    if (!probe) {
+      get().toast(get().t('accounts.checkFailed'), 'warn')
+      return
+    }
+    // El hecho lo traduce `sessionFromProbe`: aquí no se inventa un estado.
+    const session = sessionFromProbe(probe, account.session)
+    set({
+      accounts: get().accounts.map((entry) => (entry.id === id ? { ...entry, session } : entry)),
+    })
+    scheduleSave(get)
+    get().toast(get().t('accounts.checked'), 'ok')
+  },
+
+  readAccountIdentity: async (id) => {
+    const account = get().accounts.find((entry) => entry.id === id)
+    if (!account) return
+    set({ accountBusy: id })
+    const identity = await readAccountIdentity(accountTarget(account))
+    set({ accountBusy: null })
+    if (!identity) {
+      get().toast(get().t('accounts.identityFailed'), 'warn')
+      return
+    }
+    // El handle guardado no cambia: es el identificador del perfil de la cuenta.
+    set({
+      accounts: get().accounts.map((entry) => (entry.id === id ? { ...entry, identity } : entry)),
+    })
+    scheduleSave(get)
+    get().toast(get().t('accounts.identityRead'), 'ok')
+  },
+
+  forgetAccount: async (id) => {
+    const account = get().accounts.find((entry) => entry.id === id)
+    if (!account) return
+    set({ accountBusy: id })
+    const report = await forgetAccountSession(accountTarget(account))
+    set({ accountBusy: null })
+    if (!report) {
+      // Sin confirmación del escritorio no se quita nada: no vale suponer.
+      get().toast(get().t('accounts.forgetFailed'), 'warn')
+      return
+    }
+    set({ accounts: get().accounts.filter((entry) => entry.id !== id) })
+    scheduleSave(get)
+    get().toast(get().t('accounts.forgetDone'), 'info')
   },
 
   addRule: (rule) => {
@@ -874,7 +1107,9 @@ export const useLatido = create<LatidoState>((set, get) => ({
       items: [],
       trends: [],
       alerts: [],
+      accounts: [],
       counts: { items: 0, trends: 0, alerts: 0, clusters: 0 },
+      activity: null,
     })
     await get().init()
   },
@@ -913,6 +1148,9 @@ function applyPersisted(parsed: Partial<PersistedShape>): void {
     parsed.platformAuto === false && parsed.platform ? parsed.platform : detectPlatform()
   state.platformAuto = parsed.platformAuto === false
   if (parsed.uiScale !== undefined) state.uiScale = parsed.uiScale
+  if (parsed.layout) {
+    state.layout = { nav: parsed.layout.nav ?? null, rail: parsed.layout.rail ?? null }
+  }
   if (parsed.translation) state.translation = { ...state.translation, ...parsed.translation }
   if (parsed.lang) state.lang = parsed.lang
   if (parsed.retentionDays !== undefined) state.retentionDays = parsed.retentionDays
@@ -920,6 +1158,7 @@ function applyPersisted(parsed: Partial<PersistedShape>): void {
   if (parsed.onboarded !== undefined) state.onboarded = parsed.onboarded
   if (parsed.sourceConfigs) state.sources = parsed.sourceConfigs
   if (parsed.rules) state.rules = parsed.rules
+  if (Array.isArray(parsed.accounts)) state.accounts = parsed.accounts
   if (parsed.session) {
     state.filters = {
       ...state.filters,
@@ -939,6 +1178,7 @@ function applyPersisted(parsed: Partial<PersistedShape>): void {
     onboarded: state.onboarded,
     sources: state.sources,
     rules: state.rules,
+    accounts: state.accounts,
     filters: state.filters,
   })
 }
@@ -970,6 +1210,8 @@ function buildPersisted(state: LatidoState): PersistedShape {
     onboarded: state.onboarded,
     sourceConfigs: state.sources,
     rules: state.rules,
+    accounts: state.accounts,
+    layout: state.layout,
     snapshot: getEngine().snapshot(),
   }
 }

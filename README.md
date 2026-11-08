@@ -188,6 +188,30 @@ Detalle matemático completo, con los pesos reales: [`docs/TREND-ENGINE.md`](doc
 
 ---
 
+## Capa social (cimientos, sin interfaz todavía)
+
+Latido va a dejar de ser solo un lector: la idea es poder ver qué pasa,
+descubrir dónde merece la pena participar y gestionar tus conversaciones desde
+un único sitio, **sin entregar tus credenciales a Latido y sin claves API**.
+
+La autenticación es siempre la del sitio: Latido abre su página real en una
+ventana visible con un perfil de navegador propio de esa cuenta, y de ahí solo
+lee la identidad pública. Nunca pide usuario ni contraseña en un formulario
+propio.
+
+Hoy están hechos los **cimientos**: el paquete `@latido/social` con el modelo de
+cuentas, los estados de sesión, las capacidades por red —que no se inventan: la
+matriz empieza entera en `false`—, la validación del compositor, la cola de
+actions con verificación obligatoria y el contrato del puente de navegador. La
+interfaz, los perfiles de navegador y el primer adaptador de una red **todavía
+no existen**, y por eso la aplicación sigue comportándose como un lector.
+
+Detalle: [`docs/INTERACTIONS.md`](docs/INTERACTIONS.md),
+[`docs/SOCIAL-ACCOUNTS.md`](docs/SOCIAL-ACCOUNTS.md) y
+[`docs/BROWSER-BRIDGE.md`](docs/BROWSER-BRIDGE.md).
+
+---
+
 ## Estructura
 
 ```text
@@ -197,6 +221,7 @@ latido/
 │   └── desktop/      shell Tauri 2: SQLite, avisos del sistema, llavero
 ├── packages/
 │   ├── engine/       conectores, clustering y Trend Engine (TypeScript, 61 tests)
+│   ├── social/       cuentas, sesiones web, capacidades, compositor y acciones (61 tests)
 │   └── tokens/       sistema de diseño: fuente única de verdad
 ├── docs/             arquitectura, algoritmo, modelo de datos, privacidad
 └── scripts/          verificación e iconos, sin dependencias externas

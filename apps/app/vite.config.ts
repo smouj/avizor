@@ -20,6 +20,7 @@ export default defineConfig({
       // intermedio, el error aparece en el sitio donde se escribe.
       '@': resolve(here, 'src'),
       '@latido/engine': resolve(here, '../../packages/engine/src/index.ts'),
+      '@latido/social': resolve(here, '../../packages/social/src/index.ts'),
       '@latido/tokens/tokens.css': resolve(here, '../../packages/tokens/dist/tokens.css'),
     },
   },
@@ -36,8 +37,12 @@ export default defineConfig({
     chunkSizeWarningLimit: 900,
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom', 'zustand'],
+        // Vite 7 tipa manualChunks como función: el objeto ya no es válido.
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return;
+          if (id.includes('/react/') || id.includes('/react-dom/') || id.includes('/zustand/')) {
+            return 'vendor';
+          }
         },
       },
     },

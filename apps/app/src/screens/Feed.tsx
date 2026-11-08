@@ -20,7 +20,7 @@ export type FeedMode = 'home' | 'breaking' | 'bookmarks'
  * la interfaz en un bucle de actualización. Se calcula con `useMemo`.
  */
 export function FeedScreen({ mode }: { mode: FeedMode }): JSX.Element {
-  const { t, items, trends, ready, filters, setFilters, realtime, poll } = useLatido()
+  const { t, items, trends, ready, setFilters, realtime, poll } = useLatido()
 
   const byCluster = useMemo(() => {
     const counts = new Map<string, number>()

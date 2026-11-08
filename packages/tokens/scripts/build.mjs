@@ -93,7 +93,6 @@ const block = (pairs, indent = '  ') =>
     .join('\n')
 
 const colorVars = (name) => flatten(tokens.theme[name], 'color')
-const aliasVars = (from, to) => colorVars(from).map(([n, v]) => [n.replace('color-', `${to}-`), v])
 
 let css = `${HEADER}\n:root {\n${block([...staticVars, ...aliases])}\n\n  color-scheme: dark;\n}\n`
 
