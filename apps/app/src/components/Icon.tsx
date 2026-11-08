@@ -214,14 +214,14 @@ export function Icon({ name, size = 'md', className, ...rest }: IconProps): JSX.
 
 /** Marca de Avizor: el avizor dentro de un cuadrado. */
 export function BrandMark({ size = 22 }: { size?: number }): JSX.Element {
+  // El mismo ojo que el icono, en una sola tinta: almendro relleno con la
+  // pupila en negativo (fill-rule evenodd).
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
       <path
-        d="M3 12.5h3.6L9.2 6.5l3.3 11 2.1-5h6.4"
-        stroke="currentColor"
-        strokeWidth="2.1"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+        d="M2.4 12C6.4 6.2 17.6 6.2 21.6 12C17.6 17.8 6.4 17.8 2.4 12ZM12 9.1a2.9 2.9 0 1 0 0 5.8a2.9 2.9 0 1 0 0-5.8Z"
+        fill="currentColor"
+        fillRule="evenodd"
       />
     </svg>
   )

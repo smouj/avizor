@@ -3,6 +3,12 @@
 Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 Versionado [semántico](https://semver.org/lang/es/).
 
+## [0.3.4] - 2026-11-08
+
+### Corregido
+
+- La bienvenida y el favicon seguian mostrando el pulso antiguo: el componente BrandMark y apps/app/public/icon.svg eran dibujos aparte. Ahora el favicon lo genera make-icons.mjs y BrandMark dibuja el mismo ojo.
+
 ## [0.3.3] - 2026-11-08
 
 ### Cambiado

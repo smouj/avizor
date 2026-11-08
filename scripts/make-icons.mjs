@@ -374,6 +374,10 @@ const brandDir = join(here, '..', 'docs', 'brand')
 mkdirSync(brandDir, { recursive: true })
 writeFileSync(join(brandDir, 'logo.svg'), svgSource())
 writeFileSync(join(brandDir, 'logo.png'), rendered.get(1024))
+// El favicon de la interfaz tambien sale de aqui: antes era un dibujo aparte y
+// se quedo con la marca vieja cuando cambio el logo.
+mkdirSync(join(here, '..', 'apps', 'app', 'public'), { recursive: true })
+writeFileSync(join(here, '..', 'apps', 'app', 'public', 'icon.svg'), svgSource())
 writeFileSync(join(here, '..', 'apps', 'app', 'src', 'components', 'logo-path.ts'), tsSource())
 
 console.log(`iconos: ${SIZES.length} PNG + icon.ico + icon.icns → ${outDir}`)
