@@ -64,9 +64,7 @@ export function Sidebar(): JSX.Element {
       >
         <Icon name="command" size="sm" />
         {t('app.commandPalette')}
-        <span className="mono micro faint grow text-right">
-          {platform === 'macos' ? '⌘K' : 'Ctrl K'}
-        </span>
+        <span className="mono micro faint grow text-right">{platform === 'macos' ? '⌘K' : 'Ctrl K'}</span>
       </button>
 
       <div className="nav">

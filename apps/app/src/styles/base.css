@@ -215,57 +215,6 @@ strong,
   grid-template-columns: minmax(0, 1fr);
 }
 
-/* ── tiradores de columna ───────────────────────────────────────────── */
-
-/*
- * Entre dos columnas hay una zona sensible de 8px con una línea de un filo
- * centrada: el borde no se duplica ni se desplaza al arrastrar, y hay sitio de
- * sobra para agarrarlo. Arrastrar cambia la medida de la columna de la
- * izquierda; el doble clic la deja como estaba y las flechas la ajustan de uno
- * en uno, para que también se pueda hacer con el teclado. */
-.splitter {
-  position: relative;
-  align-self: stretch;
-  display: flex;
-  justify-content: center;
-  width: var(--layout-splitter);
-  padding: 0;
-  background: none;
-  cursor: col-resize;
-  touch-action: none;
-}
-
-.splitter::before {
-  content: '';
-  width: var(--border-hairline);
-  background: var(--color-border);
-  transition:
-    background var(--duration-fast) var(--ease-standard),
-    box-shadow var(--duration-fast) var(--ease-standard);
-}
-
-.splitter:hover::before,
-.splitter:focus-visible::before {
-  background: var(--color-accent);
-}
-
-.splitter[data-dragging='true']::before {
-  background: var(--color-accent);
-  box-shadow: 0 0 0 var(--space-1) var(--color-accent-soft);
-}
-
-.splitter:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: var(--focus-offset);
-  border-radius: var(--radius-xs);
-}
-
-/* El tirador sustituye al borde de la columna: si no, se verían dos líneas. */
-.shell--resizable .sidebar,
-.shell--resizable .column--center {
-  border-right: none;
-}
-
 .column {
   min-width: 0;
   border-right: var(--border-hairline) solid var(--color-border);
@@ -2551,4 +2500,56 @@ body {
   .header__spacer {
     display: none;
   }
+}
+
+/* Tiradores de columna (del hub social, conservados al fusionar). */
+/* ── tiradores de columna ───────────────────────────────────────────── */
+
+/*
+ * Entre dos columnas hay una zona sensible de 8px con una línea de un filo
+ * centrada: el borde no se duplica ni se desplaza al arrastrar, y hay sitio de
+ * sobra para agarrarlo. Arrastrar cambia la medida de la columna de la
+ * izquierda; el doble clic la deja como estaba y las flechas la ajustan de uno
+ * en uno, para que también se pueda hacer con el teclado. */
+.splitter {
+  position: relative;
+  align-self: stretch;
+  display: flex;
+  justify-content: center;
+  width: var(--layout-splitter);
+  padding: 0;
+  background: none;
+  cursor: col-resize;
+  touch-action: none;
+}
+
+.splitter::before {
+  content: '';
+  width: var(--border-hairline);
+  background: var(--color-border);
+  transition:
+    background var(--duration-fast) var(--ease-standard),
+    box-shadow var(--duration-fast) var(--ease-standard);
+}
+
+.splitter:hover::before,
+.splitter:focus-visible::before {
+  background: var(--color-accent);
+}
+
+.splitter[data-dragging='true']::before {
+  background: var(--color-accent);
+  box-shadow: 0 0 0 var(--space-1) var(--color-accent-soft);
+}
+
+.splitter:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+  border-radius: var(--radius-xs);
+}
+
+/* El tirador sustituye al borde de la columna: si no, se verían dos líneas. */
+.shell--resizable .sidebar,
+.shell--resizable .column--center {
+  border-right: none;
 }

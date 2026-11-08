@@ -140,8 +140,8 @@ export function App(): JSX.Element {
             {view === 'following' ? <FollowingScreen /> : null}
             {view === 'explore' ? <ExploreScreen /> : null}
             {view === 'search' ? <SearchScreen /> : null}
-            {view === 'accounts' ? <AccountsScreen /> : null}
             {view === 'alerts' ? <AlertsScreen /> : null}
+            {view === 'accounts' ? <AccountsScreen /> : null}
             {view === 'lists' ? <ListsScreen /> : null}
             {view === 'sources' ? <SourcesScreen /> : null}
             {view === 'settings' ? <SettingsScreen /> : null}
