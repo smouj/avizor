@@ -141,6 +141,7 @@ export function App(): JSX.Element {
             {view === 'explore' ? <ExploreScreen /> : null}
             {view === 'search' ? <SearchScreen /> : null}
             {view === 'alerts' ? <AlertsScreen /> : null}
+            {view === 'accounts' ? <AccountsScreen /> : null}
             {view === 'lists' ? <ListsScreen /> : null}
             {view === 'sources' ? <SourcesScreen /> : null}
             {view === 'settings' ? <SettingsScreen /> : null}
