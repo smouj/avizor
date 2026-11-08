@@ -58,7 +58,7 @@ llena con lo que estén publicando de verdad. Se regeneran con
 *Radar: qué crece, cuánto y por qué — con la serie temporal, el reparto por red y el motivo en una frase.*
 
 ![Tema claro](docs/screenshots/tema-claro.png)
-*Tema claro «papel»: la misma información sin la estética de terminal.*
+*Tema claro: la misma información sin la estética de terminal.*
 
 ## Tres temas, uno por sistema
 
