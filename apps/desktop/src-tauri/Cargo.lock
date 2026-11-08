@@ -2183,7 +2183,7 @@ dependencies = [
 
 [[package]]
 name = "avizor"
-version = "0.3.2"
+version = "0.3.3"
 dependencies = [
  "keyring",
  "avizor-chrome-session",

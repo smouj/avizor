@@ -1,6 +1,6 @@
 {
   "name": "@avizor/tokens",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "private": true,
   "description": "Fuente única de verdad del sistema de diseño de Avizor: color, tipografía, espacio, movimiento.",
   "type": "module",
