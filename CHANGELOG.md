@@ -161,8 +161,8 @@ Versionado [semántico](https://semver.org/lang/es/).
   cambia lo que debe cambiar —radios, densidad de fila, familia tipográfica,
   elevación y temperatura del neutro— y deja intactas la marca y la escala
   tipográfica. Se eligen en Ajustes, con vista previa, y la app detecta el sistema
-  la primera vez. Ver `docs/screenshots/tema-windows.png`, `tema-macos.png`,
-  `tema-linux.png`.
+  la primera vez. Ver `docs/screenshots/inicio.png` (Windows),
+  `tema-macos.png` y `tema-linux.png`.
 - **Traducción automática del contenido al idioma que lees**, con proveedores
   LibreTranslate, DeepL y OpenAI (además de «sin traductor»), detección de idioma
   sin modelos, caché para no pagar dos veces por el mismo texto, cola con
