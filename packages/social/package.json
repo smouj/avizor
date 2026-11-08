@@ -1,6 +1,6 @@
 {
   "name": "@latido/social",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "private": true,
   "description": "Capa social de Latido: cuentas, sesiones web, capacidades reales, compositor y cola de acciones. TypeScript puro, sin claves API.",
   "type": "module",
