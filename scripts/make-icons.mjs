@@ -37,28 +37,25 @@ const outDir = argOut > -1 ? process.argv[argOut + 1] : join(here, '..', 'apps',
 const DESIGN = 1024
 /** Exponente de la superelipse (n=2 es círculo, n→∞ cuadrado). */
 const SQUIRCLE_N = 4.6
-/** Color de la losa: ascua arriba, ascua quemada abajo. */
-const TILE_TOP = [228, 87, 46]
-const TILE_BOTTOM = [190, 60, 27]
-/** Tinta de la marca: blanco cálido, nunca blanco puro. */
-const INK = [255, 245, 237]
-/** Trazo del avizor en el lienzo de 1024. */
-const STROKE = 48
 /**
- * Trazado, en coordenadas del lienzo (y hacia abajo). La forma de un avizor de
- * verdad —línea base, muesca Q, pico R, valle S y vuelta a la base— y no una
- * onda cualquiera: el pico es el punto más alto y el valle baja por debajo de la
- * línea, que es lo que hace que el ojo lo lea como un pulso.
+ * Color de la losa: grafito cálido, de arriba abajo. La marca ya no vive sobre
+ * ascua: el ascua pasa a ser la tinta, y el fondo es el grafito del sistema.
  */
-const TRACE = [
-  [148, 512],
-  [392, 512],
-  [430, 556],
-  [470, 344],
-  [512, 668],
-  [552, 512],
-  [876, 512],
-]
+const TILE_TOP = [26, 24, 22]
+const TILE_BOTTOM = [14, 13, 12]
+/** Ascua: el único acento de la identidad, ahora como tinta de la marca. */
+const INK = [228, 87, 46]
+/** Grafito del fondo: se usa para el hueco de la pupila. */
+const HOLE = TILE_BOTTOM
+/**
+ * La marca es un ojo abierto: un almendro relleno de ascua con la pupila
+ * perforada. "Avizor" es el que otea, y a 16 px un ojo se lee mejor que
+ * cualquier trazado fino. El almendro se define por su semiancho EYE_R y su
+ * semi-alto EYE_A sobre el lienzo de 1024.
+ */
+const EYE_R = 320
+const EYE_A = 200
+const PUPIL_R = 96
 
 function mix(a, b, t) {
   return [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t]
@@ -72,37 +69,19 @@ function insideSquircle(x, y, size) {
   return Math.pow(Math.abs(nx), SQUIRCLE_N) + Math.pow(Math.abs(ny), SQUIRCLE_N) <= 1
 }
 
-/** Distancia mínima de un punto a un segmento. */
-function distanceToSegment(px, py, ax, ay, bx, by) {
-  const vx = bx - ax
-  const vy = by - ay
-  const lengthSquared = vx * vx + vy * vy
-  const t = lengthSquared === 0 ? 0 : Math.max(0, Math.min(1, ((px - ax) * vx + (py - ay) * vy) / lengthSquared))
-  return Math.hypot(px - (ax + t * vx), py - (ay + t * vy))
-}
-
-/** true si (x,y) cae sobre el trazo del avizor. */
-function onTrace(x, y, size, stroke) {
-  const scale = size / DESIGN
-  const half = (stroke * scale) / 2
-  for (let index = 0; index < TRACE.length - 1; index += 1) {
-    const [ax, ay] = TRACE[index].map((value) => value * scale)
-    const [bx, by] = TRACE[index + 1].map((value) => value * scale)
-    if (distanceToSegment(x, y, ax, ay, bx, by) <= half) return true
-  }
-  return false
-}
-
 /**
- * Grosor del trazo para un tamaño dado: proporcional, pero engordado en los
- * tamaños pequeños donde el detalle fino se pierde.
+ * 0 = fondo, 1 = almendro del ojo, 2 = pupila perforada.
+ * Se calcula en coordenadas del lienzo y se compara contra el almendro
+ * (parábola) y la circunferencia de la pupila.
  */
-function strokeFor(size) {
-  if (size <= 20) return STROKE * 1.35
-  if (size <= 32) return STROKE * 1.24
-  if (size <= 48) return STROKE * 1.14
-  if (size <= 64) return STROKE * 1.07
-  return STROKE
+function markAt(x, y, size) {
+  const scale = size / DESIGN
+  const cx = (x / scale) - DESIGN / 2
+  const cy = (y / scale) - DESIGN / 2
+  if (cx * cx + cy * cy <= PUPIL_R * PUPIL_R) return 2
+  if (Math.abs(cx) > EYE_R) return 0
+  const halfHeight = EYE_A * (1 - (cx / EYE_R) * (cx / EYE_R))
+  return Math.abs(cy) <= halfHeight ? 1 : 0
 }
 
 /** RGBA de un icono cuadrado de `size` píxeles. */
@@ -112,7 +91,6 @@ function renderIcon(size) {
   const step = 1 / samples
   const offset = step / 2
   const total = samples * samples
-  const stroke = strokeFor(size)
 
   for (let py = 0; py < size; py += 1) {
     for (let px = 0; px < size; px += 1) {
@@ -135,11 +113,16 @@ function renderIcon(size) {
           const sheen = 0.05 * Math.pow(1 - t, 2)
           const base = mix(mix(TILE_TOP, TILE_BOTTOM, t), [255, 255, 255], sheen)
 
-          if (onTrace(x, y, size, stroke)) {
+          const mark = markAt(x, y, size)
+          if (mark === 1) {
             ink += 1
             red += INK[0]
             green += INK[1]
             blue += INK[2]
+          } else if (mark === 2) {
+            red += HOLE[0]
+            green += HOLE[1]
+            blue += HOLE[2]
           } else {
             red += base[0]
             green += base[1]
@@ -297,18 +280,32 @@ function squirclePath(size, steps = 96) {
   return `M ${points.join(' L ')} Z`
 }
 
+/** Almendro del ojo como trazado: dos cuadráticas simétricas. */
+function eyePath() {
+  const left = DESIGN / 2 - EYE_R
+  const right = DESIGN / 2 + EYE_R
+  const top = DESIGN / 2 - EYE_A * 2
+  const bottom = DESIGN / 2 + EYE_A * 2
+  return `M ${left},${DESIGN / 2} Q ${DESIGN / 2},${top} ${right},${DESIGN / 2} Q ${DESIGN / 2},${bottom} ${left},${DESIGN / 2} Z`
+}
+
+function hex(color) {
+  return '#' + color.map((value) => value.toString(16).padStart(2, '0')).join('')
+}
+
 function svgSource() {
   const gradientId = 'avizor-tile'
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${DESIGN} ${DESIGN}" width="${DESIGN}" height="${DESIGN}" role="img" aria-label="Avizor">
   <!-- Generado por scripts/make-icons.mjs: no lo edites a mano. -->
   <defs>
     <linearGradient id="${gradientId}" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#e4572e"/>
-      <stop offset="1" stop-color="#be3c1b"/>
+      <stop offset="0" stop-color="${hex(TILE_TOP)}"/>
+      <stop offset="1" stop-color="${hex(TILE_BOTTOM)}"/>
     </linearGradient>
   </defs>
   <path d="${squirclePath(DESIGN)}" fill="url(#${gradientId})"/>
-  <polyline points="${TRACE.map(([x, y]) => `${x},${y}`).join(' ')}" fill="none" stroke="#fff5ed" stroke-width="${STROKE}" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="${eyePath()}" fill="${hex(INK)}"/>
+  <circle cx="${DESIGN / 2}" cy="${DESIGN / 2}" r="${PUPIL_R}" fill="${hex(HOLE)}"/>
 </svg>
 `
 }
@@ -325,11 +322,21 @@ export const MARK_VIEWBOX = '0 0 ${DESIGN} ${DESIGN}'
 
 export const MARK_SQUIRCLE = '${squirclePath(DESIGN)}'
 
-export const MARK_TRACE: readonly [number, number][] = [
-${TRACE.map(([x, y]) => `  [${x}, ${y}],`).join('\n')}
-]
+/** Almendro del ojo, relleno. Dos cuadráticas simétricas. */
+export const MARK_EYE = '${eyePath()}'
 
-export const MARK_STROKE = ${STROKE}
+/** Radio de la pupila perforada sobre el lienzo de 1024. */
+export const MARK_PUPIL_R = ${PUPIL_R}
+
+/** Tinta de la marca (ascua). */
+export const MARK_INK = '${hex(INK)}'
+
+/** Grafito del fondo, que también rellena la pupila. */
+export const MARK_HOLE = '${hex(HOLE)}'
+
+/** Extremos del degradado de la losa. */
+export const MARK_TILE_TOP = '${hex(TILE_TOP)}'
+export const MARK_TILE_BOTTOM = '${hex(TILE_BOTTOM)}'
 `
 }
 
