@@ -57,6 +57,12 @@ llena con lo que estén publicando de verdad. Se regeneran con
 ![Radar](docs/screenshots/radar.png)
 *Radar: qué crece, cuánto y por qué — con la serie temporal, el reparto por red y el motivo en una frase.*
 
+![Cuentas](docs/screenshots/cuentas.png)
+*Cuentas: cada red con su nivel y lo que puede hacer hoy. Sin conector probado, se dice; no se disimula.*
+
+![Ajustes](docs/screenshots/ajustes.png)
+*Ajustes: apariencia, idioma, retención y exportación. Todo lo que se guarda está a la vista.*
+
 ![Tema claro](docs/screenshots/tema-claro.png)
 *Tema claro: la misma información sin la estética de terminal.*
 
