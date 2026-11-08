@@ -125,62 +125,63 @@ export function TopicFilters(): JSX.Element {
 
   return (
     <div className="chips">
-      <button
-        type="button"
-        className="chip"
-        aria-pressed={filters.topics.length === 0 && filters.sources.length === 0 && !filters.onlyWatched}
-        onClick={() => setFilters({ topics: [], sources: [], onlyWatched: false })}
-      >
-        <Icon name="activity" size="sm" />
-        {t('app.all')}
-      </button>
-
-      <button
-        type="button"
-        className="chip"
-        aria-pressed={filters.onlyWatched}
-        onClick={() => setFilters({ onlyWatched: !filters.onlyWatched })}
-      >
-        <Icon name="eye" size="sm" />
-        {t('feed.onlyWatched')}
-      </button>
-
-      <span className="divider" style={{ width: 1, height: '1.25rem' }} />
-
-      {topEntities.map((entity) => (
+      <div className="chips__group">
         <button
-          key={entity.slug}
           type="button"
           className="chip"
-          aria-pressed={filters.topics.includes(entity.slug)}
-          onClick={() => toggleTopic(entity.slug)}
+          aria-pressed={filters.topics.length === 0 && filters.sources.length === 0 && !filters.onlyWatched}
+          onClick={() => setFilters({ topics: [], sources: [], onlyWatched: false })}
         >
-          {entity.watch ? <Icon name="eye" size="sm" /> : null}
-          {entity.name}
+          <Icon name="activity" size="sm" />
+          {t('app.all')}
         </button>
-      ))}
 
-      <span className="divider" style={{ width: 1, height: '1.25rem' }} />
-
-      {enabledSources.map((source) => (
         <button
-          key={source.kind}
           type="button"
           className="chip"
-          aria-pressed={filters.sources.includes(source.kind)}
-          onClick={() => toggleSourceFilter(source.kind)}
+          aria-pressed={filters.onlyWatched}
+          onClick={() => setFilters({ onlyWatched: !filters.onlyWatched })}
         >
-          <span className="chip__dot" style={{ background: `var(--source-${source.kind})` }} />
-          {sourceLabel(source.kind)}
+          <Icon name="eye" size="sm" />
+          {t('feed.onlyWatched')}
         </button>
-      ))}
+      </div>
 
-      <span className="grow" />
+      <div className="chips__group">
+        {topEntities.map((entity) => (
+          <button
+            key={entity.slug}
+            type="button"
+            className="chip"
+            aria-pressed={filters.topics.includes(entity.slug)}
+            onClick={() => toggleTopic(entity.slug)}
+          >
+            {entity.watch ? <Icon name="eye" size="sm" /> : null}
+            {entity.name}
+          </button>
+        ))}
+      </div>
+
+      <div className="chips__group">
+        {enabledSources.map((source) => (
+          <button
+            key={source.kind}
+            type="button"
+            className="chip"
+            aria-pressed={filters.sources.includes(source.kind)}
+            onClick={() => toggleSourceFilter(source.kind)}
+          >
+            <span className="chip__dot" style={{ background: `var(--source-${source.kind})` }} />
+            {sourceLabel(source.kind)}
+          </button>
+        ))}
+      </div>
 
       <button
         type="button"
-        className="chip"
+        className="chip chip--sort"
         aria-pressed={filters.sort === 'engaged'}
+        title={t('feed.sortHint')}
         onClick={() => setFilters({ sort: filters.sort === 'engaged' ? 'recent' : 'engaged' })}
       >
         <Icon name="trend" size="sm" />

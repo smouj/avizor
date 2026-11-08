@@ -27,10 +27,12 @@ no como doscientas publicaciones sueltas.
 X te enseña lo que su algoritmo quiere que veas.
 **Avizor te enseña qué está pasando de verdad en las fuentes que tú has decidido observar.**
 
-**Y no se inventa nada.** No hay titulares de relleno ni historias de ejemplo: lo
-que aparece en pantalla viene de Hacker News, Bluesky, GitHub, Reddit, Mastodon o
-de tus propios feeds, y cada item lleva su enlace y su hora. Si una fuente falla,
-se dice; si no hay nada, la pantalla lo dice en vez de rellenar el hueco.
+**Y no se inventa nada.** Lo que aparece en pantalla viene de Hacker News,
+Bluesky, GitHub, Reddit, Mastodon o de tus propios feeds, y cada item lleva su
+enlace y su hora. Si una fuente falla, se dice; si no hay nada, la pantalla lo
+dice en vez de rellenar el hueco. La única excepción son los **datos de ejemplo**
+del primer arranque: van marcados como tales y se sustituyen en cuanto activas
+una fuente.
 
 | Pregunta | Respuesta de Avizor |
 | --- | --- |
@@ -43,8 +45,11 @@ se dice; si no hay nada, la pantalla lo dice en vez de rellenar el hueco.
 
 ## Cómo se ve
 
-Todas las capturas están tomadas de la aplicación en marcha con **datos reales**
-(Hacker News, Bluesky y GitHub), sin retocar.
+Todas las capturas están tomadas de la aplicación en marcha, sin retocar, y con
+el tema de Windows. Las de esta página usan los **datos de ejemplo** que trae la
+app: son reproducibles y no necesitan red. Con fuentes activas, la pantalla se
+llena con lo que estén publicando de verdad. Se regeneran con
+`scripts/capture-screenshots.py`.
 
 ![Inicio](docs/screenshots/inicio.png)
 *Inicio: la cronología con los temas agrupados, el estado de cada fuente y el reparto por red.*
@@ -58,14 +63,15 @@ Todas las capturas están tomadas de la aplicación en marcha con **datos reales
 ## Tres temas, uno por sistema
 
 Avizor no te obliga a su aspecto: adopta las maneras del sistema en el que vive.
-Los tres temas cambian **radios, densidad de fila, tipografía, elevación y la
-temperatura del neutro**; lo que no cambia es la marca —el ascua sigue siendo el
-acento— ni la escala tipográfica. Se eligen en Ajustes, con vista previa, y la
+Los tres temas cambian **radios, densidad de fila, tipografía, elevación, la
+temperatura del neutro y el color de acento** (cada sistema usa el suyo); lo que
+no cambia es la marca —el ojo en ascua sigue en el logo— ni la escala
+tipográfica. Se eligen en Ajustes, con vista previa, y la
 primera vez se detecta el sistema solo.
 
 | Tema | Qué cambia | Cómo se ve |
 | --- | --- | --- |
-| **Windows** | Radios cortos, filas compactas, neutros fríos, Segoe UI | ![Windows](docs/screenshots/tema-windows.png) |
+| **Windows** | Radios cortos, filas compactas, neutros fríos, Segoe UI | ![Windows](docs/screenshots/inicio.png) |
 | **macOS** | Radios generosos, más aire, neutros cálidos, tipografía del sistema | ![macOS](docs/screenshots/tema-macos.png) |
 | **Linux** | Plano, filos marcados, casi sin sombra, Cantarell | ![Linux](docs/screenshots/tema-linux.png) |
 

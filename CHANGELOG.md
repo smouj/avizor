@@ -3,6 +3,33 @@
 Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 Versionado [semántico](https://semver.org/lang/es/).
 
+## [0.3.5] - 2026-11-08
+
+### Corregido
+
+- **Los filtros del flujo ya no se esconden a la derecha.** «Todo», «Solo lo que
+  vigilo», los temas y las redes vivían en una sola fila con la barra de scroll
+  oculta: las últimas etiquetas quedaban fuera de la vista y no había forma de
+  llegar a ellas. Ahora la fila se reparte en varias líneas, cada grupo con su
+  espacio, y el orden queda siempre a la vista.
+- Los filtros comparten el margen de las publicaciones, así que dejan de estar
+  desplazados respecto a la columna de lectura.
+- El reparto por red vuelve a dibujar la barra: el relleno era un elemento en
+  línea y su ancho no se aplicaba, así que solo se veía la pista vacía. Además la
+  barra pasa debajo del nombre, porque en el panel lateral no quedaba ancho.
+- El pie decía «Actualizado En vivo» y, al sondear, «Actualizado Sondeando».
+  Ahora dice «Actualizado hace 2 min» o «Sondeando…».
+- Ajustes muestra la versión del build: estaba escrita a mano y se quedó en
+  0.2.2 durante tres versiones.
+- Los contadores de palabras del pulso se pegaban al número («openai9»).
+
+### Añadido
+
+- Capturas del README regeneradas con la marca y la interfaz actuales, y
+  `scripts/capture-screenshots.py` para volver a tomarlas.
+- `VITE_DEMO=1` añade los datos de ejemplo a una compilación para capturas o
+  pruebas visuales; la versión publicada no muestra ese botón.
+
 ## [0.3.4] - 2026-11-08
 
 ### Corregido

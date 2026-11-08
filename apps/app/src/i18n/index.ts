@@ -8,6 +8,7 @@
 export const es = {
   'app.tagline': 'el pulso de internet',
   'app.live': 'En vivo',
+  'app.liveLower': 'en vivo',
   'app.paused': 'En pausa',
   'app.offline': 'Sin conexión',
   'app.demo': 'Datos de ejemplo',
@@ -91,6 +92,7 @@ export const es = {
   'feed.onlyWatched': 'Solo lo que vigilo',
   'feed.sortRecent': 'Lo último',
   'feed.sortEngaged': 'Lo que más mueve',
+  'feed.sortHint': 'Cambiar el orden del flujo',
   'feed.conversation': 'Ver conversación',
   'feed.groupOf': '{count} publicaciones sobre esto',
 
@@ -195,6 +197,7 @@ export const es = {
     'Si lo ves todo demasiado grande —Windows al 125-150 % lo provoca—, baja la escala. En automático se ajusta sola según el sistema.',
   'scale.auto': 'Automática',
   'settings.demoDev': 'Cargar datos de prueba (solo desarrollo)',
+  'settings.demoSample': 'Cargar datos de ejemplo',
   'settings.keyNotSaved':
     'No he podido guardar la clave en el llavero: seguirá solo en esta sesión',
 
@@ -394,6 +397,7 @@ export type MessageKey = keyof typeof es
 export const en: Record<MessageKey, string> = {
   'app.tagline': "the internet's pulse",
   'app.live': 'Live',
+  'app.liveLower': 'live',
   'app.paused': 'Paused',
   'app.offline': 'Offline',
   'app.demo': 'Sample data',
@@ -477,6 +481,7 @@ export const en: Record<MessageKey, string> = {
   'feed.onlyWatched': 'Only what I watch',
   'feed.sortRecent': 'Latest',
   'feed.sortEngaged': 'Most active',
+  'feed.sortHint': 'Change how the feed is ordered',
   'feed.conversation': 'See conversation',
   'feed.groupOf': '{count} posts about this',
 
@@ -581,6 +586,7 @@ export const en: Record<MessageKey, string> = {
     'If everything looks too large —Windows at 125-150 % does that— lower the scale. On automatic it adjusts itself to the system.',
   'scale.auto': 'Automatic',
   'settings.demoDev': 'Load sample data (development only)',
+  'settings.demoSample': 'Load sample data',
   'settings.keyNotSaved':
     'Could not save the key to the system keychain: it will only last this session',
 

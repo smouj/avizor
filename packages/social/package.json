@@ -1,6 +1,6 @@
 {
   "name": "@avizor/social",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "private": true,
   "description": "Capa social de Avizor: cuentas, sesiones web, capacidades reales, compositor y cola de acciones. TypeScript puro, sin claves API.",
   "type": "module",

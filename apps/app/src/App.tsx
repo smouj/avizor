@@ -7,6 +7,7 @@ import { Rail } from '@/components/Rail'
 import { Sidebar, TabBar } from '@/components/Sidebar'
 import { Splitter } from '@/components/Splitter'
 import { SkeletonList } from '@/components/primitives'
+import { relativeTime } from '@/lib/format'
 import { AccountsScreen } from '@/screens/Accounts'
 import { AlertsScreen } from '@/screens/Alerts'
 import { ExploreScreen } from '@/screens/Explore'
@@ -47,6 +48,8 @@ export function App(): JSX.Element {
   const poll = useAvizor((state) => state.poll)
   const readyState = useAvizor((state) => state.polling)
   const layout = useAvizor((state) => state.layout)
+  const lastPollAt = useAvizor((state) => state.lastPollAt)
+  const lang = useAvizor((state) => state.lang)
 
   useEffect(() => {
     void init()
@@ -150,7 +153,14 @@ export function App(): JSX.Element {
 
           <footer className="column__foot">
             <span>
-              {t('app.updated', { time: readyState ? t('app.refreshing') : t('app.live') })} ·{' '}
+              {/* Antes decia "Actualizado En vivo" y, al sondear, "Actualizado
+                  Sondeando". Ahora el pie dice una sola cosa, con su hora. */}
+              {readyState
+                ? t('app.refreshing')
+                : t('app.updated', {
+                    time: lastPollAt ? relativeTime(lastPollAt, Date.now(), lang) : t('app.liveLower'),
+                  })}{' '}
+              ·{' '}
               <a href="https://github.com/smouj/avizor" target="_blank" rel="noopener noreferrer">
                 avizor
               </a>{' '}

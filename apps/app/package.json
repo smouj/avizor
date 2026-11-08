@@ -1,6 +1,6 @@
 {
   "name": "@avizor/app",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "private": true,
   "description": "Interfaz de Avizor. La misma base corre en el escritorio (Tauri) y en el navegador.",
   "type": "module",

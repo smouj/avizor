@@ -18,7 +18,9 @@ grandes y emojis decorativos. Es el uniforme de la IA, y no comunica nada.
 
 Avizor parte de tres decisiones incómodas:
 
-1. **Un solo acento.** El ascua (`#E4572E`) es el único color con carácter.
+1. **Un solo acento por tema.** El ascua (`#E4572E`) es el color con carácter
+   de la marca; en los temas de plataforma el acento toma el color del sistema
+   (azul de Windows 11, macOS o GNOME) y el ascua se queda en el logo.
    Sirve para una cosa: *esto está vivo*. Si todo brilla, nada brilla.
 2. **Neutros cálidos.** El fondo es grafito con temperatura (`#131110`, no
    `#0A0A0F`): cansa menos la vista y no parece una terminal militar.
@@ -205,8 +207,8 @@ maneras del sistema en el que corre.
 | `--radius-md` | 6px | 10px | 9px |
 | `--density` | 0.94 | 1 | 1.04 |
 | `--font-ui` | Segoe UI Variable | SF Pro / sistema | Cantarell |
-| `--color-bg` (oscuro) | `#0F1113` | `#131110` | `#121212` |
-| `--color-bg` (claro) | `#F3F3F3` | `#F6F2EA` | `#FAFAFA` |
+| `--color-bg` (oscuro) | `#202020` | `#1E1E1E` | `#242424` |
+| `--color-bg` (claro) | `#F3F3F3` | `#ECECEC` | `#FAFAFA` |
 | `--color-shadow1` | sombra sutil por capas | sombra amplia y suave | casi ninguna |
 | `--color-control-highlight` | filo interior visible | filo tenue | transparente |
 
@@ -222,7 +224,7 @@ leyendo `var(--color-surface)` y ya está. Se generan en
 - Las columnas son fluidas (`clamp`) y la ventana no hace scroll: lo hacen las
   columnas, cada una por su cuenta, con `scrollbar-gutter: stable` para que el
   contenido no salte cuando aparece la barra.
-- El contexto lateral se retira a partir de 68rem y la barra lateral a partir de
+- El contexto lateral se retira a partir de 72rem y la barra lateral a partir de
   56rem (con barra inferior en su lugar): antes se aprieta el contenido que se
   quita contexto, pero nunca se obliga a hacer scroll horizontal.
 
