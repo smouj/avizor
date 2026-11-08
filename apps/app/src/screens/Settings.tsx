@@ -485,10 +485,15 @@ export function SettingsScreen(): JSX.Element {
               }}
             />
           </label>
-          {import.meta.env.DEV ? (
+          {/*
+            Los datos de ejemplo existen para mirar la app sin red. En
+            desarrollo estan siempre; en una compilacion de capturas se piden
+            con VITE_DEMO=1, para que la version publicada no los muestre.
+          */}
+          {import.meta.env.DEV || import.meta.env.VITE_DEMO === '1' ? (
             <button type="button" className="btn btn--ghost btn--small" onClick={() => loadSample()}>
               <Icon name="sparkles" size="sm" />
-              {t('settings.demoDev')}
+              {import.meta.env.DEV ? t('settings.demoDev') : t('settings.demoSample')}
             </button>
           ) : null}
           <button
@@ -544,7 +549,7 @@ export function SettingsScreen(): JSX.Element {
         <p className="small muted">{t('settings.aboutText')}</p>
         <div className="inline inline--wrap">
           <span className="tag">AGPL-3.0</span>
-          <span className="tag">v0.2.2</span>
+          <span className="tag">{`v${__APP_VERSION__}`}</span>
           <span className="tag">{platformName()}</span>
           <a
             className="tag"

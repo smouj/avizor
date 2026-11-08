@@ -112,9 +112,7 @@ export const TrendCard = memo(function TrendCard({ trend, rank }: { trend: Trend
             <span className="tag">{trend.keywords.slice(0, 5).join(' · ')}</span>
           </div>
         </>
-      ) : (
-        <Sparkline values={trend.sparkline} className="sparkline--rail" height={20} />
-      )}
+      ) : null}
     </article>
   )
 })

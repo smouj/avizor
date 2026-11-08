@@ -160,7 +160,7 @@ export function Meter({
   const width = max <= 0 ? 0 : Math.min(100, Math.round((value / max) * 100))
   return (
     <div className="meter">
-      <span className="truncate">{label}</span>
+      <span className="meter__label truncate">{label}</span>
       <span className="meter__track">
         <span className="meter__fill" style={{ width: `${width}%` }} />
       </span>
@@ -185,9 +185,15 @@ export function Sparkline({
   if (values.length === 0) return null
   const max = Math.max(...values, 1)
   const average = values.reduce((sum, value) => sum + value, 0) / values.length
-  const gap = 2
+  /*
+   * El SVG se estira a lo ancho de la tarjeta con preserveAspectRatio="none":
+   * el viewBox mide 100 unidades, no pixeles. Si la barra ocupa media unidad
+   * de ranura, en una tarjeta de 700 px acaba midiendo 30 px de ancho y 32 de
+   * alto, o sea un cuadrado. Se calcula por ranura y se limita el grosor.
+   */
   const width = 100
-  const barWidth = Math.max(1.5, (width - gap * (values.length - 1)) / values.length)
+  const slot = width / values.length
+  const barWidth = Math.max(1, Math.min(2.4, slot * 0.36))
 
   return (
     <svg
@@ -207,7 +213,7 @@ export function Sparkline({
           <rect
             key={index}
             className={`sparkline__bar ${tone ? `sparkline__bar--${tone}` : ''}`}
-            x={index * (barWidth + gap)}
+            x={index * slot + (slot - barWidth) / 2}
             y={height - barHeight}
             width={barWidth}
             height={barHeight}

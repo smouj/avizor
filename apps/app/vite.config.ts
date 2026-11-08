@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, resolve } from 'node:path'
 
@@ -11,7 +12,14 @@ const here = dirname(fileURLToPath(import.meta.url))
  *  - `tauri dev` y `tauri build` usan `build` (dist) dentro del WebView.
  *  - `vite build` produce una web estática que funciona en cualquier navegador.
  */
+// La version sale del package.json en tiempo de build: antes estaba escrita a
+// mano en Ajustes y se quedo en 0.2.2 durante tres versiones.
+const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8')) as { version: string }
+
 export default defineConfig({
+  define: {
+    __APP_VERSION__: JSON.stringify(pkg.version),
+  },
   plugins: [react()],
   clearScreen: false,
   resolve: {

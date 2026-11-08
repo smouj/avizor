@@ -267,8 +267,8 @@ export const data = {
 /**
  * Los tres temas oficiales, uno por sistema.
  *
- * La marca no cambia —el ascua sigue siendo el acento y la tipografía de datos
- * sigue siendo monoespaciada—, pero cada tema adopta las maneras del sistema en
+ * La marca no cambia —el ascua sigue en el logo (--color-brand) y la tipografía
+ * de datos sigue siendo monoespaciada—, pero cada tema adopta las maneras del sistema en
  * el que vive: radios, densidad, familia tipográfica, elevación y temperatura del
  * neutro. Así, en Windows parece de Windows y en macOS de macOS, sin dejar de ser
  * Avizor. Las claves de color pisan a las del tema base.

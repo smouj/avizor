@@ -117,7 +117,7 @@ export function Rail(): JSX.Element {
         ) : (
           shares.map(([source, count]) => (
             <div className="meter" key={source}>
-              <span className="truncate">{sourceLabel(source as never)}</span>
+              <span className="meter__label truncate">{sourceLabel(source as never)}</span>
               <span className="meter__track">
                 <span className="meter__fill" style={{ width: `${Math.round((count / total) * 100)}%` }} />
               </span>

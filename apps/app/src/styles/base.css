@@ -604,20 +604,30 @@ strong,
 
 .chips {
   display: flex;
+  /* Los filtros se reparten en tantas lineas como haga falta: antes eran una
+     sola fila con el scroll escondido y las ultimas etiquetas quedaban fuera
+     de la vista, sin barra ni forma de arrastrar. Nada puede quedar oculto. */
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--space-2);
-  overflow-x: auto;
-  /* Los filtros comparten ancho y margenes con la lista, para que todo quede
-     encuadrado en la misma columna. Antes iban a sangre y su borde derecho
-     llegaba hasta la barra de scroll: se veia descuadrado. */
+  /* Mismo margen que el post: los filtros quedan encuadrados con las tarjetas
+     y no desplazados respecto a la columna de lectura. */
   padding-block: var(--space-2);
-  padding-inline: max(var(--space-4), calc((100% - var(--layout-content)) / 2));
+  padding-inline: calc(var(--space-5) * var(--density));
   border-bottom: var(--border-hairline) solid var(--color-border);
-  scrollbar-width: none;
 }
 
-.chips::-webkit-scrollbar {
-  display: none;
+.chips__group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+/* Un poco mas de aire entre grupos que dentro de cada uno. */
+.chips__group + .chips__group {
+  margin-inline-start: var(--space-2);
 }
 
 .chip {
@@ -654,6 +664,15 @@ strong,
   height: 0.5rem;
   border-radius: var(--radius-pill);
   flex: none;
+}
+
+.chip--sort {
+  margin-inline-start: auto;
+  color: var(--color-text-faint);
+}
+
+.chip--sort:hover {
+  color: var(--color-text);
 }
 
 .tag {
@@ -795,7 +814,7 @@ strong,
 .activity__word {
   display: inline-flex;
   align-items: baseline;
-  gap: 2px;
+  gap: var(--space-1);
   padding: 0 var(--space-2);
   border-radius: var(--radius-sm);
   background: var(--color-elevated);
@@ -1166,14 +1185,25 @@ strong,
 
 .meter {
   display: grid;
-  grid-template-columns: 6.5rem minmax(0, 1fr) 3rem;
-  align-items: center;
-  gap: var(--space-3);
+  /* En el rail la columna de la barra se quedaba en cero: el nombre y el
+     recuento ya gastaban todo el ancho. La barra va debajo, a todo lo ancho. */
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    'label value'
+    'track track';
+  align-items: baseline;
+  gap: var(--space-1) var(--space-2);
   font-size: var(--text-xs);
   color: var(--color-text-muted);
 }
 
+.meter__label {
+  grid-area: label;
+  min-width: 0;
+}
+
 .meter__track {
+  grid-area: track;
   height: 0.5rem;
   border-radius: var(--radius-pill);
   background: var(--color-surface-raised);
@@ -1181,6 +1211,9 @@ strong,
 }
 
 .meter__fill {
+  /* Sin display de bloque la barra es un span en linea y se queda en cero:
+     width y height no se aplican a elementos en linea. */
+  display: block;
   height: 100%;
   border-radius: var(--radius-pill);
   background: var(--color-accent);
@@ -1188,6 +1221,7 @@ strong,
 }
 
 .meter__value {
+  grid-area: value;
   text-align: right;
   font-family: var(--font-mono);
   font-size: var(--text-2xs);

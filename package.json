@@ -1,6 +1,6 @@
 {
   "name": "avizor",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "private": true,
   "description": "Avizor — el pulso de internet. Local-first, sin cuenta, sin servidor.",
   "license": "AGPL-3.0-or-later",

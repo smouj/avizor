@@ -10,6 +10,15 @@ declare module '@avizor/tokens/tokens.css'
 import type { JSX as ReactJSX } from 'react'
 
 declare global {
+  /** Version del package.json, inyectada en build por vite.config.ts. */
+  const __APP_VERSION__: string
+
+  /** Variables de entorno de Vite que usa la interfaz. */
+  interface ImportMetaEnv {
+    /** VITE_DEMO=1 anade los datos de ejemplo a una compilacion de capturas. */
+    readonly VITE_DEMO?: string
+  }
+
   namespace JSX {
     type Element = ReactJSX.Element
     type ElementType = ReactJSX.ElementType
