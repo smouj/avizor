@@ -1,6 +1,6 @@
 {
   "name": "@avizor/desktop",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "private": true,
   "description": "Avizor para escritorio: Tauri 2, SQLite local y notificaciones del sistema.",
   "type": "module",

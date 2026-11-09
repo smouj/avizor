@@ -542,6 +542,14 @@ export const useAvizor = create<AvizorState>((set, get) => ({
    * el flujo completo son miles de publicaciones por segundo y no aporta nada.
    */
   startStream: () => {
+    // Con datos de ejemplo no hay red que escuchar: conectar el flujo solo
+    // pinta "reconectando" y hace creer que hay una fuente detrás.
+    if (get().demoMode) {
+      stopRealtime()
+      set({ realtime: 'off', realtimeDetail: null })
+      return
+    }
+
     const engineInstance = getEngine()
     const bluesky = engineInstance.sourceConfigs.get('bluesky')
     if (!bluesky?.enabled) {
@@ -1068,10 +1076,11 @@ export const useAvizor = create<AvizorState>((set, get) => ({
   },
 
   loadSample: () => {
+    stopRealtime()
     const engineInstance = getEngine()
     engineInstance.loadDemo()
     engineInstance.recompute()
-    set({ demoMode: true })
+    set({ demoMode: true, realtime: 'off', realtimeDetail: null })
     get().sync()
   },
 
@@ -1100,7 +1109,7 @@ export const useAvizor = create<AvizorState>((set, get) => ({
 
   wipe: async () => {
     engine = null
-    await clearState()
+    const warning = await clearState()
     set({
       ready: false,
       demoMode: false,
@@ -1112,6 +1121,7 @@ export const useAvizor = create<AvizorState>((set, get) => ({
       activity: null,
     })
     await get().init()
+    if (warning) get().toast(warning, 'warn')
   },
 
   toast: (message, tone = 'info') => {

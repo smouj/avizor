@@ -3,6 +3,41 @@
 Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 Versionado [semántico](https://semver.org/lang/es/).
 
+## [0.3.6] - 2026-11-09
+
+### Corregido
+
+- **El cliente HTTP del escritorio no estaba registrado.** `tauri-plugin-http`
+  figuraba como dependencia y el permiso `http:default` estaba concedido, pero
+  `lib.rs` no llamaba a `tauri_plugin_http::init()`. La interfaz caía en
+  silencio al `fetch` del WebView, que sí es CORS: Hacker News, Bluesky y GitHub
+  respondían, y Reddit, Mastodon y los RSS no. Ahora se registra.
+- **La cabecera `Cookie` se perdía.** El plugin descarta por defecto las
+  cabeceras «inseguras»; sin `unsafe-headers`, la sesión importada no llegaba a
+  Reddit. Activado, con el filtro por dominio que ya hacía el motor.
+- **El instalador de Linux apuntaba a `latido.desktop`**, nombre anterior del
+  proyecto: el script no encontraba el lanzador. El archivo pasa a llamarse
+  `avizor.desktop`.
+- **«Borrar todo lo guardado» no lo borraba todo.** Eliminaba el JSON del
+  estado, pero dejaba el archivo SQLite, los perfiles de las cuentas y los
+  secretos del llavero. Ahora vacía las tablas, borra los perfiles y recorre las
+  claves conocidas del llavero.
+- La cabecera decía «En vivo» mientras el panel lateral decía «Flujo apagado»:
+  eran dos cosas distintas con el mismo nombre. La actividad reciente pasa a
+  «Al día»; «En directo» queda solo para el flujo conectado.
+
+### Añadido
+
+- **Sello de datos de ejemplo** en la cabecera y en el panel lateral, y el flujo
+  en directo ya no intenta conectarse cuando lo que se está viendo es la muestra.
+- Las releases adjuntan `SHA256SUMS-<sistema>.txt`, como prometían sus notas.
+
+### Documentación
+
+- Hoja de ruta sincronizada con 0.3.5: qué está hecho, qué no, y el cliente HTTP
+  marcado como cerrado.
+- Seguridad: fuera el correo `noreply` como contacto alternativo.
+
 ## [0.3.5] - 2026-11-08
 
 ### Corregido

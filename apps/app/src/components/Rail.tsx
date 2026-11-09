@@ -11,6 +11,7 @@ import { compactNumber, relativeTime } from '@/lib/format'
  */
 export function Rail(): JSX.Element {
   const { t, trends, items, entities, lang, selectTrend, realtime, lastPollAt, sources, counts } = useAvizor()
+  const demoMode = useAvizor((state) => state.demoMode)
 
   const top = trends.slice(0, 5)
   const emerging = trends.filter((trend) => trend.state === 'emerging' || trend.state === 'breaking').slice(0, 3)
@@ -37,9 +38,13 @@ export function Rail(): JSX.Element {
       <section className="panel panel--flat">
         <div className="panel__head">
           <span className="label">{t('sources.health')}</span>
-          <span className={`state ${realtime === 'live' ? 'state--rising' : 'state--quiet'}`}>
-            {t(`realtime.${realtime}` as 'realtime.live')}
-          </span>
+          {demoMode ? (
+            <span className="tag">{t('app.demo')}</span>
+          ) : (
+            <span className={`state ${realtime === 'live' ? 'state--rising' : 'state--quiet'}`}>
+              {t(`realtime.${realtime}` as 'realtime.live')}
+            </span>
+          )}
         </div>
         {enabled.length === 0 ? (
           <p className="small faint">{t('sources.disabled')}</p>

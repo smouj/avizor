@@ -115,14 +115,18 @@ export async function saveState(json: string): Promise<boolean> {
   }
 }
 
-export async function clearState(): Promise<void> {
+/**
+ * Borra lo guardado. Devuelve el aviso del escritorio si el borrado fue
+ * parcial (por ejemplo, un llavero sin sesión), o null si fue completo.
+ */
+export async function clearState(): Promise<string | null> {
   if (DESKTOP) {
     try {
       await invoke('state_clear')
-    } catch {
-      /* la app sigue siendo usable sin borrar */
+      return null
+    } catch (error) {
+      return typeof error === 'string' ? error : 'no se pudo borrar todo lo guardado'
     }
-    return
   }
   await idbClear()
   try {
@@ -130,6 +134,7 @@ export async function clearState(): Promise<void> {
   } catch {
     /* ignorado a propósito */
   }
+  return null
 }
 
 // ── acciones del sistema ────────────────────────────────────────────────────
