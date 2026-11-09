@@ -97,7 +97,10 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
-          bundle=apps/desktop/src-tauri/target/release/bundle
+          # macOS compila con --target universal-apple-darwin, así que sus
+          # artefactos no están en target/release/bundle. Se busca en todo
+          # target y así vale para las tres plataformas.
+          bundle=apps/desktop/src-tauri/target
           out="SHA256SUMS-${{ matrix.label }}.txt"
           : > "$out"
           count=0
