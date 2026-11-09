@@ -248,6 +248,34 @@ impl Archive {
         self.stats()
     }
 
+    /// Vacía el archivo entero sin borrar el fichero: las conexiones abiertas
+    /// (WAL) siguen siendo válidas y el esquema se queda puesto.
+    pub fn wipe(&self) -> rusqlite::Result<()> {
+        let mut connection = self.connection()?;
+        let transaction = connection.transaction()?;
+        // posts_fts se mantiene sola: es de contenido externo y sus disparadores
+        // borran la entrada al borrar el post. Tocarla a mano daría un error.
+        for table in [
+            "posts",
+            "cluster_sources",
+            "clusters",
+            "trend_points",
+            "trends",
+            "entities",
+            "watchlists",
+            "alert_rules",
+            "alert_events",
+            "alert_fired",
+            "user_lists",
+            "bookmarks",
+            "sources",
+            "kv",
+        ] {
+            transaction.execute(&format!("DELETE FROM {table}"), [])?;
+        }
+        transaction.commit()
+    }
+
     pub fn stats(&self) -> rusqlite::Result<ArchiveStats> {
         let connection = self.connection()?;
         let posts: i64 = connection.query_row("SELECT COUNT(*) FROM posts", [], |row| row.get(0))?;

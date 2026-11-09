@@ -34,6 +34,32 @@ pub fn secret_get(key: String) -> Result<Option<String>, String> {
     }
 }
 
+/// Borra un secreto sin fallar si no existía. Uso interno (borrado completo).
+pub fn forget(key: &str) -> Result<(), String> {
+    match entry(key)?.delete_credential() {
+        Ok(()) => Ok(()),
+        Err(keyring::Error::NoEntry) => Ok(()),
+        Err(error) => Err(error.to_string()),
+    }
+}
+
+/// Claves que la aplicación puede haber guardado en el llavero.
+///
+/// El llavero no se puede enumerar, así que el borrado completo recorre esta
+/// lista: la clave de traducción y la sesión de cada fuente.
+pub const KNOWN_KEYS: [&str; 10] = [
+    "translate.apiKey",
+    "session.cookie.bluesky",
+    "session.cookie.reddit",
+    "session.cookie.hackernews",
+    "session.cookie.rss",
+    "session.cookie.github",
+    "session.cookie.mastodon",
+    "session.cookie.youtube",
+    "session.cookie.lemmy",
+    "session.cookie.demo",
+];
+
 #[tauri::command]
 pub fn secret_delete(key: String) -> Result<(), String> {
     match entry(&key)?.delete_credential() {

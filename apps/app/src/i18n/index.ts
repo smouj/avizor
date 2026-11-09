@@ -24,7 +24,7 @@ export const es = {
     'Sin términos que vigilar: añade búsquedas en Fuentes y el flujo de Bluesky se conectará solo.',
 
   // Pulso: actividad contada, nunca decorativa.
-  'activity.note.live': 'En vivo',
+  'activity.note.live': 'Al día',
   'activity.note.recent': 'Hace un momento',
   'activity.note.stale': 'Sin datos desde hace {seconds} s',
   'activity.note.quiet': 'Sin actividad',
@@ -357,7 +357,7 @@ export const es = {
   'settings.import': 'Restaurar copia',
   'settings.clear': 'Borrar todo lo guardado',
   'settings.clearConfirm':
-    '¿Borrar publicaciones, temas, avisos y preferencias de este dispositivo?',
+    '¿Borrar publicaciones, temas, avisos, preferencias, perfiles de cuenta y claves guardadas en este dispositivo? Esto no se puede deshacer.',
   'settings.storage': 'Almacenamiento',
   'settings.storageDetail': '{items} publicaciones · {trends} temas · {size}',
   'settings.about': 'Acerca de',
@@ -413,7 +413,7 @@ export const en: Record<MessageKey, string> = {
     'Nothing to watch for: add searches in Sources and the Bluesky stream connects on its own.',
 
   // Pulse: counted activity, never decorative.
-  'activity.note.live': 'Live',
+  'activity.note.live': 'Up to date',
   'activity.note.recent': 'A moment ago',
   'activity.note.stale': 'No data for {seconds} s',
   'activity.note.quiet': 'No activity',
@@ -743,7 +743,8 @@ export const en: Record<MessageKey, string> = {
   'settings.export': 'Export a copy',
   'settings.import': 'Restore a copy',
   'settings.clear': 'Delete everything stored',
-  'settings.clearConfirm': 'Delete posts, topics, alerts and preferences on this device?',
+  'settings.clearConfirm':
+    'Delete posts, topics, alerts, preferences, account profiles and saved keys on this device? This cannot be undone.',
   'settings.storage': 'Storage',
   'settings.storageDetail': '{items} posts · {trends} topics · {size}',
   'settings.about': 'About',

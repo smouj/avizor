@@ -1,3 +1,4 @@
+import { Icon } from '@/components/Icon'
 import {
   activityNoteKey,
   activityNoteParams,
@@ -21,6 +22,21 @@ import { useAvizor } from '@/state/store'
  */
 export function ActivityStrip(): JSX.Element {
   const { t, activity, realtime, polling, pollError } = useAvizor()
+  const demo = useAvizor((state) => state.demoMode)
+
+  /*
+   * Con datos de ejemplo no hay red detrás: los contadores serían inventados.
+   * En su lugar se dice lo que está pasando, y así la etiqueta también viaja
+   * con las capturas del README.
+   */
+  if (demo) {
+    return (
+      <div className="activity activity--demo" role="status" title={t('app.demoNotice')}>
+        <Icon name="sparkles" size="sm" />
+        <span className="activity__label">{t('app.demo')}</span>
+      </div>
+    )
+  }
 
   const tone = polling ? 'recent' : activityTone(activity)
   const health = sourcesHealth(activity)

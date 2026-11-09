@@ -30,6 +30,11 @@ pub fn run() {
         }))
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_notification::init())
+        // Cliente HTTP del sistema. Sin este registro, `@tauri-apps/plugin-http`
+        // no existe en tiempo de ejecución: la interfaz se cae al `fetch` del
+        // WebView (sujeto a CORS) y Reddit, Mastodon y los feeds RSS dejan de
+        // responder aunque el permiso `http:default` esté concedido.
+        .plugin(tauri_plugin_http::init())
         .setup(|app| {
             let handle = app.handle();
             let archive = Archive::open(handle)?;

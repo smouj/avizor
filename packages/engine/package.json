@@ -1,6 +1,6 @@
 {
   "name": "@avizor/engine",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "private": true,
   "description": "Motor de Avizor: conectores, normalización, clustering y Trend Engine. TypeScript puro, sin I/O implícito.",
   "type": "module",

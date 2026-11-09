@@ -10,7 +10,10 @@ haya arreglo.
    preferido porque permite adjuntar pruebas y coordinar la publicación.
 2. Si no puedes usarlo, abre un issue **sin detalles** pidiendo un canal
    privado; se te dirá por dónde seguir.
-3. Contacto alternativo: `smouj@users.noreply.github.com`.
+3. Si el canal privado no está disponible para ti, abre un issue sin detalles:
+   solo necesitamos saber que quieres reportar algo y cómo contactarte. No hay
+   una dirección de correo de seguridad: una bandeja sin garantía de lectura es
+   peor que decir que no existe.
 
 Qué incluir: versión (Ajustes → Acerca de), sistema y forma de uso (escritorio o
 navegador), pasos para reproducirlo, impacto que le ves y, si tienes, una prueba

@@ -831,6 +831,13 @@ strong,
   border-color: var(--color-accent-line);
 }
 
+/* Datos de ejemplo: se dice, en vez de fingir un flujo que no existe. */
+.activity--demo {
+  border-color: var(--color-border-strong);
+  background: transparent;
+  color: var(--color-text);
+}
+
 .activity--live .activity__dot {
   background: var(--color-accent);
   animation: pulse var(--duration-pulse) var(--ease-standard) infinite;

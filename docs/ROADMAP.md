@@ -1,8 +1,21 @@
 # Hoja de ruta
 
-Coherente con lo que hay en el repositorio hoy (versión 0.1.0) y con lo que
+Coherente con lo que hay en el repositorio hoy (**versión 0.3.5**) y con lo que
 falta. Sin fechas: lo que marca el orden es que cada fase se pueda usar y
 verificar sola.
+
+### Estado real a 0.3.5
+
+Hecho y comprobado: motor (normalización, agrupación, Trend Engine, avisos),
+capa social con matriz de capacidades, ventanas de cuenta por red con perfiles
+de navegador propios, importación de la sesión del navegador para las fuentes
+que la necesitan, temas por sistema, columnas ajustables, interfaz con pruebas
+y capturas regenerables, y cliente HTTP propio en el escritorio.
+
+Pendiente de verdad: segundo adaptador social, hilos completos, resumen y
+traducción con modelo local, conectores de Lemmy y YouTube, sincronización entre
+dispositivos, empaquetado en Flatpak/AUR/Homebrew, actualizaciones firmadas y
+firma de código.
 
 ## v0.1 — El pulso, en local (hecho)
 
@@ -46,7 +59,7 @@ verificar sola.
   CodeQL semanal, flujo de release por etiqueta con paquetes `.deb`/AppImage,
   instalador NSIS y `.dmg`, plantillas de issue y de PR, Dependabot agrupado.
 
-## v0.2 — Leer conversaciones, no solo titulares
+## v0.2 — Leer conversaciones, no solo titulares (a medias)
 
 - **Extracción de hilos.** "Ver conversación" ya usa `sampleIds` (los 8 items más
   recientes del tema); falta reconstruir la conversación completa: respuestas,
@@ -54,20 +67,18 @@ verificar sola.
 - **Resumen con modelo local opcional (Ollama).** Opt-in explícito, desactivado
   por defecto, contra el Ollama del propio equipo (`localhost`): nada de API
   remotas. Se resume un tema, nunca una fuente entera.
-- **Traducción.** Traducir títulos y cuerpos de otros idiomas bajo demanda,
-  también con modelo local opcional, dejando siempre el texto original a la
-  vista.
+- ~~**Traducción.**~~ Hecho en 0.2.0: títulos y cuerpos al idioma que lees, con
+  el original siempre a la vista, caché y proveedor a elegir.
 - **Conectores propios para Lemmy y YouTube.** Hoy `lemmy` y `youtube` existen
   en el tipo `SourceKind` y apuntan al conector de ejemplo; hay que escribir sus
   conectores (comunidades federadas y RSS/API de canales) con sus límites de
   ritmo.
-- **Cobertura de pruebas de la interfaz.** El motor tiene tests; la interfaz
-  (`apps/app`) todavía no: falta montar pruebas de componentes y del flujo de
-  estado.
-- **Proxy de red en el escritorio.** El motor espera un `fetch` inyectado sin
-  CORS en escritorio; hoy la aplicación usa el `fetch` del WebView. Hay que
-  cerrarlo antes de publicar: o un comando del shell que haga de proxy, o una
-  política de conexión acorde en la CSP.
+- ~~**Cobertura de pruebas de la interfaz.**~~ Hecho: actividades y puente social
+  tienen pruebas; sigue pendiente cubrir componentes de React.
+- ~~**Proxy de red en el escritorio.**~~ Hecho: `tauri-plugin-http` se registra
+  en `lib.rs` (antes faltaba y la app caía al `fetch` del WebView, con CORS) y
+  lleva `unsafe-headers` para poder mandar la cabecera `Cookie` de la sesión
+  importada.
 
 ## v0.2.3 — Capa social: cimientos (hecho)
 
@@ -85,7 +96,7 @@ propia página, dentro de un perfil de navegador de Avizor.
   [`SOCIAL-ACCOUNTS.md`](SOCIAL-ACCOUNTS.md) y
   [`BROWSER-BRIDGE.md`](BROWSER-BRIDGE.md).
 
-## v0.3 — Cuentas y primer adaptador
+## v0.3 — Cuentas y primer adaptador (hecho)
 
 - **Perfiles de navegador de Avizor.** Un directorio de datos por cuenta
   (`data_directory` de Tauri/wry), ventana visible para iniciar sesión y borrado

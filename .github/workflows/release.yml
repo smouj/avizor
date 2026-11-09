@@ -75,12 +75,47 @@ jobs:
             configuración: la app arranca con datos de ejemplo y activas tus
             fuentes en **Fuentes**.
 
-            Comprobación de integridad (Linux/macOS):
+            Cada plataforma adjunta su `SHA256SUMS-<sistema>.txt`. Descárgalo
+            junto al instalador, en la misma carpeta, y comprueba:
 
             ```bash
-            sha256sum -c avizor-*.sha256 2>/dev/null || shasum -a 256 -c *.sha256
+            sha256sum -c SHA256SUMS-Linux.txt        # Linux
+            shasum -a 256 -c SHA256SUMS-macOS.txt    # macOS
+            certutil -hashfile Avizor_*_x64-setup.exe SHA256   # Windows
             ```
           releaseDraft: true
           prerelease: false
           args: ${{ matrix.args }}
           fail-on-unmatched-files: true
+
+      # El texto del release prometía sumas de comprobación que luego no se
+      # adjuntaban. Se generan aquí, con Node (está en las tres plataformas),
+      # y se suben al mismo borrador.
+      - name: Sumas de comprobación
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          bundle=apps/desktop/src-tauri/target/release/bundle
+          out="SHA256SUMS-${{ matrix.label }}.txt"
+          : > "$out"
+          count=0
+          # Sin mapfile: el bash de macOS es 3.2. El bucle va en tubería y
+          # escribe al archivo, así que el contador no importa fuera.
+          find "$bundle" -type f \( -name '*.AppImage' -o -name '*.deb' -o -name '*.exe' -o -name '*.dmg' \) -print0 2>/dev/null |
+            while IFS= read -r -d '' file; do
+              node -e '
+                const crypto = require("crypto"), fs = require("fs"), path = require("path");
+                const file = process.argv[1];
+                const hash = crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex");
+                console.log(hash + "  " + path.basename(file));
+              ' "$file" >> "$out"
+            done
+          count=$(wc -l < "$out")
+          if [ "$count" -eq 0 ]; then
+            echo "no hay instaladores que sumar" >&2
+            exit 1
+          fi
+          cat "$out"
+          gh release upload "${{ github.ref_name }}" "$out" --clobber
